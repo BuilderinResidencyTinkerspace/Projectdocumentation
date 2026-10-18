@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>MARS Rover Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">8 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>How to Build MARS, a Modular Rover Using Arduino Uno and Raspberry Pi 5</h1>
+    <p class="byline">Draft article · MARS, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>mars-modular-rover-arduino-uno-raspberry-pi-5</code></dd>
+        <dt>Meta description</dt><dd>Build a modular rover with an Arduino Uno, HC-05 and three HC-SR04s, plus swappable Pi 5 camera and Arduino Nano sensor modules. Parts, wiring, STLs and tests. <span style="color:var(--muted)">(159 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Arduino Uno</li><li>Raspberry Pi 5</li><li>Arduino Nano</li><li>Modular Rover</li><li>HC-05 Bluetooth</li><li>HC-SR04</li><li>L298N</li><li>Obstacle Detection</li><li>MQ Gas Sensor</li><li>DHT11</li><li>Soil Moisture Sensor</li><li>3D Printing</li><li>Fusion 360</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/MARS-Modular-Autonomous-Rover-System.jpg" alt="MARS Modular Autonomous Rover System" decoding="async"></figure>
+<p>Most student rovers are built for one job. A delivery rover needs something to carry the load, an inspection rover needs a camera, and a search rover needs more sensors again. So, could one rover base carry whichever module a job needs and swap it for the next job? That question became MARS, the Modular Autonomous Rover System.</p>
+<p>In this project, we show how to build MARS, a modular rover with a 3D-printed two-deck chassis. The base rover runs on an Arduino Uno with an L298N motor driver, takes commands from a phone over an HC-05 Bluetooth module, and stops for obstacles using three HC-SR04 ultrasonic sensors at the front. On top of it sit two modules. The camera module streams live video from a USB webcam through a Raspberry Pi 5, and the environmental module uses an Arduino Nano with a gas sensor, a DHT11 and a soil-moisture probe on a servo lift. The modular rover drives and stops for obstacles, and both modules work, but each module still runs on its own controller, mapping and full autonomy were not reached, and the code for all three controllers is not in the repository yet. You can also check out similar <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> and <a href="https://circuitdigest.com/arduino-projects" target="_blank" rel="noopener">Arduino projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is MARS?</p><p><strong>MARS</strong> is a <strong>modular rover</strong> with a 3D-printed two-deck chassis. The base rover uses an <strong>Arduino Uno</strong>, an <strong>L298N</strong>, an <strong>HC-05</strong> and three <strong>HC-SR04</strong> sensors for Bluetooth driving and obstacle stops, and the upper deck takes swappable modules: a <strong>Raspberry Pi 5</strong> camera module for live video and an <strong>Arduino Nano</strong> environmental module with gas, temperature, humidity and soil sensors.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-mars">What Is MARS?</a></li><li class="top"><a href="#how-does-the-mars-modular-rover-work">How MARS Works</a></li><li class="top"><a href="#components-required-for-the-mars-modular-rover">Components Required</a></li><li class="top"><a href="#wiring-diagram-of-the-mars-base-rover">Wiring Diagram</a></li><li class="sub"><a href="#connection-table">Connection Table</a></li><li class="top"><a href="#3d-printing-the-mars-chassis-and-probe-lift">3D Printing the Chassis</a></li><li class="top"><a href="#assembling-the-mars-base-rover">Assembling the Base Rover</a></li><li class="top"><a href="#setting-up-the-three-controllers">Controller Setup</a></li><li class="top"><a href="#building-the-application-modules">Application Modules</a></li><li class="top"><a href="#testing-and-calibrating-the-mars-modular-rover">Testing and Calibration</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#troubleshooting-the-mars-rover">Troubleshooting</a></li><li class="top"><a href="#mars-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-mars">What Is MARS?</h2>
+<p>Disaster search, package delivery and remote inspection each need different hardware on a rover. Instead of a separate rover for every job, MARS uses one common base for movement, power and obstacle sensing, with an application module on top that changes with the task. To keep the build achievable, it has two modules: a camera module and an environmental monitoring module. Circuit Digest has also built a <a href="https://circuitdigest.com/microcontroller-projects/build-your-own-mars-rover-robot-using-arduino" target="_blank" rel="noopener">Mars rover robot using Arduino</a> with six BO motors and Bluetooth control. If interested, do check it out.</p>
+<h2 id="how-does-the-mars-modular-rover-work">How Does the MARS Modular Rover Work?</h2>
+<p>The working is split between the base rover and the modules. On the base, a Bluetooth serial terminal app on the phone sends movement commands to the HC-05, which passes them to the Arduino Uno over serial, and the Uno drives four BO gear motors through the L298N. The three HC-SR04 sensors face forward, one at the centre and the other two at about +25° and −25°. When they see an obstacle, the rover stops and waits until it moves away. Below is the block diagram of the MARS modular rover.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-MARS-Modular-Rover.jpg" alt="Block diagram of MARS modular rover showing phone app, HC-05, Arduino Uno, L298N, BO motors, HC-SR04 sensors, Raspberry Pi 5 camera module and Arduino Nano environmental module" decoding="async"></figure>
+<p>The two modules sit on the upper deck and run on their own controllers. The camera module streams video from the webcam over Wi-Fi to a browser page, and the environmental module reads its sensors and moves the soil probe with a servo. There is no data link between a module and the base yet. Here is another <a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">web-controlled Raspberry Pi surveillance robotic car</a> that pairs a Pi and a webcam with a rover.</p>
+<p>Below is the flowchart of the base rover's control loop.</p>
+<figure class="shot"><img src="images/MARS-Base-Rover-Control-Flowchart.jpg" alt="Flowchart of MARS base rover control loop showing ultrasonic distance check, stop and wait on obstacle, and Bluetooth drive commands" decoding="async"></figure>
+<p>The rover firmware is not in the repository, so this flowchart follows the behaviour described in the build logs. Each pass reads the three distances first. An obstacle in front stops the rover until the path is clear, and otherwise the latest Bluetooth command sets the direction.</p>
+<h2 id="components-required-for-the-mars-modular-rover">Components Required for the MARS Modular Rover</h2>
+<p>Below is the list of components used to build the base rover and the two modules.</p>
+<figure class="shot"><img src="images/Components-Required-for-MARS-Modular-Rover.jpg" alt="Components required for MARS modular rover including Arduino Uno, L298N, HC-05, HC-SR04 sensors, BO motors, 14.8V Li-ion pack, Raspberry Pi 5, webcam, Arduino Nano, gas sensor, DHT11, soil probe and servo" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Arduino Uno</td><td>Base rover controller</td><td>1</td></tr><tr><td>2.</td><td>L298N Motor Driver</td><td>Drives the four motors</td><td>1</td></tr><tr><td>3.</td><td>HC-05 Bluetooth Module</td><td>Commands from the phone</td><td>1</td></tr><tr><td>4.</td><td>HC-SR04 Ultrasonic Sensor</td><td>Obstacle detection at the front</td><td>3</td></tr><tr><td>5.</td><td>BO Gear Motor <mark class="todo">TODO: voltage and RPM</mark></td><td>Drive</td><td>4</td></tr><tr><td>6.</td><td>65 mm Universal Hub Tyre</td><td>Wheels</td><td>4</td></tr><tr><td>7.</td><td>14.8V 2200mAh Li-ion Pack</td><td>Main battery, 4S1P 18650</td><td>1</td></tr><tr><td>8.</td><td>Buck Converter</td><td>Supply for the electronics</td><td>1</td></tr><tr><td>9.</td><td>Perfboard and Wires</td><td>Permanent circuit</td><td>As required</td></tr><tr><td>10.</td><td>3D-Printed Decks and Lift Parts</td><td>Chassis and probe lift, five STL files</td><td>1 set</td></tr><tr><td>11.</td><td>Raspberry Pi 5 with Active Cooler</td><td>Camera module computer</td><td>1</td></tr><tr><td>12.</td><td>USB Webcam</td><td>Live video</td><td>1</td></tr><tr><td>13.</td><td>Arduino Nano</td><td>Environmental module controller</td><td>1</td></tr><tr><td>14.</td><td>MQ Gas Sensor <mark class="todo">TODO: MQ model</mark></td><td>Gas detection</td><td>1</td></tr><tr><td>15.</td><td>DHT11</td><td>Temperature and humidity</td><td>1</td></tr><tr><td>16.</td><td>Soil Moisture Probe</td><td>Soil moisture</td><td>1</td></tr><tr><td>17.</td><td>Servo Motor</td><td>Raises and lowers the probe</td><td>1</td></tr></tbody></table></div>
+<p>Below are the battery pack and the Uno board we used.</p>
+<figure class="shot"><img src="images/MARS-14-8V-Battery-and-Arduino-Uno.jpg" alt="14.8V 2200mAh Li-ion battery pack and the Arduino Uno that replaced the damaged ESP32-S3 in the MARS rover" decoding="async"></figure>
+<p>The pack is a Wattnine 14.8V 2200mAh Li-ion pack, built as 4S1P from 18650 cells and rated for 12.2V to 16.8V. Our Arduino Uno is a CH340C-based UNO SMD board. We started on an ESP32-S3 with its own Wi-Fi control page, but it was damaged by a short circuit while the motor driver was being tested with the battery connected, so the build moved to the Uno and, since the Uno has no Wi-Fi, to an HC-05 for Bluetooth control. Use wheels made for your motors. The 65 mm Universal Hub tyres fit our motors better than the first wheels and made the rover more stable. The gas sensor is a blue MQ-series module, but its model is not marked in any of the photos. Apart from these parts, you need a 3D printer, a soldering iron and a multimeter. To learn how the L298N works, refer to our <a href="https://circuitdigest.com/microcontroller-projects/interfacing-l298n-motor-driver-with-arduino" target="_blank" rel="noopener">L298N motor driver with Arduino</a> tutorial.</p>
+<h2 id="wiring-diagram-of-the-mars-base-rover">Wiring Diagram of the MARS Base Rover</h2>
+<p>Below is the wiring diagram of the MARS base rover.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-MARS-Base-Rover.jpg" alt="Wiring Diagram of MARS Base Rover" title="Wiring Diagram of MARS Base Rover" decoding="async"></figure>
+<p>The brain of the base rover is the Arduino Uno. The 14.8V Li-ion pack feeds the L298N's motor supply directly and also feeds the buck converter, which supplies the low-voltage electronics. Commands from the HC-05 reach the Uno over serial, and each HC-SR04 has a trigger and an echo line to the Uno. On the output side, the Uno drives the L298N's IN1 to IN4 inputs, and the four BO motors connect to the OUT1/OUT2 and OUT3/OUT4 terminals. All of this is soldered on one perfboard with a common ground. The build logs do not record the pin numbers, the buck converter's output voltage or which motors share an output, so those lines are dashed in the diagram. Choose your own pins and check each line with a multimeter before connecting the battery. That is all about the wiring. For three HC-SR04 sensors on one Arduino, the <a href="https://circuitdigest.com/microcontroller-projects/human-following-robot-using-arduino-and-ultrasonic-sensor" target="_blank" rel="noopener">human following robot</a> on Circuit Digest uses a similar arrangement.</p>
+<h3 id="connection-table">Connection Table</h3>
+<div class="table-wrap"><table><thead><tr><th>Connection</th><th>From</th><th>To</th><th>Recorded in the Repo?</th></tr></thead><tbody><tr><td>Motor supply</td><td>14.8V pack</td><td>L298N motor supply input</td><td>Yes</td></tr><tr><td>Logic supply</td><td>14.8V pack through the buck converter</td><td>Arduino Uno and sensors</td><td>Yes, output voltage and pin not recorded</td></tr><tr><td>Bluetooth</td><td>HC-05 TX/RX</td><td>Arduino Uno serial pins</td><td>Assumed, pins not recorded</td></tr><tr><td>Obstacle sensors</td><td>Three HC-SR04 TRIG/ECHO</td><td>Arduino Uno digital pins</td><td>Assumed, pins not recorded</td></tr><tr><td>Motor control</td><td>Arduino Uno</td><td>L298N IN1 to IN4</td><td>Assumed, pins not recorded</td></tr><tr><td>Motors</td><td>Four BO motors</td><td>L298N OUT1/OUT2 and OUT3/OUT4</td><td>Yes, pairing not recorded</td></tr><tr><td>Ground</td><td>Every board</td><td>Common ground on the perfboard</td><td>Yes</td></tr></tbody></table></div>
+<h2 id="3d-printing-the-mars-chassis-and-probe-lift">3D Printing the MARS Chassis and Probe Lift</h2>
+<p>The base was designed in Zoo Keeper and Fusion 360 at about 21 × 18 cm, with places for the battery holder, the ultrasonic sensor holders and a module area. Below are the printed parts, rendered from the STL files in the repository's cad folder.</p>
+<figure class="shot"><img src="images/MARS-3D-Printed-Decks-and-Probe-Lift-Parts.jpg" alt="3D-printed parts of the MARS modular rover: lower deck with standoffs, perforated upper deck module plate and the three parts of the soil probe lift" decoding="async"></figure>
+<p>The table below lists the five files and what each one is.</p>
+<div class="table-wrap"><table><thead><tr><th>File in cad/</th><th>Part</th><th>Size</th></tr></thead><tbody><tr><td>LOWERDECK_RIZ.stl</td><td>Lower deck with eight standoffs for the drive electronics</td><td>180 × 210 mm</td></tr><tr><td>UPPERDECK_RIZ.stl</td><td>Perforated upper deck where the modules mount</td><td>180 × 210 mm</td></tr><tr><td>RizA1S.STL</td><td>Ladder that holds the soil probe</td><td>100 mm long</td></tr><tr><td>RizA2S.STL</td><td>Pair of links for the probe lift</td><td>50 mm</td></tr><tr><td>RizA3S.STL</td><td>Upright bracket for the probe lift</td><td>-</td></tr></tbody></table></div>
+<p>The roles of the three small parts are read from their shapes, as the repository does not name them. Print settings are not recorded in the repository <mark class="todo">TODO: print material, layer height and infill</mark>. Measure your own battery, sensors and boards before printing, as the printed size does not always match the CAD size. We corrected the deck dimensions a few times against the real parts before the final print. For more printed parts in real builds, take a look at the <a href="https://circuitdigest.com/3d-printing-projects" target="_blank" rel="noopener">3D printing projects</a> on Circuit Digest.</p>
+<h2 id="assembling-the-mars-base-rover">Assembling the MARS Base Rover</h2>
+<p class="step"><strong>Step 1⇒ Try the Layout on Foam Board</strong></p>
+<p>Before printing anything, lay the parts out on a 30 × 30 cm piece of foam board to find where the motors, the controller and the battery go. Foam board is cheap and easy to cut. Below is our first layout.</p>
+<figure class="shot"><img src="images/MARS-First-Layout-on-30-cm-Foam-Board.jpg" alt="First layout of MARS modular rover on a 30 cm foam board with four BO motors, ESP32-S3, L298N drivers, buck converter, battery cells and HC-SR04 sensors" decoding="async"></figure>
+<p>This layout still has the ESP32-S3 we started with. If you cannot find a holder for your battery, soldering its leads directly works as a temporary fix, but insulate every joint.</p>
+<p class="step"><strong>Step 2⇒ Test Each Part on Its Own</strong></p>
+<p>Test the controller, the ultrasonic sensors, the motor driver, the motors and the buck converter one by one before connecting them together. Check that both channels of the L298N get equal voltage with a multimeter, and keep the battery disconnected while you probe the circuit. A short during this kind of testing is what damaged our ESP32-S3.</p>
+<p class="step"><strong>Step 3⇒ Solder the Perfboard</strong></p>
+<p>Move the circuit from the breadboard to a perfboard, with the L298N, the buck converter and the Uno on one board and a common ground. Every joint has to be soldered and checked, with a lot of wires in a small space.</p>
+<p class="step"><strong>Step 4⇒ Fit Everything on the Printed Base</strong></p>
+<p>Mount the four BO motors and the 65 mm wheels on the lower deck, and fix the perfboard and the battery in place. Then power the board from the 14.8V pack and check the Bluetooth link, the motor driver and the motors one after the other. Below are the perfboard and the base it went into.</p>
+<figure class="shot"><img src="images/MARS-Perfboard-and-Integrated-Base.jpg" alt="MARS perfboard with L298N, buck converter and Arduino Uno, and the integrated base rover on the 3D-printed lower deck" decoding="async"></figure>
+<p class="step"><strong>Step 5⇒ Mount the Three Ultrasonic Sensors at the Front</strong></p>
+<p>Put all three HC-SR04 sensors at the front of the lower deck, one at the centre and two at about +25° and −25°. With one sensor each at the front, left and right, our rover did not respond reliably. To try the ultrasonic side on its own first, refer to our <a href="https://circuitdigest.com/microcontroller-projects/interfacing-hcsr04-ultrasonic-sensor-module-with-esp32" target="_blank" rel="noopener">HC-SR04 with ESP32</a> guide.</p>
+<h2 id="setting-up-the-three-controllers">Setting Up the Three Controllers</h2>
+<p>MARS has three programs, one for each controller, and none of them is in the repository yet <mark class="todo">TODO: add the Uno, Raspberry Pi and Nano code to the code folder</mark>. Until they are published, write each one to the behaviour below.</p>
+<p>On the Arduino Uno, the program reads commands from the Bluetooth serial terminal app for forward, backward, left and right, reads the three HC-SR04 sensors on every pass, and stops the motors whenever an obstacle is in front. Pair the phone with the HC-05, open the serial terminal app and send the commands from there. Circuit Digest has a <a href="https://circuitdigest.com/microcontroller-projects/diy-arduino-bluetooth-robot-car" target="_blank" rel="noopener">DIY Arduino Bluetooth car controlled by a mobile app</a> with a similar HC-05 and L298N setup.</p>
+<p>On the Raspberry Pi 5, install the OS, join the Pi to your network and connect the USB webcam. The Pi serves the webcam's video on a browser page on port 5000, which a phone on the same network can open.</p>
+<p>On the Arduino Nano, the program reads the gas sensor, the DHT11 and the soil-moisture probe, and drives the servo that raises and lowers the probe. For how a servo is driven from an Arduino, refer to our <a href="https://circuitdigest.com/microcontroller-projects/arduino-servo-motor-control-code-and-circuit" target="_blank" rel="noopener">Arduino servo motor control</a> tutorial.</p>
+<h2 id="building-the-application-modules">Building the Application Modules</h2>
+<p>Each module mounts on the perforated upper deck with its own controller. Below are the Raspberry Pi 5 with its USB webcam and the MARS ROVER page it serves.</p>
+<figure class="shot"><img src="images/MARS-Raspberry-Pi-5-Camera-Module.jpg" alt="Raspberry Pi 5 with USB webcam for the MARS camera module and the MARS ROVER live camera page on a phone" decoding="async"></figure>
+<p>The page streams the webcam's video from port 5000. It also has rover control buttons, but the build logs only describe the video stream, so how those buttons reach the base is <mark class="todo">TODO: link between the camera page and the base rover</mark>. For another Pi and webcam build, do check out our <a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">Raspberry Pi surveillance robotic car</a> as well.</p>
+<p>The second module is the environmental module. Below are its sensors and the servo-driven lift for the soil probe.</p>
+<figure class="shot"><img src="images/MARS-Environmental-Monitoring-Module.jpg" alt="MARS environmental monitoring module with MQ gas sensor, DHT11 sensor and soil moisture probe on a 3D-printed servo lift" decoding="async"></figure>
+<p>The Arduino Nano reads the gas sensor, the DHT11 and the soil-moisture probe. The probe sits on the printed ladder, and the servo raises and lowers it, so the probe goes into the soil only when a reading is needed. The <a href="https://circuitdigest.com/microcontroller-projects/arduino-based-air-quality-monitoring-system" target="_blank" rel="noopener">air quality monitoring system</a> on Circuit Digest reads an MQ gas sensor and a DHT11 with an Arduino in a similar way.</p>
+<h2 id="testing-and-calibrating-the-mars-modular-rover">Testing and Calibrating the MARS Modular Rover</h2>
+<p>Test the ultrasonic sensors in a real room before you rely on them. Below is the rover during that testing.</p>
+<figure class="shot"><img src="images/MARS-Ultrasonic-Room-Testing.jpg" alt="MARS modular rover on the bench during ultrasonic sensor testing with the perfboard, L298N and Li-ion pack" decoding="async"></figure>
+<p>Place the rover at different spots and distances from walls and objects, and compare the readings. This also shows up small problems with the wiring, the sensor positions and the component placement, which are easier to fix at this stage. For point-to-point runs, measure the room and draw a map. Below is ours, next to the Wi-Fi control page from our first ESP32-S3 controller.</p>
+<figure class="shot"><img src="images/MARS-ESP32-S3-Control-Page-and-Room-Map.jpg" alt="MARS ESP32-S3 Wi-Fi control page with direction buttons and the hand-drawn room map with points A to K used for point-to-point tests" decoding="async"></figure>
+<p>The map has points A to K along a central line, with branches of 4.06 m on one side and 4.64 m on the other. We gave the Uno program the room dimensions and layout from this map, ran commands such as A to B, and adjusted the movement several times to get the path and the final position right. Then calibrate the sensors and the movement in a loop of testing, finding the error, adjusting and testing again. Check the camera module for streaming, and the environmental module for its sensors and the servo lift. Below is MARS with both modules on it.</p>
+<figure class="shot"><img src="images/MARS-Rover-with-Both-Modules.jpg" alt="MARS modular rover with both modules fitted: webcam on the upper deck, three HC-SR04 sensors at the front and the soil probe lowered on its lift" decoding="async"></figure>
+<p>The webcam sits on the upper deck, the three ultrasonic sensors look out from the front of the lower deck, and the soil probe hangs down on its lift at the side. The build logs record no sensor readings or test numbers <mark class="todo">TODO: sample readings and A-to-B accuracy</mark>. Mapping and fully autonomous navigation were planned as the next stage and were not reached.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the video demonstration of MARS.</p>
+<a class="video-card" href="#todo-link"><span class="play" aria-hidden="true"></span><span><strong>Watch the MARS modular autonomous rover system</strong><span class="sub">YouTube · video not published yet (VIDEO_ID)</span></span></a>
+<p><mark class="todo">TODO: video of MARS driving on Bluetooth, stopping for an obstacle, streaming from the camera module and lowering the soil probe</mark></p>
+<h2 id="troubleshooting-the-mars-rover">Troubleshooting the MARS Rover</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>Controller dies when the 14.8V pack is connected</td><td>A short while testing with the battery connected</td><td>Disconnect the battery before probing, and check the board for shorts before powering it</td></tr><tr><td>The two L298N channels get different voltages</td><td>Not recorded in the logs</td><td>Measure both channels with a multimeter before the controller is connected</td></tr><tr><td>Obstacles at the sides are missed or the rover reacts late</td><td>Sensors spread to the front, left and right</td><td>Put all three at the front, at the centre and about ±25°</td></tr><tr><td>Wheels do not sit on the motor shafts</td><td>Wheel and shaft mismatch</td><td>Use wheels made for the motors, such as the 65 mm Universal Hub tyres</td></tr><tr><td>Printed parts do not fit the components</td><td>CAD size differs from the printed size</td><td>Measure the real parts, correct the CAD and allow for print tolerance</td></tr><tr><td>Bluetooth control does not work</td><td>Wrong connections, wrong pairing or serial settings</td><td>Check the HC-05 wiring, pair with the right device and check the serial settings and commands</td></tr><tr><td>Ultrasonic readings are wrong</td><td>Wiring, supply or a blocked path</td><td>Check the wiring and supply, give each sensor a clear path and check the distance logic</td></tr><tr><td>Environmental readings are unstable</td><td>Loose connections or sensors not yet settled</td><td>Check the connections and supply voltage, let the sensors stabilise and calibrate them</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>With these steps, you can build a MARS base that drives on Bluetooth commands and stops for obstacles, a Raspberry Pi 5 module that streams live video and an Arduino Nano module that reads its sensors and lowers the soil probe. The modules work, but each one still runs on its own controller. There is still room for improvement, such as a standard module mount with power and data connections, a link between the modules and the base, battery monitoring, and the mapping and autonomous navigation that were planned next. Further, one can make the base avoid obstacles instead of only stopping, just like this <a href="https://circuitdigest.com/microcontroller-projects/arduino-obstacle-avoding-robot" target="_blank" rel="noopener">obstacle avoiding robot using Arduino and ultrasonic sensor</a> on Circuit Digest.</p>
+<h2 id="mars-github-repository">MARS GitHub Repository</h2>
+<p>The MARS repository has the README, the build logs with their photos, and five STL files: the lower deck, the upper deck and three parts of the soil probe lift. The code folder only has a README for now. MARS was built at Tinkerspace by Riz Mariya Davis as part of the Builder in Residence programme, and the repository is released under the GNU GPL v3 licence.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/MARS-Modular-Autonomous-Rover-System" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/MARS-Modular-Autonomous-Rover-System/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-mars-modular-rover">Frequently Asked Questions About the MARS Modular Rover</h2>
+<p class="step"><strong>⇥ 1. Why does MARS use an Arduino Uno and not an ESP32?</strong></p>
+<p>The first controller was an ESP32-S3, and it was damaged by a short circuit while the motor driver was being tested with the 14.8V pack connected. The Uno replaced it, and since the Uno has no Wi-Fi, the rover moved to Bluetooth control with an HC-05.</p>
+<p class="step"><strong>⇥ 2. Why are all three ultrasonic sensors at the front?</strong></p>
+<p>With sensors at the front, left and right, the rover did not respond reliably. Placing all three at the front, at the centre and about ±25°, gave better coverage in the direction the rover moves.</p>
+<p class="step"><strong>⇥ 3. Can the modules be swapped while the rover is running?</strong></p>
+<p>Not yet. Each module has its own controller and sits on the perforated upper deck, but there is no standard mount or shared power and data connection, which is one of the planned improvements.</p>
+<p class="step"><strong>⇥ 4. Does MARS navigate on its own?</strong></p>
+<p>Partly. It stops for obstacles and was tested on A-to-B runs using a measured room map, with the movement adjusted by hand several times. Mapping and full autonomous navigation were not reached.</p>
+<h2 id="rover-and-robotics-projects">Rover and Robotics Projects</h2>
+<p>Explore more rover builds, from Bluetooth driving to a Pi camera on wheels and an obstacle-avoiding robot.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/build-your-own-mars-rover-robot-using-arduino" target="_blank" rel="noopener">Build your own Mars Rover Robot using Arduino</a></strong>: <em>The planet Mars has captivated our imagination for centuries, and this build makes a small Mars rover of our own with an Arduino.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">DIY Web Controlled Raspberry Pi Surveillance Robotic Car</a></strong>: <em>In this DIY session we are building a web controlled surveillance robotic car using raspberry pi and a webcam.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/arduino-obstacle-avoding-robot" target="_blank" rel="noopener">Obstacle Avoiding Robot using Arduino and Ultrasonic Sensor</a></strong>: <em>An Arduino obstacle avoiding robot is a smart, autonomous robot that detects obstacles on its path using sensors and then navigates around the obstacle by changing direction.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>The code for MARS is not in the repository yet. The code folder holds only a README, so there is no firmware to list here <mark class="todo">TODO: add the complete code once it is published</mark>.</p>
+  </article>
+</div>
+</body>
+</html>

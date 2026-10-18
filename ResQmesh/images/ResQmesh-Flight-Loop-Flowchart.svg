@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="1050" viewBox="0 0 750 1050">
+  <!--
+    Program workflow: ResQmesh 500 Hz flight loop (firmware/flight_controller.cpp, safety.cpp, mixer.cpp).
+    Endless loop on Core 1: every branch returns to the 2000 us tick.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="1050"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Safe Start</text>
+  <text class="t" x="375" y="130">motor pins pulled low, PWM at 0,</text>
+  <text class="t" x="375" y="147">IMU found on I2C at 0x68</text>
+
+  <rect class="proc" x="215" y="180" width="320" height="56"/>
+  <text class="t tb" x="375" y="198">Calibrate the Gyro</text>
+  <text class="t" x="375" y="219">500 samples while the drone sits still</text>
+
+  <rect class="proc" x="215" y="262" width="320" height="56"/>
+  <text class="t tb" x="375" y="280">Wait for the 2000 µs Tick</text>
+  <text class="t" x="375" y="301">flight task pinned to Core 1</text>
+
+  <rect class="proc" x="215" y="340" width="320" height="56"/>
+  <text class="t tb" x="375" y="358">Read IMU, Update Attitude</text>
+  <text class="t" x="375" y="379">complementary filter, alpha 0.98</text>
+
+  <rect class="proc" x="215" y="418" width="320" height="56"/>
+  <text class="t tb" x="375" y="436">Read Pilot Input</text>
+  <text class="t" x="375" y="457">phone WebSocket or ESP-NOW packet</text>
+
+  <polygon class="dec" points="375,498 467,552 375,606 283,552"/>
+  <text class="t tb" x="375" y="542">Packet in</text>
+  <text class="t tb" x="375" y="563">Last 750 ms ?</text>
+  <rect class="out" x="505" y="520" width="215" height="64"/>
+  <text class="t tb" x="612" y="541">Failsafe</text>
+  <text class="t" x="612" y="563">motors to 0 (also tilt &gt; 60°)</text>
+
+  <polygon class="dec" points="375,628 467,682 375,736 283,682"/>
+  <text class="t tb" x="375" y="682">Armed ?</text>
+  <rect class="out" x="505" y="650" width="215" height="64"/>
+  <text class="t tb" x="612" y="671">Motors Off</text>
+  <text class="t" x="612" y="693">PID integrators reset</text>
+
+  <rect class="proc" x="215" y="760" width="320" height="56"/>
+  <text class="t tb" x="375" y="778">Cascaded PID</text>
+  <text class="t" x="375" y="799">angle loop, then rate loop</text>
+
+  <polygon class="dec" points="375,840 467,894 375,948 283,894"/>
+  <text class="t tb" x="375" y="884">Any Motor</text>
+  <text class="t tb" x="375" y="905">&gt; 1023 ?</text>
+  <rect class="out" x="505" y="862" width="215" height="64"/>
+  <text class="t tb" x="612" y="883">Lower Throttle</text>
+  <text class="t" x="612" y="905">by the excess on all four</text>
+
+  <rect class="proc" x="215" y="972" width="320" height="56"/>
+  <text class="t tb" x="375" y="990">Write 20 kHz PWM</text>
+  <text class="t" x="375" y="1011">10-bit duty to the four AO3400A</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,176" marker-end="url(#head)"/>
+  <path class="wire" d="M375,236 L375,258" marker-end="url(#head)"/>
+  <path class="wire" d="M375,318 L375,336" marker-end="url(#head)"/>
+  <path class="wire" d="M375,396 L375,414" marker-end="url(#head)"/>
+  <path class="wire" d="M375,474 L375,494" marker-end="url(#head)"/>
+  <path class="wire" d="M375,606 L375,624" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="619">Yes</text>
+  <path class="wire" d="M375,736 L375,756" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="749">Yes</text>
+  <path class="wire" d="M375,816 L375,836" marker-end="url(#head)"/>
+  <path class="wire" d="M375,948 L375,968" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="961">No</text>
+
+  <!-- Side branches -->
+  <path class="wire" d="M467,552 L501,552" marker-end="url(#head)"/>
+  <text class="yn" x="474" y="540">No</text>
+  <path class="wire" d="M467,682 L501,682" marker-end="url(#head)"/>
+  <text class="yn" x="474" y="670">No</text>
+  <path class="wire" d="M467,894 L501,894" marker-end="url(#head)"/>
+  <text class="yn" x="471" y="882">Yes</text>
+
+  <!-- Returns to the tick -->
+  <path class="wire" d="M720,552 L738,552"/>
+  <path class="wire" d="M720,682 L738,682 L738,290 L539,290" marker-end="url(#head)"/>
+  <path class="wire" d="M612,926 L612,1000 L539,1000" marker-end="url(#head)"/>
+  <path class="wire" d="M215,1000 L110,1000 L110,290 L211,290" marker-end="url(#head)"/>
+</svg>

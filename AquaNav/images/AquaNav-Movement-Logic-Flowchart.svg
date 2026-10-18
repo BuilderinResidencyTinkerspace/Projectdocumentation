@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="712" viewBox="0 0 750 712">
+  <!--
+    Program workflow: AquaNav final movement strategy (Week 9 log), digestdocs CircuitDigest style.
+    Endless loop: every branch returns to "Read Frame and Find the Fish".
+    The tracking and grid code is not in the repository; this follows the weekly logs and the dashboard clips.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="712"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <!-- Init -->
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Initialise</text>
+  <text class="t" x="375" y="130">Pi camera at 640 x 480, USB serial</text>
+  <text class="t" x="375" y="147">to the NodeMCU, dashboard on port 5000</text>
+
+  <!-- Loop target -->
+  <rect class="proc" x="215" y="182" width="320" height="66"/>
+  <text class="t tb" x="375" y="200">Read Frame and Find the Fish</text>
+  <text class="t" x="375" y="220">OpenCV HSV colour mask,</text>
+  <text class="t" x="375" y="237">fish centre and area</text>
+
+  <!-- D1 -->
+  <polygon class="dec" points="375,272 467,326 375,380 283,326"/>
+  <text class="t tb" x="375" y="316">Fish</text>
+  <text class="t tb" x="375" y="337">Found ?</text>
+  <rect class="out" x="505" y="294" width="210" height="64"/>
+  <text class="t tb" x="610" y="315">Send STOP</text>
+  <text class="t" x="610" y="337">wheels stay still</text>
+
+  <!-- D2 -->
+  <polygon class="dec" points="375,404 467,458 375,512 283,458"/>
+  <text class="t tb" x="375" y="448">Fish in the</text>
+  <text class="t tb" x="375" y="469">Centre Zone ?</text>
+  <rect class="out" x="505" y="426" width="210" height="64"/>
+  <text class="t tb" x="610" y="447">Send STOP</text>
+  <text class="t" x="610" y="469">fish is centred</text>
+
+  <!-- Move -->
+  <rect class="out" x="215" y="536" width="320" height="66"/>
+  <text class="t tb" x="375" y="554">Move by Grid Zone</text>
+  <text class="t" x="375" y="574">top-left, top-right, bottom-left</text>
+  <text class="t" x="375" y="591">or bottom-right, for 5 to 8 s</text>
+
+  <!-- Wait -->
+  <rect class="proc" x="215" y="626" width="320" height="66"/>
+  <text class="t tb" x="375" y="644">Stop and Wait</text>
+  <text class="t" x="375" y="664">about 10 s, so the fish can move,</text>
+  <text class="t" x="375" y="681">then check again</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,178" marker-end="url(#head)"/>
+  <path class="wire" d="M375,248 L375,268" marker-end="url(#head)"/>
+  <path class="wire" d="M375,380 L375,400" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="394">Yes</text>
+  <path class="wire" d="M375,512 L375,532" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="526">No</text>
+  <path class="wire" d="M375,602 L375,622" marker-end="url(#head)"/>
+
+  <!-- Branches to the right -->
+  <path class="wire" d="M467,326 L501,326" marker-end="url(#head)"/>
+  <text class="yn" x="474" y="314">No</text>
+  <path class="wire" d="M467,458 L501,458" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="446">Yes</text>
+
+  <!-- Loop backs -->
+  <path class="wire" d="M715,326 L735,326"/>
+  <path class="wire" d="M715,458 L735,458 L735,215 L539,215" marker-end="url(#head)"/>
+  <path class="wire" d="M215,659 L150,659 L150,215 L211,215" marker-end="url(#head)"/>
+</svg>

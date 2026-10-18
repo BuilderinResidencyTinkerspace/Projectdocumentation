@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: ARGUS person-tracking drone. Black on white.
+    Left: title. Right: top view of the quad with the camera view reaching a tracked person,
+    labelled with the real values from the UNO Q dashboard screenshot (ID 2, 0.82).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .arm  { fill: none; stroke: #000000; stroke-width: 10; stroke-linecap: round; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .disc { fill: none; stroke: #000000; stroke-width: 1.6; stroke-dasharray: 4 5; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 104px; fill: #000000; letter-spacing: 3px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 33px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 16px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .box  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #ffffff; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="36" y="200">ARGUS</text>
+  <rect class="f" x="40" y="222" width="70" height="6"/>
+  <text class="h2" x="38" y="272">PERSON-TRACKING</text>
+  <text class="h2" x="38" y="312">DRONE</text>
+  <text class="sub" x="40" y="360">Arduino UNO Q  ·  YOLOv8n  ·  Pixhawk 2.4.8</text>
+  <text class="tag" x="40" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- Quad, top view, centre (585, 165) -->
+  <circle class="disc" cx="510" cy="90" r="50"/>
+  <circle class="disc" cx="660" cy="90" r="50"/>
+  <circle class="disc" cx="510" cy="240" r="50"/>
+  <circle class="disc" cx="660" cy="240" r="50"/>
+  <path class="arm" d="M510,90 L660,240 M660,90 L510,240"/>
+  <circle class="f" cx="510" cy="90" r="15"/>
+  <circle class="f" cx="660" cy="90" r="15"/>
+  <circle class="f" cx="510" cy="240" r="15"/>
+  <circle class="f" cx="660" cy="240" r="15"/>
+  <path class="t" d="M478,78 L542,102 M628,102 L692,78 M478,252 L542,228 M628,228 L692,252" stroke-width="3"/>
+  <rect class="o" x="550" y="130" width="70" height="70" rx="10"/>
+  <text x="585" y="169" font-family="Arial, 'Liberation Sans', sans-serif" font-weight="700" font-style="italic" font-size="13" text-anchor="middle" fill="#000000">UNO Q</text>
+  <!-- camera at the front (bottom edge) -->
+  <rect class="o" x="571" y="200" width="28" height="18" rx="3"/>
+  <circle class="f" cx="585" cy="209" r="4.5"/>
+
+  <!-- Camera view to the tracked person -->
+  <path class="t" d="M585,218 L520,330 M585,218 L652,330" stroke-dasharray="6 5"/>
+  <rect x="540" y="330" width="90" height="140" fill="none" stroke="#000000" stroke-width="2.5"/>
+  <rect class="f" x="540" y="312" width="118" height="18"/>
+  <text class="box" x="546" y="325">PERSON ID:2  0.82</text>
+  <!-- person -->
+  <circle class="o" cx="585" cy="362" r="15"/>
+  <path class="o" d="M563,460 L563,404 C563,388 573,380 585,380 C597,380 607,388 607,404 L607,460"/>
+  <path class="t" d="M574,460 L574,430 M596,460 L596,430"/>
+</svg>

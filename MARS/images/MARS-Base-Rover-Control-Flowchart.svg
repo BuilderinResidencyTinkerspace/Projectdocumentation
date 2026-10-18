@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="680" viewBox="0 0 750 680">
+  <!--
+    Flowchart: MARS base rover control loop (digestdocs, CircuitDigest style).
+    Drawn from the behaviour described in the Week 3, 5 and 6 logs: Bluetooth commands move the
+    rover, and an obstacle in front makes it stop and wait until the obstacle moves away.
+    The firmware itself is not in the repository.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+      .cap    { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 13.5px; font-style: italic;
+                fill: #000000; text-anchor: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="680"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <!-- Init -->
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Initialise</text>
+  <text class="t" x="375" y="130">HC-05 serial, L298N pins,</text>
+  <text class="t" x="375" y="147">three front HC-SR04 sensors</text>
+
+  <!-- Loop target -->
+  <rect class="proc" x="215" y="182" width="320" height="56"/>
+  <text class="t tb" x="375" y="200">Read the Three Distances</text>
+  <text class="t" x="375" y="221">centre, +25° and −25° sensors</text>
+
+  <!-- D1 obstacle -->
+  <polygon class="dec" points="375,262 467,316 375,370 283,316"/>
+  <text class="t tb" x="375" y="306">Obstacle</text>
+  <text class="t tb" x="375" y="327">in Front ?</text>
+  <rect class="out" x="505" y="284" width="225" height="64"/>
+  <text class="t tb" x="617" y="305">Stop and Wait</text>
+  <text class="t" x="617" y="327">until the obstacle moves away</text>
+
+  <!-- D2 command -->
+  <polygon class="dec" points="375,398 467,452 375,506 283,452"/>
+  <text class="t tb" x="375" y="442">Bluetooth</text>
+  <text class="t tb" x="375" y="463">Command ?</text>
+  <rect class="out" x="505" y="420" width="225" height="64"/>
+  <text class="t tb" x="617" y="441">Drive</text>
+  <text class="t" x="617" y="463">forward, back, left, right, stop</text>
+
+  <!-- Keep motion -->
+  <rect class="proc" x="215" y="534" width="320" height="56"/>
+  <text class="t tb" x="375" y="552">Keep the Current Motion</text>
+  <text class="t" x="375" y="573">no new command received</text>
+
+  <!-- Flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,178" marker-end="url(#head)"/>
+  <path class="wire" d="M375,238 L375,258" marker-end="url(#head)"/>
+  <path class="wire" d="M375,370 L375,394" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="386">No</text>
+  <path class="wire" d="M375,506 L375,530" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="522">No</text>
+
+  <path class="wire" d="M467,316 L501,316" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="304">Yes</text>
+  <path class="wire" d="M467,452 L501,452" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="440">Yes</text>
+
+  <!-- loop backs on the right -->
+  <path class="wire" d="M730,316 L742,316 L742,170 L380,170" marker-end="url(#head)"/>
+  <path class="wire" d="M730,452 L742,452 L742,320"/>
+  <!-- keep motion loops back on the left -->
+  <path class="wire" d="M215,562 L150,562 L150,210 L211,210" marker-end="url(#head)"/>
+
+  <text class="cap" x="375" y="640">Drawn from the behaviour described in the weekly logs (Weeks 3, 5 and 6).</text>
+  <text class="cap" x="375" y="660">The rover firmware is not in the repository yet.</text>
+</svg>

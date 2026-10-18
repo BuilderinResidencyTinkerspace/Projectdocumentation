@@ -1,0 +1,1447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>Blister Bot Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">1 TODO</mark> value still open</span>
+  </div>
+  <article>
+    <h1>Building Blister Bot, a Blister Pack Medicine Dispenser Prototype Using Arduino UNO Q</h1>
+    <p class="byline">Draft article · Blister Bot, an open-source medicine dispenser prototype</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>blister-bot-medicine-dispenser-prototype-arduino-uno-q</code></dd>
+        <dt>Meta description</dt><dd>Build a blister pack medicine dispenser prototype with an Arduino UNO Q, three 28BYJ-48 steppers and SAM 2. Covers parts, wiring, 3D prints, setup and full code. <span style="color:var(--muted)">(161 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Arduino UNO Q</li><li>Medicine Dispenser</li><li>Blister Pack</li><li>28BYJ-48 Stepper Motor</li><li>SAM 2</li><li>Qwen 2.5</li><li>Sherpa-ONNX</li><li>Piper TTS</li><li>LBPH Face Recognition</li><li>OpenCV</li><li>Edge AI</li><li>Zoo KCL</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/Blister-Bot-Medicine-Dispenser-Prototype.jpg" alt="Blister Bot Medicine Dispenser Prototype" decoding="async"></figure>
+<p>Anyone who has looked after an elderly relative knows the routine. The tablets come in foil strips, and every few hours someone has to find the right strip, press out the right pill and remember whether it was already taken. Most pill organisers only move that work to a weekly sorting session. So, could a machine take the whole strip as it comes from the pharmacy, push the pill out itself, and let the patient simply ask for it by voice?</p>
+<p>In this project, we built Blister Bot, a prototype medicine dispenser that holds blister packs in a 3D-printed wheel and uses a small three-axis gantry with a drill tip to cut a pill out of the foil, and this article shows how to build it. An Arduino UNO Q runs everything on the board: speech-to-text, a Qwen 2.5 language model, text-to-speech, face recognition, and SAM 2 to find the pill boundaries in a camera image. The gantry moves on command and the face recognition and voice assistant work, but drilling is not stable yet, and the medicine dispenser prototype has not pushed out a pill. You can also check out similar <a href="https://circuitdigest.com/arduino-projects" target="_blank" rel="noopener">Arduino projects</a> and <a href="https://circuitdigest.com/ai-projects-and-tutorials" target="_blank" rel="noopener">AI projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is Blister Bot?</p><p><strong>Blister Bot</strong> is a <strong>blister pack medicine dispenser prototype</strong> built on an <strong>Arduino UNO Q</strong>. A camera and <strong>SAM 2</strong> find the pill outline, and three <strong>28BYJ-48</strong> steppers move a drill tip to cut around it from the foil side, while a voice assistant with face recognition takes the requests. The gantry and the AI work, but drilling a pill out has not succeeded yet.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-blister-bot">What Is Blister Bot?</a></li><li class="top"><a href="#how-does-the-blister-bot-medicine-dispenser-work">How Blister Bot Works</a></li><li class="sub"><a href="#ai-models-running-on-the-arduino-uno-q">AI Models on the UNO Q</a></li><li class="top"><a href="#components-required-for-blister-bot">Components Required</a></li><li class="top"><a href="#circuit-diagram-of-blister-bot">Circuit Diagram</a></li><li class="sub"><a href="#stepper-driver-pin-connections">Stepper Driver Pin Connections</a></li><li class="top"><a href="#3d-printing-the-gantry-and-the-medicine-wheel">3D Printing the Parts</a></li><li class="top"><a href="#assembling-blister-bot">Assembly</a></li><li class="top"><a href="#setting-up-blister-bot-on-the-arduino-uno-q">Setting Up the UNO Q</a></li><li class="top"><a href="#blister-bot-code-explanation">Code Explanation</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-testing-the-blister-bot-prototype">Output</a></li><li class="top"><a href="#troubleshooting-blister-bot">Troubleshooting</a></li><li class="top"><a href="#lessons-from-our-build">Lessons From Our Build</a></li><li class="top"><a href="#blister-bot-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-blister-bot">What Is Blister Bot?</h2>
+<p>Blister Bot is meant to be a fully offline dispenser that takes an unopened blister strip, reaches the pill from the foil side and pushes it out, with the packs on a rotating holder, the most promising of the layouts tried in Blender. Plain OpenCV could not find the pill edges reliably, so the vision side uses SAM 2, the open source segmentation model from Meta, which at around 600 MB fits in the UNO Q's 4GB of RAM. For a different take on the same problem, Circuit Digest has the <a href="https://circuitdigest.com/microcontroller-projects/doseright-smart-automatic-medicine-manager" target="_blank" rel="noopener">DoseRight ESP32 smart medicine dispenser</a>. If interested, do check it out.</p>
+<h2 id="how-does-the-blister-bot-medicine-dispenser-work">How Does the Blister Bot Medicine Dispenser Work?</h2>
+<p>The working is split across the two halves of the Arduino UNO Q. The Linux side, a Qualcomm QRB2210, runs the Python programs: it listens through a USB microphone, answers through a wired earphone, recognises faces from Camera 1 and finds pill outlines in the image from Camera 2. The STM32U585 microcontroller side runs a small sketch that drives three stepper drivers. The Python side sends plain text commands such as <code>X 120</code> to a local socket on port 7500, the sketch moves that axis by 120 steps and replies <code>ACK:X</code>. Below is the block diagram of the Blister Bot medicine dispenser.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-Blister-Bot-Medicine-Dispenser.jpg" alt="Block diagram of Blister Bot medicine dispenser showing microphone, two USB cameras, Arduino UNO Q Linux side with AI models, STM32 side, stepper drivers and 28BYJ-48 motors" decoding="async"></figure>
+<p>Camera 2 looks at the clear bubbles on the front of the pack, while the drill works from the foil side at the back, so the X direction is mirrored between the image and the gantry. The dashed wheel motor would turn the holder to the next strip, and it is not in the firmware yet. If you are new to the board, here is the <a href="https://circuitdigest.com/tutorial/getting-started-with-arduino-uno-q-beginners-guide" target="_blank" rel="noopener">Getting Started with Arduino UNO Q</a> guide on Circuit Digest.</p>
+<p>Below is the flowchart of the master controller program, master_controller.py.</p>
+<figure class="shot"><img src="images/Blister-Bot-Master-Controller-Flowchart.jpg" alt="Flowchart of Blister Bot master controller showing boot, voice setup of caretakers and medicines, wake word, intent classification, drill routine and spoken answers" decoding="async"></figure>
+<p>On power-up, the bot loads its models and waits for someone to say "setup". It registers caretakers by voice with ten face images each and scans the loaded packs with OCR, then listens for the wake word. The language model sorts each command into one of ten intents, and a medicine request starts the drill routine. In the current code, the face check is not called before drilling, and the wheel does not turn.</p>
+<h3 id="ai-models-running-on-the-arduino-uno-q">AI Models Running on the Arduino UNO Q</h3>
+<div class="table-wrap"><table><thead><tr><th>Job</th><th>Model or Library</th><th>Notes from the Code</th></tr></thead><tbody><tr><td>Speech-to-text</td><td>Sherpa-ONNX streaming Zipformer, Indian English</td><td>INT8, 16 kHz, mic gain 2.5</td></tr><tr><td>Language model</td><td>Qwen 2.5 0.5B Instruct, Q4_K_M GGUF</td><td>512-token context, 2 threads</td></tr><tr><td>Text-to-speech</td><td>Piper, en_US-lessac-low</td><td>16 kHz output</td></tr><tr><td>Face recognition</td><td>OpenCV LBPH with a Haar cascade</td><td>10 images per person</td></tr><tr><td>Pill boundaries</td><td>SAM 2.1 Hiera Small with OpenCV contours</td><td>Contour fallback if SAM is missing</td></tr><tr><td>Medicine text</td><td>pytesseract</td><td>Reads each detected region</td></tr></tbody></table></div>
+<h2 id="components-required-for-blister-bot">Components Required for Blister Bot</h2>
+<p>Below is the list of components required to build this project.</p>
+<figure class="shot"><img src="images/Components-Required-for-Blister-Bot-Medicine-Dispenser.jpg" alt="Components required for Blister Bot including Arduino UNO Q, 28BYJ-48 stepper motors, stepper drivers, USB webcams, USB microphone, earphone, 4xAA pack, 3D-printed gantry, medicine wheel and blister pack" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Arduino UNO Q (4GB)</td><td>Runs the AI on Linux and the motors on the STM32</td><td>1</td></tr><tr><td>2.</td><td>28BYJ-48 Stepper Motor, 5V</td><td>X, Y and Z axes of the gantry</td><td>3</td></tr><tr><td>3.</td><td>Stepper Driver Board</td><td>L293D in the README, ULN2003-style in connections.md</td><td>3</td></tr><tr><td>4.</td><td>USB Webcam</td><td>Camera 1 for faces and OCR, Camera 2 for pills</td><td>2</td></tr><tr><td>5.</td><td>USB Microphone</td><td>Voice input</td><td>1</td></tr><tr><td>6.</td><td>Wired Earphone</td><td>Voice output</td><td>1</td></tr><tr><td>7.</td><td>USB-C Hub</td><td>Connects the cameras and the microphone</td><td>1</td></tr><tr><td>8.</td><td>4 x AA Battery Pack, 6V</td><td>Motor supply</td><td>1</td></tr><tr><td>9.</td><td>Breadboard and Jumper Wires</td><td>Power rails and connections</td><td>As required</td></tr><tr><td>10.</td><td>3D-Printed Gantry Parts</td><td>Based on imaicom's Arduino mini CNC plotter</td><td>1 set</td></tr><tr><td>11.</td><td>3D-Printed Medicine Wheel and Stands</td><td>Holds the blister packs</td><td>1 set</td></tr></tbody></table></div>
+<p>The UNO Q runs both the models and the motor sketch, so the build needs only one board. The 28BYJ-48 is a small 5V geared stepper with plenty of holding force for a light gantry, and the plotter design the gantry is based on was built around it. The UNO Q has a single USB-C port, so the two cameras and the microphone need a hub <mark class="todo">TODO: USB-C hub model</mark>. To learn how a 28BYJ-48 is driven, refer to our <a href="https://circuitdigest.com/microcontroller-projects/arduino-stepper-motor-control-tutorial" target="_blank" rel="noopener">28BYJ-48 stepper motor with Arduino</a> tutorial.</p>
+<h2 id="circuit-diagram-of-blister-bot">Circuit Diagram of Blister Bot</h2>
+<p>Below is the circuit diagram for Blister Bot.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-Blister-Bot-Medicine-Dispenser.jpg" alt="Circuit Diagram of Blister Bot Medicine Dispenser" title="Circuit Diagram of Blister Bot Medicine Dispenser" decoding="async"></figure>
+<p>Each stepper has its own driver board, and each driver takes four inputs, IN1 to IN4, from the UNO Q's microcontroller pins. The X driver is on pins 2 to 5, the Y driver on pins 6 to 9 and the Z driver, which pushes the drill, on pins 10 to 13. The motors plug into their drivers with their five-wire connectors. All three drivers take their power from the breadboard rails, fed by a 6V pack of four AA cells, and one of the UNO Q's GND pins goes to the same ground rail so that the signals have a common reference. Never power the steppers from the UNO Q's 5V pin, as they draw more current than the board can supply. That is all about the circuit.</p>
+<p>docs/connections.md uses ULN2003-style driver boards and the README says L293D, but the pin map is the same either way.</p>
+<h3 id="stepper-driver-pin-connections">Stepper Driver Pin Connections</h3>
+<div class="table-wrap"><table><thead><tr><th>Driver</th><th>IN1</th><th>IN2</th><th>IN3</th><th>IN4</th><th>Motor</th></tr></thead><tbody><tr><td>X</td><td>Pin 2</td><td>Pin 3</td><td>Pin 4</td><td>Pin 5</td><td>Gantry, horizontal</td></tr><tr><td>Y</td><td>Pin 6</td><td>Pin 7</td><td>Pin 8</td><td>Pin 9</td><td>Gantry, vertical</td></tr><tr><td>Z</td><td>Pin 10</td><td>Pin 11</td><td>Pin 12</td><td>Pin 13</td><td>Drill tip</td></tr></tbody></table></div>
+<h2 id="3d-printing-the-gantry-and-the-medicine-wheel">3D Printing the Gantry and the Medicine Wheel</h2>
+<p>All the printable parts are in the cad folder, and the repository does not record print settings. The gantry is based on the Arduino mini CNC plotter by imaicom on Thingiverse, a 28BYJ-48 pen plotter with printed rack-and-pinion rails under a Creative Commons Attribution licence, so credit its designer if you share your prints. The numbered files 1.stl to 9.stl, A.stl, B.stl and Arduino_mini_CNC_plotter-N1.stl appear to come from that design. Below is our printed gantry with its three motors, first tested on a sheet of cardboard.</p>
+<figure class="shot"><img src="images/Blister-Bot-3-Axis-CNC-Gantry-Prototype.jpg" alt="Blister Bot 3-axis CNC gantry prototype with three 28BYJ-48 stepper motors on 3D-printed rack and pinion rails on a cardboard base" decoding="async"></figure>
+<p>The wheel, which takes packs of different shapes without a custom slot for each, is modelled in Zoo's KCL language in cad/main.kcl, with its dimensions in cad/NOTES.md. Print new3d.stl for the wheel, and medicinewheelstand.stl and blissupport.stl for its two stands. Below is the CAD of the wheel and its two stands, rendered from those STL files.</p>
+<figure class="shot"><img src="images/Blister-Bot-Medicine-Wheel-and-Stands-CAD.jpg" alt="CAD render of Blister Bot medicine holder wheel with four blades and the two 3D-printed stands that carry it" decoding="async"></figure>
+<p>The wheel has four blades at 90° around a 20mm hub. Each blade is 95mm long and 68mm wide, with two 2mm side walls that leave a 64mm bay for the strip. Small lips 3.5mm above the base hold the foil edge, and a 50 × 80mm window through each blade leaves the pills hanging over open space so that the camera can see the bubbles. The hub ends in a D-shaped socket, 5mm across and 12mm deep, for the 28BYJ-48 shaft, with no fit allowance, so check it against your motor before printing. The stand medicinewheelstand.stl has the motor mounting holes, and blissupport.stl has a single small hole that looks meant for the far end of the hub. Both are 135mm tall.</p>
+<h2 id="assembling-blister-bot">Assembling Blister Bot</h2>
+<p>Follow the steps below once the parts are printed.</p>
+<p class="step"><strong>Step 1⇒ Build the Gantry</strong></p>
+<p>Each axis is a motor whose printed pinion runs along a printed rack. Prints flex under side loads and these geared motors have modest torque, so stiffen the frame. We used cardboard gussets and hot glue during testing. If you want to see a plotter built from old DVD drives, Circuit Digest has a <a href="https://circuitdigest.com/microcontroller-projects/arduino-cnc-machine-project-code" target="_blank" rel="noopener">DIY Arduino based CNC plotter</a> as well.</p>
+<p class="step"><strong>Step 2⇒ Mount the Wheel and the Cameras</strong></p>
+<p>Mount the wheel between its two stands, with the motor on medicinewheelstand.stl. Fix the holder and the stands firmly to the base. Ours was not glued down, and the pack shifted when the drill pushed on it. Place Camera 2 in front of the pack, facing the bubbles, and the drill behind it on the foil side. Below is a printed holder with a blister pack in it.</p>
+<figure class="shot"><img src="images/Blister-Bot-Medicine-Holder-with-Blister-Pack.jpg" alt="Blister Bot 3D-printed medicine holder with a blue blister pack held in the blade over the open window" decoding="async"></figure>
+<p class="step"><strong>Step 3⇒ Wire the Drivers</strong></p>
+<p>Wire the three drivers as per the pin table above, power them from the 6V pack through the breadboard rails, and join the UNO Q's GND to the same rail. Plug the cameras and the microphone into the USB-C hub, and connect the wired earphone for the replies.</p>
+<h2 id="setting-up-blister-bot-on-the-arduino-uno-q">Setting Up Blister Bot on the Arduino UNO Q</h2>
+<p>The UNO Q runs Debian on its Linux side, and all the Python programs run there. Clone the repository on the board and follow the steps below in order.</p>
+<p class="step"><strong>Step 1⇒ Install the Packages</strong></p>
+<p>With the board on Wi-Fi, install the system packages and the Python libraries.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">sudo apt update
+sudo apt install python3-pip python3-opencv ffmpeg portaudio19-dev libasound-dev
+pip3 install faster-whisper edge-tts rapidocr-onnxruntime Flask pyserial sounddevice llama-cpp-python sherpa-onnx piper-tts
+pip3 install git+https://github.com/facebookresearch/sam2.git</code></pre></div>
+<p>These are the README's lines. master_controller.py also needs tesseract-ocr, pytesseract and opencv-contrib-python-headless.</p>
+<p class="step"><strong>Step 2⇒ Download the Models</strong></p>
+<p>The model files are not in the repository. Run setup.sh from code/UNO, which downloads the Indian English streaming Zipformer from the Hugging Face repository Akshatkasera007/STT-streaming-zipformer-indian-en into STT-streaming-zipformer-indian-en, along with qwen2.5-0.5b-instruct-q4_k_m.gguf and the Piper voice en_US-lessac-low.onnx. Then put sam2.1_hiera_small.pt in code/blister_detector/checkpoints, using download_ckpts.sh in sam2-main/checkpoints, as the blister_detector README names an older checkpoint that the config does not load. Also copy haarcascade_frontalface_default.xml from OpenCV's data folder into the code folder, where master_controller.py looks for it.</p>
+<p class="step"><strong>Step 3⇒ Flash the Motor Sketch</strong></p>
+<p>Upload code/stepper_motor_controller/cnc_plotter.ino to the STM32 side of the board. The Python programs reach this sketch through a local socket on 127.0.0.1:7500. The repository connects to that port but does not create it, so check that it is open on your board before going further. For another project that uses both halves of the UNO Q, take a look at the <a href="https://circuitdigest.com/microcontroller-projects/automatic-waste-segregation-system-using-arduino-uno-q" target="_blank" rel="noopener">automatic waste segregation system using Arduino UNO Q</a>.</p>
+<p class="step"><strong>Step 4⇒ Test the Gantry and the Drill Path</strong></p>
+<p>Run python3 app.py in code/stepper_motor_controller and open port 5000 from a phone to jog each axis. Then run python3 test_drill.py from the code folder, which captures a frame, finds the largest pill outline and prints the moves without turning any motor. Add <code>--live</code> only when the gantry is clear. Before a live run, calibrate <code>PIXEL_TO_STEP_RATIO</code>, which is still 1.0: move the drill by a known number of steps, measure how far it moves in Camera 2's image, and set the ratio from that.</p>
+<p class="step"><strong>Step 5⇒ Start the Bot</strong></p>
+<p>Run python3 master_controller.py from the code folder. To start it on boot, copy blisterbot.service to /etc/systemd/system and enable it, after changing its WorkingDirectory and ExecStart to the code folder, as the file expects master_controller.py at the top of the repository.</p>
+<h2 id="blister-bot-code-explanation">Blister Bot Code Explanation</h2>
+<p>The code is split between the C++ sketch on the STM32 and the Python programs on Linux. Below are the main parts, in the order a command travels through them.</p>
+<p class="step"><strong>Half-Step Drive in the Firmware</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-cpp">const int stepMatrix[8][4] = {
+  {1, 0, 0, 0}, {1, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 1, 0},
+  {0, 0, 1, 0}, {0, 0, 1, 1}, {0, 0, 0, 1}, {1, 0, 0, 1}
+};
+
+void stepMotor(const int pins[4], int &amp;currentStep, int dir) {
+  if (dir == 1) {
+    currentStep++;
+    if (currentStep &gt; 7) currentStep = 0;
+  } else if (dir == -1) {
+    currentStep--;
+    if (currentStep &lt; 0) currentStep = 7;
+  }
+  for (int i = 0; i &lt; 4; i++) {
+    digitalWrite(pins[i], stepMatrix[currentStep][i]);
+  }
+  delay(2);
+}</code></pre></div>
+<p>The eight rows energise the four coils in a half-step pattern, so each call moves the motor half a step either way, with a 2 ms gap between steps. Each axis has its own step counter, and after every move, <code>powerDown()</code> drives that axis's pins LOW so the coils do not heat up while idle.</p>
+<p class="step"><strong>Serial Commands from Linux</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-cpp">if (command.startsWith(&quot;X &quot;)) {
+  int steps = command.substring(2).toInt();
+  rotateSteps('X', steps);
+  Serial.println(&quot;ACK:X&quot;);
+}</code></pre></div>
+<p>In <code>loop()</code>, the sketch reads one line at a time at 115200 baud, and Y and Z are handled the same way as X. It sends <code>ACK:X</code> only after the move is finished. On the Python side, <code>move_axis()</code> writes the command to the socket on port 7500 and waits up to 5 seconds for that reply, so the next move never starts on top of the last one.</p>
+<p class="step"><strong>Finding the Pill Boundaries</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">for contour in contours:
+    area = cv2.contourArea(contour)
+    if area &lt; MIN_AREA:
+        continue
+    x, y, w, h = cv2.boundingRect(contour)
+    if not (MIN_ASPECT_RATIO &lt;= w / float(h) &lt;= MAX_ASPECT_RATIO):
+        continue
+    if len(contour) &gt;= 5:
+        (ex, ey), (ew, eh), angle = cv2.fitEllipse(contour)
+        ellipse_area = np.pi * (ew / 2) * (eh / 2)
+        if min(area, ellipse_area) / max(area, ellipse_area) &lt; MIN_ELLIPSE_SCORE:
+            continue
+    detected_contours.append(contour)</code></pre></div>
+<p>SAM 2.1 generates masks for everything it sees, with 16 points per side, and this loop in <code>get_pill_boundary()</code> keeps the pill-like ones: at least 500 pixels, a width-to-height ratio between 0.3 and 3.0, and an area that matches a fitted ellipse by at least 55%. Without SAM 2 or its checkpoint, the predictor falls back to adaptive thresholding.</p>
+<p class="step"><strong>The Drill Routine</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">self.move_axis('Z', -2)
+start_pt = target_contour[0][0]
+self.move_to_pixel(start_pt[0], start_pt[1], cx, cy)
+self.move_axis('Z', 2)
+for pt_arr in target_contour[1:]:
+    self.move_to_pixel(pt_arr[0][0], pt_arr[0][1], cx, cy)
+    time.sleep(0.05)
+self.move_axis('Z', -2)
+self.move_to_pixel(cx, cy, cx, cy)</code></pre></div>
+<p><code>execute_drill()</code> cuts around the largest boundary in the frame. It lifts the drill by 2 steps, moves to the first contour point, pushes the drill in by 2 steps, traces every contour point with a 50 ms pause, and then lifts out and returns to the centre. <code>move_to_pixel()</code> converts pixels to steps relative to the image centre using <code>PIXEL_TO_STEP_RATIO</code>, the value to calibrate in setup step 4.</p>
+<p class="step"><strong>Wake Word and Intent Classification</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">wake_words = [&quot;bot&quot;, &quot;bought&quot;, &quot;boat&quot;, &quot;but&quot;, &quot;pot&quot;, &quot;robot&quot;, &quot;blister&quot;, &quot;blisterbot&quot;, &quot;what&quot;, &quot;dot&quot;]
+if any(w in clean_text for w in wake_words):
+    speak_text(self.tts, &quot;I am listening.&quot;)
+    cmd_text = listen_and_transcribe(self.stt, mic_active)
+    intent = generate_response(self.llm, intent_prompt).strip().upper()</code></pre></div>
+<p>The speech model often heard "bot" as "boat" or "but", so the wake word check accepts near misses. The next sentence goes to Qwen, which must answer with one of ten categories such as DRILL_MEDICINE or PAIN_REPORT. For more on the LBPH face recogniser used in setup, see our <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-and-opencv-based-face-recognition-system" target="_blank" rel="noopener">real time face recognition with Raspberry Pi and OpenCV</a> project.</p>
+<p class="step"><strong>Fitting the Models in 4GB</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">LLM_N_CTX = 512       # Strictly 512 to save RAM
+LLM_N_THREADS = 2     # Strictly 2 to save RAM
+LLM_N_BATCH = 128     # Strictly 128 to save RAM
+SYSTEM_PROMPT = &quot;You are a concise medical assistant. Answer in 1 short sentence.&quot;</code></pre></div>
+<p>The 4GB of RAM holds only a few models at once, so assistant.py keeps the language model small, with a 512-token context, 2 threads and 64-token replies, and each model is loaded only when needed and then released.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the gantry moving during a test run.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/Blister-Bot-CNC-Gantry-Moving-Trial.jpg" width="360"><source src="videos/Blister-Bot-CNC-Gantry-Moving-Trial.mp4" type="video/mp4"><source src="https://raw.githubusercontent.com/RealASHWIN122/Blister-bot-main-/main/assets/cncmovingtrial.mp4" type="video/mp4"><a href="https://raw.githubusercontent.com/RealASHWIN122/Blister-bot-main-/main/assets/cncmovingtrial.mp4">CNC gantry moving trial (MP4)</a></video></figure>
+<h2 id="output-testing-the-blister-bot-prototype">Output: Testing the Blister Bot Prototype</h2>
+<p>Below is the output of the pill boundary detection on one of our test packs, with each bubble outlined in red.</p>
+<figure class="shot"><img src="images/SAM-2-Pill-Boundaries-on-Blister-Pack.jpg" alt="SAM 2 pill boundaries drawn in red around each bubble of a blue blister pack for Blister Bot" decoding="async"></figure>
+<p>Each bubble is outlined, including the empty one at the bottom right, and the edge of the strip was picked up as well. The gantry moved on command, and the face recognition and the language model worked, but the pack shifted when the drill pushed on it. Late in the build, we moved from the cardboard setup to a printed base. The drill turned out too short, and a reprinted, longer chain-and-slide part came out wrong because of a scaling problem in the software. Then the shaft piece in the holder's hub broke and got stuck inside, which paused the build.</p>
+<h2 id="troubleshooting-blister-bot">Troubleshooting Blister Bot</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>The pack pops out of the holder when the drill pushes</td><td>The holder is open behind the pills</td><td>Fix the holder to the base, and add a translucent but rigid front cover, which is our planned fix</td></tr><tr><td>The wheel turns unevenly between packs</td><td>Friction where the hub sits in the stands</td><td>Add ball bearings in the stands, which we plan to try</td></tr><tr><td>The gantry does not move and the program reports an MCU socket error</td><td>Nothing is listening on port 7500, or the sketch is not flashed</td><td>Flash cnc_plotter.ino and check the 7500 bridge before running app.py</td></tr><tr><td>The pill detector only uses contours</td><td>SAM 2 or sam2.1_hiera_small.pt is missing</td><td>Install SAM 2 and put the 2.1 checkpoint in blister_detector/checkpoints</td></tr><tr><td>The bot never wakes up</td><td>The speech model hears "bot" as another word</td><td>Keep the near-miss wake words and raise <code>MIC_GAIN</code> from 2.5 if the mic is quiet</td></tr><tr><td>Replies stop playing through the speaker</td><td>Bluetooth audio drops out</td><td>Use a wired earphone, as we did</td></tr><tr><td>No sound from the wired earphone</td><td>The repository's asound.conf sends playback to a paired Bluetooth speaker</td><td>Do not copy asound.conf, or point its playback device at your earphone</td></tr></tbody></table></div>
+<h2 id="lessons-from-our-build">Lessons From Our Build</h2>
+<p>Get the drill working before anything else. The drill is the core of the whole project, and we spread our time across the AI and the software, which could have come last.</p>
+<p>Hold the pack firmly. The open window lets the camera see the bubbles, but a pack that can move will pop out under the drill, so fix the holder down and plan a rigid front cover from the start.</p>
+<p>Fine-tune speech only with enough data. We recorded 91 clips with the Flask page on port 5001 in code/stt_dataset_collector and fine-tuned the Zipformer with icefall for 10 epochs, with the encoder frozen. The dataset was too small and the starting learning rate of 0.0045 too high, and the model got worse at everything else, so the master controller still uses the original Indian English model.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Blister Bot shows that one Arduino UNO Q can run speech-to-text, a small language model, text-to-speech, face recognition and SAM 2, loading them as needed, while its microcontroller side drives the gantry. The mechanism is where the prototype fell short. Our notes also mention that SAM 3 found the pill boundaries from one or two labelled examples, though the code uses SAM 2.1. There is still room for improvement, such as a rigid front cover for the holder, bearings for the wheel, a working wheel motor, a calibrated pixel-to-step ratio, and the face check wired in before the drill. Further, one can add reminders like the <a href="https://circuitdigest.com/microcontroller-projects/arduino-medicine-reminder" target="_blank" rel="noopener">Arduino based medicine reminder</a> on Circuit Digest.</p>
+<h2 id="blister-bot-github-repository">Blister Bot GitHub Repository</h2>
+<p>The Blister-bot-main- repository has the firmware, the master controller, the pill detector, the speech dataset collector, the CAD files and the weekly logs. Its commits come from RealASHWIN122, faris24faris25, HAM P R, Babu and jithsss, and the code is released under the GPL-3.0 licence.</p>
+<p><a href="https://github.com/RealASHWIN122/Blister-bot-main-" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/RealASHWIN122/Blister-bot-main-/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-blister-bot">Frequently Asked Questions About Blister Bot</h2>
+<p class="step"><strong>⇥ 1. Can Blister Bot be used to give medicines to a real patient?</strong></p>
+<p>No. It is a student prototype that has not pushed a pill out yet, the face check is not wired in before drilling, and its answers about medicines come from a 0.5B language model that has not been checked.</p>
+<p class="step"><strong>⇥ 2. Does Blister Bot need the internet?</strong></p>
+<p>No. All the models run on the Arduino UNO Q, and Wi-Fi is only used for installing packages and for the web pages on the local network.</p>
+<p class="step"><strong>⇥ 3. Can I use stronger motors?</strong></p>
+<p>Yes. The 28BYJ-48 has modest torque for pushing through foil. The engineering specification in the repository lists MG995 servos, NEMA 17 steppers or 12V solenoids as possible upgrades for the drill axis, none of which have been tried.</p>
+<h2 id="medicine-dispenser-and-vision-projects">Medicine Dispenser and Vision Projects</h2>
+<p>Explore more medicine management, CNC and face recognition builds, with circuits and code.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/doseright-smart-automatic-medicine-manager" target="_blank" rel="noopener">DoseRight - Smart Automatic Medicine Manager</a></strong>: <em>Medication adherence is one of the most critical challenges in modern healthcare, and this ESP32-S3 dispenser releases scheduled doses and checks that they were taken.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/arduino-cnc-machine-project-code" target="_blank" rel="noopener">DIY Arduino Based CNC Plotter Machine</a></strong>: <em>CNC machines are used to draw anything or design any mechanical part according to the design program fed into their controller unit.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-and-opencv-based-face-recognition-system" target="_blank" rel="noopener">Real Time Face Recognition with Raspberry Pi and OpenCV</a></strong>: <em>Face recognition is getting increasingly popular and most of us are already using it without even realizing it.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>The complete code is split across the files below, all inside the code folder of the repository. The model files and the SAM 2 checkpoint are not included, as described in the setup steps.</p>
+<details class="codefile"><summary><span class="path">code/stepper_motor_controller/cnc_plotter.ino</span><span class="count">90 lines</span></summary><pre class="code"><code class="language-cpp">const int X_PINS[4] = {2, 3, 4, 5};
+const int Y_PINS[4] = {6, 7, 8, 9};
+const int Z_PINS[4] = {10, 11, 12, 13};
+
+const int stepMatrix[8][4] = {
+  {1, 0, 0, 0},
+  {1, 1, 0, 0},
+  {0, 1, 0, 0},
+  {0, 1, 1, 0},
+  {0, 0, 1, 0},
+  {0, 0, 1, 1},
+  {0, 0, 0, 1},
+  {1, 0, 0, 1}
+};
+
+int xStep = 0;
+int yStep = 0;
+int zStep = 0;
+
+void setup() {
+  for (int i = 0; i &lt; 4; i++) {
+    pinMode(X_PINS[i], OUTPUT);
+    pinMode(Y_PINS[i], OUTPUT);
+    pinMode(Z_PINS[i], OUTPUT);
+  }
+  Serial.begin(115200);
+}
+
+void stepMotor(const int pins[4], int &amp;currentStep, int dir) {
+  if (dir == 1) {
+    currentStep++;
+    if (currentStep &gt; 7) currentStep = 0;
+  } else if (dir == -1) {
+    currentStep--;
+    if (currentStep &lt; 0) currentStep = 7;
+  }
+  
+  for (int i = 0; i &lt; 4; i++) {
+    digitalWrite(pins[i], stepMatrix[currentStep][i]);
+  }
+  delay(2);
+}
+
+void powerDown(const int pins[4]) {
+  for (int i = 0; i &lt; 4; i++) {
+    digitalWrite(pins[i], LOW);
+  }
+}
+
+void rotateSteps(char axis, int steps) {
+  int dir = (steps &gt; 0) ? 1 : -1;
+  int absSteps = abs(steps);
+  
+  for(int i = 0; i &lt; absSteps; i++) {
+    if (axis == 'X') {
+      stepMotor(X_PINS, xStep, dir);
+    } else if (axis == 'Y') {
+      stepMotor(Y_PINS, yStep, dir);
+    } else if (axis == 'Z') {
+      stepMotor(Z_PINS, zStep, dir);
+    }
+  }
+  
+  if (axis == 'X') powerDown(X_PINS);
+  if (axis == 'Y') powerDown(Y_PINS);
+  if (axis == 'Z') powerDown(Z_PINS);
+}
+
+void loop() {
+  if (Serial.available() &gt; 0) {
+    String command = Serial.readStringUntil('\n');
+    command.trim();
+    
+    if (command.startsWith(&quot;X &quot;)) {
+      int steps = command.substring(2).toInt();
+      rotateSteps('X', steps);
+      Serial.println(&quot;ACK:X&quot;);
+    } 
+    else if (command.startsWith(&quot;Y &quot;)) {
+      int steps = command.substring(2).toInt();
+      rotateSteps('Y', steps);
+      Serial.println(&quot;ACK:Y&quot;);
+    }
+    else if (command.startsWith(&quot;Z &quot;)) {
+      int steps = command.substring(2).toInt();
+      rotateSteps('Z', steps);
+      Serial.println(&quot;ACK:Z&quot;);
+    }
+  }
+}</code></pre></details>
+<details class="codefile"><summary><span class="path">code/stepper_motor_controller/app.py</span><span class="count">115 lines</span></summary><pre class="code"><code class="language-python">from flask import Flask, render_template, request, jsonify, Response
+import socket
+import time
+import atexit
+import cv2
+import threading
+
+app = Flask(__name__)
+
+# --- Socket Connection Management ---
+def get_mcu_socket():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(('127.0.0.1', 7500))
+        s.settimeout(5.0)
+        return s
+    except Exception as e:
+        print(f&quot;Error opening MCU socket: {e}&quot;)
+        return None
+
+def rotate_steps(axis, steps):
+    s = get_mcu_socket()
+    if s:
+        try:
+            command = f&quot;{axis} {steps}\n&quot;
+            s.sendall(command.encode('utf-8'))
+            
+            # Wait for acknowledgment
+            start_time = time.time()
+            buffer = &quot;&quot;
+            while time.time() - start_time &lt; 5.0:
+                try:
+                    data = s.recv(1024)
+                    if data:
+                        buffer += data.decode('utf-8', errors='ignore')
+                        if f&quot;ACK:{axis}&quot; in buffer:
+                            s.close()
+                            return True
+                except socket.timeout:
+                    break
+            
+            s.close()
+            return False
+        except Exception as e:
+            print(f&quot;Error communicating with MCU: {e}&quot;)
+            if s:
+                s.close()
+            return False
+    else:
+        print(f&quot;MOCK: Sent {steps} steps to {axis} axis&quot;)
+        time.sleep(abs(steps) * 0.002)
+        return True
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+def generate_frames():
+    cap = cv2.VideoCapture(1)
+    if not cap.isOpened():
+        cap = cv2.VideoCapture(0)
+    
+    while True:
+        success, frame = cap.read()
+        if not success:
+            time.sleep(0.1)
+            continue
+        
+        # Draw crosshair in center for drill targeting
+        h, w = frame.shape[:2]
+        cx, cy = w // 2, h // 2
+        cv2.line(frame, (cx - 20, cy), (cx + 20, cy), (0, 255, 0), 2)
+        cv2.line(frame, (cx, cy - 20), (cx, cy + 20), (0, 255, 0), 2)
+        cv2.circle(frame, (cx, cy), 10, (0, 255, 0), 1)
+
+        ret, buffer = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+        if not ret:
+            continue
+            
+        frame_bytes = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/api/move', methods=['POST'])
+def move():
+    data = request.json
+    # Frontend sends axis ('X' or 'Y'), direction (1 or -1), and steps (int)
+    axis = data.get('axis')
+    direction = data.get('direction', 1)
+    steps = data.get('steps', 10)
+    
+    try:
+        steps = int(steps)
+        direction = int(direction)
+    except (ValueError, TypeError):
+        return jsonify({&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: &quot;Invalid step count&quot;}), 400
+
+    # Calculate signed steps for the Arduino sketch
+    signed_steps = steps * direction
+    
+    if axis in ['X', 'Y', 'Z']:
+        success = rotate_steps(axis, signed_steps)
+        if success:
+            return jsonify({&quot;status&quot;: &quot;success&quot;, &quot;message&quot;: f&quot;Moved {axis} {signed_steps} steps&quot;})
+        else:
+            return jsonify({&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: &quot;MCU communication failed&quot;}), 500
+    else:
+        return jsonify({&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: &quot;Invalid axis&quot;}), 400
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)</code></pre></details>
+<details class="codefile"><summary><span class="path">code/blister_detector/config.py</span><span class="count">28 lines</span></summary><pre class="code"><code class="language-python">import os
+
+# Base directory of the project
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Directories
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
+OUTPUT_FOLDER = os.path.join(BASE_DIR, 'outputs')
+CHECKPOINT_DIR = os.path.join(BASE_DIR, 'checkpoints')
+
+# Model configuration
+CHECKPOINT_PATH = os.path.join(CHECKPOINT_DIR, 'sam2.1_hiera_small.pt')
+MODEL_CFG = 'configs/sam2.1/sam2.1_hiera_s.yaml'
+
+# Mask Filtering Thresholds
+MIN_AREA = 500
+MIN_ASPECT_RATIO = 0.3
+MAX_ASPECT_RATIO = 3.0
+MIN_ELLIPSE_SCORE = 0.55
+
+# Contour rendering
+CONTOUR_COLOR = (0, 0, 255) # Red in BGR
+CONTOUR_THICKNESS = 2
+
+# Ensure directories exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+os.makedirs(CHECKPOINT_DIR, exist_ok=True)</code></pre></details>
+<details class="codefile"><summary><span class="path">code/blister_detector/detector.py</span><span class="count">91 lines</span></summary><pre class="code"><code class="language-python">import cv2
+import numpy as np
+import os
+from config import MIN_AREA, MIN_ASPECT_RATIO, MAX_ASPECT_RATIO, MIN_ELLIPSE_SCORE, CONTOUR_COLOR, CONTOUR_THICKNESS
+import predictor
+
+def imread_unicode(path):
+    stream = open(path, &quot;rb&quot;)
+    bytes_arr = bytearray(stream.read())
+    np_array = np.asarray(bytes_arr, dtype=np.uint8)
+    image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+    return image
+
+def imwrite_unicode(path, img):
+    ext = os.path.splitext(path)[1]
+    result, n = cv2.imencode(ext, img)
+    if result:
+        with open(path, mode='wb') as f:
+            n.tofile(f)
+
+def get_pill_boundary(image_rgb) -&gt; list:
+    &quot;&quot;&quot;Processes an RGB image array and returns a list of pill boundary coordinates.&quot;&quot;&quot;
+    masks_data = predictor.get_masks(image_rgb)
+    
+    detected_contours = []
+    
+    for mask_dict in masks_data:
+        seg = mask_dict['segmentation']
+        
+        # Convert bool mask to uint8
+        mask_uint8 = (seg * 255).astype(np.uint8)
+        
+        contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area &lt; MIN_AREA:
+                continue
+                
+            x, y, w, h = cv2.boundingRect(contour)
+            aspect_ratio = w / float(h)
+            
+            if not (MIN_ASPECT_RATIO &lt;= aspect_ratio &lt;= MAX_ASPECT_RATIO):
+                continue
+                
+            # Ellipse score check (if applicable)
+            if len(contour) &gt;= 5:
+                ellipse = cv2.fitEllipse(contour)
+                (ex, ey), (ew, eh), angle = ellipse
+                ellipse_area = np.pi * (ew / 2) * (eh / 2)
+                if ellipse_area &gt; 0:
+                    area_ratio = min(area, ellipse_area) / max(area, ellipse_area)
+                    if area_ratio &lt; MIN_ELLIPSE_SCORE:
+                        continue
+                        
+            # It's a valid blister
+            detected_contours.append(contour)
+            
+    # Extract coordinate lists
+    coords_list = []
+    for contour in detected_contours:
+        # contour shape is (N, 1, 2)
+        pts = [(int(pt[0][0]), int(pt[0][1])) for pt in contour]
+        coords_list.append(pts)
+        
+    return coords_list, detected_contours
+
+def detect_blisters(input_path, output_path) -&gt; list:
+    image = imread_unicode(input_path)
+    if image is None:
+        raise ValueError(f&quot;Could not read image at {input_path}&quot;)
+        
+    # Resize image if too large (massively speeds up inference on CPU)
+    max_dim = 1024
+    h, w = image.shape[:2]
+    if max(h, w) &gt; max_dim:
+        scale = max_dim / max(h, w)
+        new_w, new_h = int(w * scale), int(h * scale)
+        image = cv2.resize(image, (new_w, new_h))
+        
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+    coords_list, detected_contours = get_pill_boundary(image_rgb)
+    
+    # Draw contours
+    result_image = image.copy()
+    cv2.drawContours(result_image, detected_contours, -1, CONTOUR_COLOR, CONTOUR_THICKNESS)
+    
+    imwrite_unicode(output_path, result_image)
+    
+    return coords_list</code></pre></details>
+<details class="codefile"><summary><span class="path">code/test_drill.py</span><span class="count">204 lines</span></summary><pre class="code"><code class="language-python">import cv2
+import sys
+import os
+import socket
+import time
+
+# Ensure we can import the blister detector
+sys.path.append(os.path.join(os.path.dirname(__file__), 'blister_detector'))
+try:
+    from detector import get_pill_boundary
+except ImportError as e:
+    print(f&quot;Error importing detector: {e}&quot;)
+    sys.exit(1)
+
+# Configuration Parameters
+PIXEL_TO_STEP_RATIO = 1.0  # Number of CNC steps per image pixel. Tweak this!
+DRY_RUN = False             # Set to False to actually move the motors
+CNC_HOST = '127.0.0.1'
+CNC_PORT = 7500
+DRAG_DELAY = 0.05          # Delay in seconds between boundary steps
+
+# State tracker for absolute CNC position relative to origin (camera center)
+current_x_step = 0
+current_y_step = 0
+
+def get_mcu_socket():
+    if DRY_RUN:
+        return None
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((CNC_HOST, CNC_PORT))
+        s.settimeout(5.0)
+        return s
+    except Exception as e:
+        print(f&quot;[!] Error opening CNC socket: {e}&quot;)
+        return None
+
+def move_axis(axis, steps):
+    if steps == 0:
+        return True
+        
+    if DRY_RUN:
+        print(f&quot;[DRY-RUN] Move {axis} {steps} steps&quot;)
+        time.sleep(0.01)
+        return True
+        
+    s = get_mcu_socket()
+    if s:
+        try:
+            command = f&quot;{axis} {steps}\n&quot;
+            s.sendall(command.encode('utf-8'))
+            
+            # Wait for acknowledgment
+            start_time = time.time()
+            buffer = &quot;&quot;
+            while time.time() - start_time &lt; 5.0:
+                try:
+                    data = s.recv(1024)
+                    if data:
+                        buffer += data.decode('utf-8', errors='ignore')
+                        if f&quot;ACK:{axis}&quot; in buffer:
+                            s.close()
+                            return True
+                except socket.timeout:
+                    break
+            
+            s.close()
+            print(f&quot;[!] Timeout waiting for ACK on {axis}&quot;)
+            return False
+        except Exception as e:
+            print(f&quot;[!] Error communicating with MCU: {e}&quot;)
+            if s:
+                s.close()
+            return False
+    else:
+        print(f&quot;[ERROR] Could not connect to MCU to move {axis} {steps}&quot;)
+        return False
+
+def move_to_pixel(px, py, cx, cy):
+    &quot;&quot;&quot;Moves the drill to an absolute pixel coordinate relative to the camera center&quot;&quot;&quot;
+    global current_x_step, current_y_step
+    
+    target_x_step = int((px - cx) * PIXEL_TO_STEP_RATIO)
+    target_y_step = int((py - cy) * PIXEL_TO_STEP_RATIO)
+    
+    diff_x = target_x_step - current_x_step
+    diff_y = target_y_step - current_y_step
+    
+    if diff_x != 0: move_axis('X', diff_x)
+    if diff_y != 0: move_axis('Y', diff_y)
+    
+    current_x_step = target_x_step
+    current_y_step = target_y_step
+
+def test_drill():
+    global current_x_step, current_y_step
+    
+    print(&quot;[1] Opening Camera 1...&quot;)
+    cap = cv2.VideoCapture(1)
+    if not cap.isOpened():
+        print(&quot;[!] Failed to open Camera 1. Trying Camera 0...&quot;)
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            print(&quot;[!] Failed to open any camera.&quot;)
+            return
+
+    # Warm up camera
+    for _ in range(10):
+        cap.read()
+        
+    ret, frame = cap.read()
+    if not ret:
+        print(&quot;[!] Failed to capture frame.&quot;)
+        cap.release()
+        return
+        
+    height, width, _ = frame.shape
+    cx, cy = width // 2, height // 2
+    print(f&quot;[2] Captured frame ({width}x{height}). Center point: ({cx}, {cy})&quot;)
+    
+    # Save debug image
+    cv2.imwrite(&quot;debug_capture.jpg&quot;, frame)
+    
+    print(&quot;[3] Analyzing for medicine boundaries...&quot;)
+    image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    
+    # Run detector
+    try:
+        coords_list, contours = get_pill_boundary(image_rgb)
+    except Exception as e:
+        print(f&quot;[!] Exception during get_pill_boundary: {e}&quot;)
+        cap.release()
+        return
+    
+    if not contours:
+        print(&quot;[-] No medicine boundaries detected in view.&quot;)
+        cap.release()
+        return
+        
+    print(f&quot;[+] Found {len(contours)} potential medicine boundaries.&quot;)
+    
+    # Just take the largest contour for the test
+    target_contour = max(contours, key=cv2.contourArea)
+    area = cv2.contourArea(target_contour)
+    print(f&quot;[+] Selected largest boundary with area: {area}&quot;)
+    
+    # Draw contour on debug image and save
+    cv2.drawContours(frame, [target_contour], -1, (0, 255, 0), 2)
+    cv2.imwrite(&quot;debug_segmented.jpg&quot;, frame)
+    print(&quot;[+] Saved 'debug_segmented.jpg' for verification.&quot;)
+    
+    print(&quot;\n--- INITIATING CNC SEQUENCE ---\n&quot;)
+    
+    # Step 1: Retract Z by 2 steps to ensure it is clear
+    print(&quot;[CNC] Retracting Z-axis by 2 steps&quot;)
+    move_axis('Z', -2)
+    
+    # Step 2: Move to the starting point of the boundary contour
+    start_pt = target_contour[0][0]
+    print(f&quot;[CNC] Moving to start boundary point: ({start_pt[0]}, {start_pt[1]})&quot;)
+    move_to_pixel(start_pt[0], start_pt[1], cx, cy)
+    
+    # Step 3: Thrust Z-axis down by 2 steps to pierce
+    print(&quot;[CNC] Thrusting Z-axis down by 2 steps (PIERCE)&quot;)
+    time.sleep(0.5)
+    move_axis('Z', 2)
+    time.sleep(0.5)
+    
+    # Step 4: Trace the boundary contour
+    print(f&quot;[CNC] Tracing boundary ({len(target_contour)} points)...&quot;)
+    for idx, pt_arr in enumerate(target_contour[1:]):
+        pt = pt_arr[0]
+        move_to_pixel(pt[0], pt[1], cx, cy)
+        time.sleep(DRAG_DELAY)
+        
+        if idx % 10 == 0:
+            print(f&quot;      Tracing... progress {idx}/{len(target_contour)}&quot;)
+            
+    # Step 5: Retract Z-axis by 2 steps to lift the drill
+    print(&quot;[CNC] Retracting Z-axis by 2 steps (LIFT)&quot;)
+    move_axis('Z', -2)
+    time.sleep(0.5)
+    
+    # Step 6: Return to origin
+    print(&quot;[CNC] Returning to origin...&quot;)
+    move_to_pixel(cx, cy, cx, cy)
+    
+    print(&quot;\n--- CNC SEQUENCE COMPLETE ---\n&quot;)
+    cap.release()
+
+if __name__ == &quot;__main__&quot;:
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;--live&quot;, action=&quot;store_true&quot;, help=&quot;Run live with real motor movements&quot;)
+    args = parser.parse_args()
+    
+    if args.live:
+        DRY_RUN = False
+        print(&quot;!!! RUNNING IN LIVE MODE !!!&quot;)
+    else:
+        DRY_RUN = True
+        print(&quot;--- RUNNING IN DRY-RUN MODE (pass --live to actuate motors) ---&quot;)
+        
+    test_drill()</code></pre></details>
+<details class="codefile"><summary><span class="path">code/UNO/assistant.py</span><span class="count">142 lines</span></summary><pre class="code"><code class="language-python">import gc
+import threading
+import time
+import os
+import numpy as np
+import sounddevice as sd
+from llama_cpp import Llama
+import sherpa_onnx
+from piper import PiperVoice
+import sys
+
+# ==============================================================================
+# CONFIGURATION
+# ==============================================================================
+
+# STT Configuration
+STT_MODEL_DIR = os.path.join(os.path.dirname(__file__), &quot;STT-streaming-zipformer-indian-en&quot;)
+STT_SAMPLE_RATE = 16000
+STT_FEATURE_DIM = 80
+MIC_GAIN = 2.5        # Boosts microphone volume (increase if STT is inaccurate)
+
+# LLM Configuration
+LLM_MODEL_PATH = os.path.join(os.path.dirname(__file__), &quot;qwen2.5-0.5b-instruct-q4_k_m.gguf&quot;)
+LLM_N_CTX = 512       # Strictly 512 to save RAM
+LLM_N_THREADS = 2     # Strictly 2 to save RAM
+LLM_N_BATCH = 128     # Strictly 128 to save RAM
+
+# TTS Configuration
+TTS_MODEL_PATH = os.path.join(os.path.dirname(__file__), &quot;en_US-lessac-low.onnx&quot;)
+TTS_SAMPLE_RATE = 16000
+
+# System Prompt
+SYSTEM_PROMPT = &quot;You are a concise medical assistant. Answer in 1 short sentence.&quot;
+
+# ==============================================================================
+# THREADING &amp; MEMORY MANAGEMENT
+# ==============================================================================
+mic_active = threading.Event()
+mic_active.set()
+
+# ==============================================================================
+# INITIALIZATION FUNCTIONS
+# ==============================================================================
+
+def init_llm():
+    &quot;&quot;&quot;Initializes the llama.cpp model with strict RAM constraints.&quot;&quot;&quot;
+    print(&quot;[INIT] Loading LLM (Qwen2.5-0.5B-Instruct-Q4_K_M)...&quot;)
+    return Llama(
+        model_path=LLM_MODEL_PATH,
+        n_ctx=LLM_N_CTX,
+        n_threads=LLM_N_THREADS,
+        n_batch=LLM_N_BATCH,
+        verbose=False  # Reduce console spam
+    )
+
+def init_stt():
+    &quot;&quot;&quot;Initializes the Sherpa-ONNX streaming recognizer with 1 thread.&quot;&quot;&quot;
+    print(&quot;[INIT] Loading STT (Indian English Streaming Zipformer)...&quot;)
+    return sherpa_onnx.OnlineRecognizer.from_transducer(
+        tokens=f&quot;{STT_MODEL_DIR}/tokens.txt&quot;,
+        encoder=f&quot;{STT_MODEL_DIR}/encoder-epoch-10-avg-5-chunk-64-left-256.int8.onnx&quot;,
+        decoder=f&quot;{STT_MODEL_DIR}/decoder-epoch-10-avg-5-chunk-64-left-256.int8.onnx&quot;,
+        joiner=f&quot;{STT_MODEL_DIR}/joiner-epoch-10-avg-5-chunk-64-left-256.int8.onnx&quot;,
+        num_threads=1,
+        sample_rate=STT_SAMPLE_RATE,
+        feature_dim=STT_FEATURE_DIM,
+        enable_endpoint_detection=True,
+        rule1_min_trailing_silence=2.4,
+        rule2_min_trailing_silence=1.2,
+        rule3_min_utterance_length=300.0,
+    )
+
+def init_tts():
+    &quot;&quot;&quot;Initializes the Piper TTS engine with a low-res ONNX model.&quot;&quot;&quot;
+    print(&quot;[INIT] Loading TTS (Piper en_US-lessac-low)...&quot;)
+    return PiperVoice.load(TTS_MODEL_PATH)
+
+# ==============================================================================
+# PIPELINE FUNCTIONS
+# ==============================================================================
+
+def generate_response(llm, user_text):
+    &quot;&quot;&quot;Generates a text response using the local LLM.&quot;&quot;&quot;
+    prompt = (
+        f&quot;&lt;|im_start|&gt;system\n{SYSTEM_PROMPT}&lt;|im_end|&gt;\n&quot;
+        f&quot;&lt;|im_start|&gt;user\n{user_text}&lt;|im_end|&gt;\n&quot;
+        f&quot;&lt;|im_start|&gt;assistant\n&quot;
+    )
+    
+    response = llm(
+        prompt,
+        max_tokens=64,
+        stop=[&quot;&lt;|im_end|&gt;&quot;],
+        echo=False
+    )
+    return response['choices'][0]['text'].strip()
+
+def speak_text(voice, text):
+    &quot;&quot;&quot;Synthesizes and plays audio using Piper TTS and sounddevice.&quot;&quot;&quot;
+    try:
+        for chunk in voice.synthesize(text):
+            sd.play(chunk.audio_int16_array, samplerate=TTS_SAMPLE_RATE, blocking=True)
+    except Exception as e:
+        print(f&quot;[AUDIO ERROR] Failed to play audio: {e}&quot;)
+
+# ==============================================================================
+# MAIN EVENT LOOP
+# ==============================================================================
+
+def listen_and_transcribe(recognizer, mic_active):
+    &quot;&quot;&quot;Listens to the microphone and returns transcribed text when an endpoint is reached.&quot;&quot;&quot;
+    stream = recognizer.create_stream()
+    
+    device_info = sd.query_devices(sd.default.device[0], 'input')
+    mic_sample_rate = int(device_info['default_samplerate'])
+    
+    result_text = None
+    
+    def audio_callback(indata, frames, time_info, status):
+        if mic_active.is_set():
+            chunk = indata[:, 0].copy()
+            chunk = chunk - np.mean(chunk) # Remove hardware DC offset
+            samples = chunk * MIC_GAIN
+            samples = np.clip(samples, -1.0, 1.0)
+            stream.accept_waveform(mic_sample_rate, samples)
+            
+    with sd.InputStream(channels=1, dtype=&quot;float32&quot;, samplerate=mic_sample_rate, callback=audio_callback):
+        while True:
+            if mic_active.is_set():
+                while recognizer.is_ready(stream):
+                    recognizer.decode_stream(stream)
+                
+                is_endpoint = recognizer.is_endpoint(stream)
+                text = recognizer.get_result(stream)
+                
+                if text and is_endpoint:
+                    result_text = text
+                    recognizer.reset(stream)
+                    break
+            time.sleep(0.05)
+            
+    return result_text</code></pre></details>
+<details class="codefile"><summary><span class="path">code/master_controller.py</span><span class="count">499 lines</span></summary><pre class="code"><code class="language-python">import os
+import time
+import cv2
+import threading
+import sys
+import json
+import sqlite3
+import numpy as np
+import socket
+import struct
+import traceback
+try:
+    import pytesseract
+except ImportError:
+    print(&quot;Warning: pytesseract not installed.&quot;)
+
+# Import components
+sys.path.append(os.path.join(os.path.dirname(__file__), 'UNO'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'facerecog-unoq'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'blister_detector'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'stepper_motor_controller'))
+
+from assistant import init_llm, init_stt, init_tts, generate_response, speak_text, listen_and_transcribe, mic_active
+from database import init_db, add_caretaker, add_patient, add_inventory, get_inventory, decrement_inventory, get_patient_by_name, update_patient
+
+try:
+    from detector import get_pill_boundary
+except:
+    def get_pill_boundary(image): return [], []
+
+try:
+    import week2.facerecog_unoq.database as face_db
+except:
+    pass
+
+FACES_DIR = 'faces'
+if not os.path.exists(FACES_DIR):
+    os.makedirs(FACES_DIR)
+
+class BlisterBotMaster:
+    def __init__(self):
+        self.state = 0
+        self.llm = None
+        self.stt = None
+        self.tts = None
+        self.medical_db = []
+        self.current_patient = &quot;Unknown&quot;
+        
+        # LBPH Face Recognizer
+        self.face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
+        self.id_to_name = {}
+        
+        # Cameras (Init lazily)
+        self.cap = None
+        
+        # Streaming Server
+        self.stream_conn = None
+        self.frame_to_stream = None
+        self.lock = threading.Lock()
+        
+        threading.Thread(target=self.video_stream_server, daemon=True).start()
+
+    def video_stream_server(self):
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server.bind(('0.0.0.0', 9999))
+        server.listen(1)
+        print(&quot;[STREAM] Video server listening on port 9999...&quot;)
+        
+        while True:
+            conn, addr = server.accept()
+            print(f&quot;[STREAM] Laptop connected from {addr}&quot;)
+            self.stream_conn = conn
+            try:
+                while True:
+                    frame = None
+                    with self.lock:
+                        if self.frame_to_stream is not None:
+                            frame = self.frame_to_stream.copy()
+                            self.frame_to_stream = None
+                    
+                    if frame is not None:
+                        result, encoded = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+                        if result:
+                            data = encoded.tobytes()
+                            size = struct.pack('&lt;L', len(data))
+                            self.stream_conn.sendall(size + data)
+                    time.sleep(0.05)
+            except Exception as e:
+                print(f&quot;[STREAM] Connection dropped: {e}&quot;)
+                self.stream_conn = None
+    
+    def update_stream(self, frame):
+        with self.lock:
+            self.frame_to_stream = frame
+
+    def capture_face(self, name):
+        &quot;&quot;&quot;Capture 10 frames of a person's face to train LBPH&quot;&quot;&quot;
+        if self.cap is None:
+            self.cap = cv2.VideoCapture(0)
+            
+        print(f&quot;📸 Registering {name}. Please move your head around slowly...&quot;)
+        speak_text(self.tts, f&quot;Please look at the camera, {name}. Moving your head slightly.&quot;)
+        
+        capture_count = 0
+        while capture_count &lt; 10:
+            ret, frame = self.cap.read()
+            if not ret: continue
+            
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray, 1.2, 5, minSize=(50, 50))
+            
+            for (x, y, w, h) in faces:
+                c_face_roi = gray[y:y+h, x:x+w]
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 0), 2)
+                cv2.putText(frame, f&quot;Capturing: {capture_count+1}/10&quot;, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 0), 2)
+                
+                final_path = os.path.join(FACES_DIR, f&quot;{name}_{int(time.time()*1000)}.jpg&quot;)
+                cv2.imwrite(final_path, c_face_roi)
+                try:
+                    face_db.add_user(name, final_path)
+                except:
+                    pass
+                capture_count += 1
+                break
+                
+            self.update_stream(frame)
+            time.sleep(0.5)
+            
+        speak_text(self.tts, &quot;Facial registration complete.&quot;)
+        self.load_known_faces()
+
+    def load_known_faces(self):
+        try:
+            users = face_db.get_all_users()
+            faces, ids = [], []
+            for user in users:
+                db_id, name, face_path = user[0], user[1], user[2]
+                if os.path.exists(face_path):
+                    img = cv2.imread(face_path, cv2.IMREAD_GRAYSCALE)
+                    if img is not None:
+                        faces.append(img)
+                        ids.append(db_id)
+                        self.id_to_name[db_id] = name
+            if len(faces) &gt; 0:
+                self.recognizer.train(faces, np.array(ids))
+        except:
+            pass
+
+    def perform_ocr(self):
+        &quot;&quot;&quot;Scans the blister pack and reads text using OCR&quot;&quot;&quot;
+        if self.cap is None:
+            self.cap = cv2.VideoCapture(0)
+            
+        ret, frame = self.cap.read()
+        if not ret: return &quot;&quot;
+        
+        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        coords_list, contours = get_pill_boundary(image_rgb)
+        
+        found_text = &quot;&quot;
+        # Draw bounding boxes and run OCR
+        for contour in contours:
+            x, y, w, h = cv2.boundingRect(contour)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            
+            roi = frame[y:y+h, x:x+w]
+            try:
+                text = pytesseract.image_to_string(roi).strip()
+                if text:
+                    found_text += text + &quot; &quot;
+                    cv2.putText(frame, text, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+            except:
+                pass
+                
+        self.update_stream(frame)
+        return found_text
+
+    def boot_sequence(self):
+        print(&quot;[STATE 0] Boot Sequence Initiated...&quot;)
+        self.stt = init_stt()
+        self.tts = init_tts()
+        self.llm = init_llm()
+        self.load_known_faces()
+        
+        speak_text(self.tts, &quot;Hi, I'm awake.&quot;)
+        
+        while True:
+            text = listen_and_transcribe(self.stt, mic_active)
+            if text:
+                if &quot;setup&quot; in text.lower() or &quot;set up&quot; in text.lower():
+                    self.state = 1
+                    return
+                
+                prompt = (
+                    f&quot;Does the following text contain a command or intent to enter 'setup mode' or 'bot setup'? &quot;
+                    f&quot;Answer ONLY 'YES' or 'NO'. Text: '{text}'&quot;
+                )
+                if &quot;YES&quot; in generate_response(self.llm, prompt).strip().upper():
+                    self.state = 1
+                    return
+
+    def setup_mode_profiles(self):
+        print(&quot;[STATE 1] Setup Mode: User Profiles&quot;)
+        speak_text(self.tts, &quot;Entering voice and visual setup.&quot;)
+            
+        while True:
+            speak_text(self.tts, &quot;Please provide caretaker details. What is your name and work shift?&quot;)
+            response = listen_and_transcribe(self.stt, mic_active)
+            if response:
+                prompt = f&quot;Extract 'name', 'work_shift', and 'is_patient' (boolean) from this text into valid JSON: {response}&quot;
+                json_str = generate_response(self.llm, prompt)
+                try:
+                    data = json.loads(json_str.replace(&quot;```json&quot;, &quot;&quot;).replace(&quot;```&quot;, &quot;&quot;).strip())
+                    data = {k.lower(): v for k, v in data.items()}
+                    
+                    name = data.get('name', 'Unknown')
+                    shift = data.get('work_shift', 'Full Day')
+                    
+                    # Strict Confirmation
+                    speak_text(self.tts, f&quot;I heard {name} and {shift}. Is this correct? Say yes or no.&quot;)
+                    confirm = listen_and_transcribe(self.stt, mic_active)
+                    if confirm and &quot;yes&quot; in confirm.lower():
+                        # Strict Facial Capture
+                        self.capture_face(name)
+                        add_caretaker(name, shift, data.get('is_patient', False), f&quot;{name}.jpg&quot;)
+                        speak_text(self.tts, f&quot;Caretaker {name} added.&quot;)
+                    else:
+                        speak_text(self.tts, &quot;Let's try again.&quot;)
+                        continue
+                except:
+                    print(&quot;Failed to parse LLM JSON&quot;)
+            
+            speak_text(self.tts, &quot;Are there more caretakers? Say yes or no.&quot;)
+            more = listen_and_transcribe(self.stt, mic_active)
+            if more and &quot;no&quot; in more.lower(): break
+                
+        self.state = 2
+
+    def setup_mode_inventory(self):
+        print(&quot;[STATE 2] Setup Mode: Medication Inventory&quot;)
+        speak_text(self.tts, &quot;Please load blister packs into the wheel. Say confirm when ready.&quot;)
+        
+        while True:
+            text = listen_and_transcribe(self.stt, mic_active)
+            if text and &quot;confirm&quot; in text.lower():
+                break
+        
+        speak_text(self.tts, &quot;Scanning medication...&quot;)
+        med_text = self.perform_ocr()
+        print(f&quot;[OCR Scanned] {med_text}&quot;)
+        
+        speak_text(self.tts, &quot;Inventory setup complete. Transitioning to normal mode.&quot;)
+        if self.cap:
+            self.cap.release()
+            self.cap = None
+        self.state = 3
+
+    def get_mcu_socket(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect(('127.0.0.1', 7500))
+            s.settimeout(5.0)
+            return s
+        except:
+            return None
+
+    def move_axis(self, axis, steps):
+        if steps == 0: return True
+        s = self.get_mcu_socket()
+        if s:
+            try:
+                command = f&quot;{axis} {steps}\n&quot;
+                s.sendall(command.encode('utf-8'))
+                start_time = time.time()
+                buffer = &quot;&quot;
+                while time.time() - start_time &lt; 5.0:
+                    try:
+                        data = s.recv(1024)
+                        if data:
+                            buffer += data.decode('utf-8', errors='ignore')
+                            if f&quot;ACK:{axis}&quot; in buffer:
+                                s.close()
+                                return True
+                    except socket.timeout:
+                        break
+                s.close()
+                return False
+            except:
+                if s: s.close()
+                return False
+        return False
+
+    def move_to_pixel(self, px, py, cx, cy):
+        target_x_step = int((px - cx) * 1.0)
+        target_y_step = int((py - cy) * 1.0)
+        
+        diff_x = target_x_step - getattr(self, 'current_x_step', 0)
+        diff_y = target_y_step - getattr(self, 'current_y_step', 0)
+        
+        if diff_x != 0: self.move_axis('X', diff_x)
+        if diff_y != 0: self.move_axis('Y', diff_y)
+        
+        self.current_x_step = target_x_step
+        self.current_y_step = target_y_step
+
+    def execute_drill(self, medicine_name):
+        speak_text(self.tts, f&quot;Locating {medicine_name} for drilling.&quot;)
+        if self.cap is None:
+            self.cap = cv2.VideoCapture(1)
+            if not self.cap.isOpened():
+                self.cap = cv2.VideoCapture(0)
+        
+        for _ in range(10): self.cap.read()
+        ret, frame = self.cap.read()
+        if not ret:
+            speak_text(self.tts, &quot;Camera error.&quot;)
+            return
+            
+        height, width, _ = frame.shape
+        cx, cy = width // 2, height // 2
+        
+        self.update_stream(frame)
+        
+        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        coords_list, contours = get_pill_boundary(image_rgb)
+        
+        if not contours:
+            speak_text(self.tts, &quot;No medicine boundaries detected.&quot;)
+            return
+            
+        target_contour = max(contours, key=cv2.contourArea)
+        cv2.drawContours(frame, [target_contour], -1, (0, 255, 0), 2)
+        self.update_stream(frame)
+        
+        speak_text(self.tts, &quot;Medicine found. Initiating extraction sequence.&quot;)
+        
+        self.current_x_step = 0
+        self.current_y_step = 0
+        
+        self.move_axis('Z', -2)
+        start_pt = target_contour[0][0]
+        self.move_to_pixel(start_pt[0], start_pt[1], cx, cy)
+        
+        time.sleep(0.5)
+        self.move_axis('Z', 2)
+        time.sleep(0.5)
+        
+        for idx, pt_arr in enumerate(target_contour[1:]):
+            pt = pt_arr[0]
+            self.move_to_pixel(pt[0], pt[1], cx, cy)
+            time.sleep(0.05)
+            
+        self.move_axis('Z', -2)
+        time.sleep(0.5)
+        self.move_to_pixel(cx, cy, cx, cy)
+        speak_text(self.tts, f&quot;{medicine_name} has been extracted.&quot;)
+        self.log_medication_event(getattr(self, 'current_patient', 'Unknown'), medicine_name, &quot;TAKEN&quot;)
+
+    def log_pain_report(self, patient_name, text, patient_info):
+        import datetime
+        dt_str = datetime.datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+        filename = os.path.join(os.path.dirname(__file__), &quot;painrec&quot;, f&quot;{patient_name}.md&quot;)
+        with open(filename, &quot;a&quot;) as f:
+            f.write(f&quot;## Pain Report: {dt_str}\n&quot;)
+            f.write(f&quot;- **Patient Details**: {patient_info}\n&quot;)
+            f.write(f&quot;- **Report**: {text}\n\n&quot;)
+
+    def log_medication_event(self, patient_name, med_name, status):
+        import datetime
+        dt_str = datetime.datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+        filename = os.path.join(os.path.dirname(__file__), &quot;painrec&quot;, f&quot;{patient_name}.md&quot;)
+        with open(filename, &quot;a&quot;) as f:
+            f.write(f&quot;## Medication Event: {dt_str}\n&quot;)
+            f.write(f&quot;- **Medicine**: {med_name}\n&quot;)
+            f.write(f&quot;- **Status**: {status}\n\n&quot;)
+
+    def normal_operating_mode(self):
+        print(&quot;[STATE 3] Normal Operating Mode&quot;)
+        
+        while True:
+            text = listen_and_transcribe(self.stt, mic_active)
+            if not text: continue
+            
+            clean_text = text.lower()
+            
+            # WAKE WORD LOGIC (Fuzzy matching for different pronunciations)
+            wake_words = [&quot;bot&quot;, &quot;bought&quot;, &quot;boat&quot;, &quot;but&quot;, &quot;pot&quot;, &quot;robot&quot;, &quot;blister&quot;, &quot;blisterbot&quot;, &quot;what&quot;, &quot;dot&quot;]
+            if any(w in clean_text for w in wake_words):
+                speak_text(self.tts, &quot;I am listening.&quot;)
+                cmd_text = listen_and_transcribe(self.stt, mic_active)
+                if not cmd_text:
+                    continue
+                clean_cmd = cmd_text.lower()
+                
+                # Use LLM to classify the intent to handle all mispronunciations and phrasings!
+                intent_prompt = f&quot;&quot;&quot;Classify the user's command into one of these exact categories:
+1. ADD_PATIENT
+2. DRILL_MEDICINE
+3. PATIENT_DETAILS
+4. UPDATE_PATIENT
+5. DOSAGE_QUERY (e.g. &quot;dose for panadol&quot;)
+6. SCHEDULE_QUERY (e.g. &quot;when should I take&quot;)
+7. MEDICINE_QUERY (e.g. &quot;what is ibuprofen for&quot;)
+8. PAIN_REPORT (e.g. &quot;I have a headache&quot;, &quot;I feel sick&quot;)
+9. CONVERSATION (e.g. &quot;hello&quot;, &quot;how are you&quot;)
+10. Q_AND_A (fallback)
+
+Command: '{cmd_text}'
+Output ONLY the category name.&quot;&quot;&quot;
+                intent = generate_response(self.llm, intent_prompt).strip().upper()
+                print(f&quot;[INTENT CLASSIFIED] {intent} from: {cmd_text}&quot;)
+                
+                if &quot;ADD_PATIENT&quot; in intent:
+                    speak_text(self.tts, &quot;Let's add a new patient. What is their name, age, and schedule?&quot;)
+                    details = listen_and_transcribe(self.stt, mic_active)
+                    if details:
+                        prompt = f&quot;Extract 'name', 'age', 'health_issues', and 'med_schedule' from this text into valid JSON: {details}&quot;
+                        try:
+                            json_str = generate_response(self.llm, prompt)
+                            data = json.loads(json_str.replace(&quot;```json&quot;, &quot;&quot;).replace(&quot;```&quot;, &quot;&quot;).strip())
+                            name = data.get('name', 'Unknown')
+                            speak_text(self.tts, f&quot;Capturing face for {name}. Please look at the camera.&quot;)
+                            self.capture_face(name)
+                            add_patient(name, data.get('age', 0), &quot;Unknown&quot;, data.get('health_issues', ''), data.get('med_schedule', ''), 1, f&quot;{name}.jpg&quot;)
+                            speak_text(self.tts, f&quot;Patient {name} has been added.&quot;)
+                        except:
+                            speak_text(self.tts, &quot;Sorry, I could not process the patient details.&quot;)
+                elif &quot;DRILL_MEDICINE&quot; in intent:
+                    prompt = f&quot;Extract just the name of the medicine the user needs from this text: '{cmd_text}'. Output ONLY the medicine name.&quot;
+                    med_name = generate_response(self.llm, prompt).strip()
+                    self.execute_drill(med_name)
+                elif &quot;PATIENT_DETAILS&quot; in intent:
+                    prompt = f&quot;Extract just the name of the patient from this text: '{cmd_text}'. Output ONLY the name.&quot;
+                    name = generate_response(self.llm, prompt).strip()
+                    patient = get_patient_by_name(name)
+                    if patient:
+                        prompt2 = f&quot;Generate a brief, spoken summary of this patient's details: {json.dumps(patient)}.&quot;
+                        speak_text(self.tts, generate_response(self.llm, prompt2).strip())
+                    else:
+                        speak_text(self.tts, f&quot;Sorry, I could not find {name}.&quot;)
+                elif &quot;UPDATE_PATIENT&quot; in intent:
+                    prompt = f&quot;Extract just the name of the patient from this text: '{cmd_text}'. Output ONLY the name.&quot;
+                    name = generate_response(self.llm, prompt).strip()
+                    patient = get_patient_by_name(name)
+                    if patient:
+                        speak_text(self.tts, f&quot;What details would you like to update for {name}?&quot;)
+                        update_voice = listen_and_transcribe(self.stt, mic_active)
+                        if update_voice:
+                            prompt2 = (f&quot;Update patient data.\nData: {json.dumps(patient)}\nSpeech: '{update_voice}'\n&quot;
+                                       f&quot;Output ONLY a JSON dictionary of changed fields.&quot;)
+                            try:
+                                updates = json.loads(generate_response(self.llm, prompt2))
+                                if update_patient(name, updates):
+                                    speak_text(self.tts, f&quot;{name}'s details updated.&quot;)
+                            except:
+                                speak_text(self.tts, &quot;Sorry, I couldn't understand.&quot;)
+                    else:
+                        speak_text(self.tts, f&quot;Sorry, I could not find {name}.&quot;)
+                elif any(q in intent for q in [&quot;DOSAGE&quot;, &quot;SCHEDULE&quot;, &quot;MEDICINE_QUERY&quot;]):
+                    patient_name = getattr(self, 'current_patient', 'Unknown')
+                    patient_info = get_patient_by_name(patient_name)
+                    inv = get_inventory()
+                    prompt = f&quot;Answer this concisely. Question: '{cmd_text}'. Context: Current patient info: {patient_info}. Inventory/Dosages: {inv}&quot;
+                    answer = generate_response(self.llm, prompt)
+                    speak_text(self.tts, answer)
+                elif &quot;PAIN_REPORT&quot; in intent:
+                    patient_name = getattr(self, 'current_patient', 'Unknown')
+                    patient_info = get_patient_by_name(patient_name)
+                    prompt = f&quot;The user is reporting pain or discomfort: '{cmd_text}'. As a medical assistant, give a short, friendly, and encouraging response.&quot;
+                    answer = generate_response(self.llm, prompt)
+                    speak_text(self.tts, answer)
+                    self.log_pain_report(patient_name, cmd_text, patient_info)
+                elif &quot;CONVERSATION&quot; in intent:
+                    prompt = f&quot;Answer this conversational input in a friendly and encouraging way: '{cmd_text}'.&quot;
+                    answer = generate_response(self.llm, prompt)
+                    speak_text(self.tts, answer)
+                else:
+                    # General Q&amp;A Fallback
+                    inv = get_inventory()
+                    prompt = f&quot;Answer this question concisely as a medical assistant. Question: '{cmd_text}'. Context: We have these medicines in inventory: {inv}&quot;
+                    answer = generate_response(self.llm, prompt)
+                    speak_text(self.tts, answer)
+
+    def run(self):
+        try:
+            while True:
+                if self.state == 0: self.boot_sequence()
+                elif self.state == 1: self.setup_mode_profiles()
+                elif self.state == 2: self.setup_mode_inventory()
+                elif self.state == 3: self.normal_operating_mode()
+        except KeyboardInterrupt:
+            if self.cap: self.cap.release()
+            print(&quot;Shutting down Master Controller.&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    bot = BlisterBotMaster()
+    bot.run()</code></pre></details>
+  </article>
+</div>
+</body>
+</html>

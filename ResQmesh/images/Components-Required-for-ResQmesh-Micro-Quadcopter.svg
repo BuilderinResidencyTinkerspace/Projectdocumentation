@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!-- Components grid: ResQmesh micro quadcopter. Black line drawings on white, 5 x 2 grid, bold label under each. -->
+  <defs>
+    <style>
+      .bg  { fill: #ffffff; }
+      .o   { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .t   { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f   { fill: #000000; }
+      .lbl { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 0.4px; }
+      .in  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+             fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- 1. XIAO ESP32-S3 (centre x 75) -->
+  <rect class="o" x="40" y="66" width="70" height="86" rx="6"/>
+  <rect class="o" x="62" y="56" width="26" height="14" rx="3"/>
+  <rect class="o" x="52" y="84" width="46" height="40" rx="2"/>
+  <text class="in" x="75" y="98">ESP32</text>
+  <text class="in" x="75" y="112">S3</text>
+  <circle class="t" cx="46" cy="76" r="2.5"/><circle class="t" cx="46" cy="92" r="2.5"/><circle class="t" cx="46" cy="108" r="2.5"/><circle class="t" cx="46" cy="124" r="2.5"/><circle class="t" cx="46" cy="140" r="2.5"/>
+  <circle class="t" cx="104" cy="76" r="2.5"/><circle class="t" cx="104" cy="92" r="2.5"/><circle class="t" cx="104" cy="108" r="2.5"/><circle class="t" cx="104" cy="124" r="2.5"/><circle class="t" cx="104" cy="140" r="2.5"/>
+  <text class="lbl" x="75" y="205">XIAO ESP32-S3</text>
+
+  <!-- 2. GY-9250 IMU (centre x 225) -->
+  <rect class="o" x="180" y="70" width="90" height="70" rx="4"/>
+  <rect class="o" x="212" y="92" width="26" height="26" rx="2"/>
+  <circle class="f" cx="216" cy="96" r="1.8"/>
+  <path class="t" d="M188,78 L262,78" stroke-dasharray="2 5"/>
+  <text class="in" x="225" y="131">GY-9250</text>
+  <circle class="t" cx="190" cy="132" r="3"/><circle class="t" cx="260" cy="132" r="3"/>
+  <text class="lbl" x="225" y="205">GY-9250 IMU</text>
+
+  <!-- 3. 720 coreless motor (centre x 375) -->
+  <rect class="o" x="358" y="72" width="34" height="72" rx="6"/>
+  <path class="t" d="M358,86 L392,86 M358,130 L392,130"/>
+  <path class="o" d="M375,72 L375,54"/>
+  <path class="t" d="M366,144 L362,160 M384,144 L388,160"/>
+  <text class="lbl" x="375" y="205">720 MOTOR ×4</text>
+
+  <!-- 4. 55 mm propeller (centre x 525) -->
+  <path class="o" d="M525,108 C500,92 470,92 462,104 C470,118 500,118 525,108 Z"/>
+  <path class="o" d="M525,108 C550,124 580,124 588,112 C580,98 550,98 525,108 Z"/>
+  <circle class="o" cx="525" cy="108" r="8"/><circle class="f" cx="525" cy="108" r="2.5"/>
+  <text class="lbl" x="525" y="205">55 mm PROP ×4</text>
+
+  <!-- 5. AO3400A SOT-23 (centre x 675) -->
+  <rect class="o" x="650" y="88" width="50" height="34" rx="3"/>
+  <path class="o" d="M662,122 L662,140 M688,122 L688,140 M675,88 L675,70"/>
+  <text class="in" x="675" y="106">A0</text>
+  <text class="lbl" x="675" y="205">AO3400A ×4</text>
+
+  <!-- 6. 1N5819 diode (centre x 75) -->
+  <path class="o" d="M20,345 L48,345 M102,345 L130,345"/>
+  <rect class="o" x="48" y="330" width="54" height="30" rx="6"/>
+  <rect class="f" x="88" y="330" width="7" height="30"/>
+  <text class="lbl" x="75" y="425">1N5819 ×4</text>
+
+  <!-- 7. 470 uF capacitor (centre x 225) -->
+  <rect class="o" x="200" y="300" width="50" height="70" rx="10"/>
+  <path class="t" d="M200,312 L250,312"/>
+  <path class="t" d="M244,320 L244,362" stroke-dasharray="3 4"/>
+  <path class="o" d="M215,370 L215,392 M235,370 L235,388"/>
+  <text class="in" x="221" y="340">470µF</text>
+  <text class="lbl" x="225" y="425">470µF CAPACITOR</text>
+
+  <!-- 8. 1S LiPo (centre x 375) -->
+  <rect class="o" x="330" y="314" width="90" height="50" rx="5"/>
+  <text class="in" x="375" y="333">1S 3.7V</text>
+  <text class="in" x="375" y="350">380mAh</text>
+  <path class="t" d="M420,328 L440,328 M420,350 L440,350"/>
+  <rect class="o" x="440" y="322" width="12" height="34" rx="2"/>
+  <text class="lbl" x="375" y="425">1S LIPO</text>
+
+  <!-- 9. Perfboard (centre x 525) -->
+  <rect class="o" x="485" y="300" width="80" height="80" rx="4"/>
+  <g class="t">
+    <circle cx="500" cy="315" r="3"/><circle cx="516" cy="315" r="3"/><circle cx="532" cy="315" r="3"/><circle cx="548" cy="315" r="3"/>
+    <circle cx="500" cy="332" r="3"/><circle cx="516" cy="332" r="3"/><circle cx="532" cy="332" r="3"/><circle cx="548" cy="332" r="3"/>
+    <circle cx="500" cy="349" r="3"/><circle cx="516" cy="349" r="3"/><circle cx="532" cy="349" r="3"/><circle cx="548" cy="349" r="3"/>
+    <circle cx="500" cy="366" r="3"/><circle cx="516" cy="366" r="3"/><circle cx="532" cy="366" r="3"/><circle cx="548" cy="366" r="3"/>
+  </g>
+  <text class="lbl" x="525" y="425">PERFBOARD</text>
+
+  <!-- 10. 3D-printed X frame (centre x 675) -->
+  <path d="M675,340 L637,302 M675,340 L713,302 M675,340 L637,378 M675,340 L713,378" style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:round"/>
+  <path d="M675,340 L637,302 M675,340 L713,302 M675,340 L637,378 M675,340 L713,378" style="fill:none;stroke:#ffffff;stroke-width:5.5;stroke-linecap:round"/>
+  <circle class="o" cx="637" cy="302" r="9"/><circle class="o" cx="713" cy="302" r="9"/>
+  <circle class="o" cx="637" cy="378" r="9"/><circle class="o" cx="713" cy="378" r="9"/>
+  <rect class="o" x="660" y="325" width="30" height="30" rx="4"/>
+  <text class="lbl" x="675" y="425">3D-PRINTED</text>
+  <text class="lbl" x="675" y="443">FRAME</text>
+</svg>

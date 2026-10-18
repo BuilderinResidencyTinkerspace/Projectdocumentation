@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="1000" viewBox="0 0 750 1000">
+  <!--
+    Program workflow: Blister Bot master_controller.py (digestdocs, CircuitDigest style)
+    Boot -> wait for "setup" -> caretaker profiles loop -> load packs and OCR scan ->
+    endless voice loop: wake word -> intent -> drill routine or spoken answer -> back to listening.
+    Drawn from the code: there is no face check before drilling and no wheel rotation yet.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+      .it     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-style: italic;
+                font-size: 13.5px; fill: #000000; text-anchor: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="1000"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <!-- Boot -->
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Boot</text>
+  <text class="t" x="375" y="130">load speech, voice, Qwen and faces,</text>
+  <text class="t" x="375" y="147">then say "Hi, I'm awake."</text>
+
+  <!-- D1: setup -->
+  <polygon class="dec" points="375,190 467,244 375,298 283,244"/>
+  <text class="t tb" x="375" y="234">Heard</text>
+  <text class="t tb" x="375" y="255">"Setup" ?</text>
+
+  <!-- Caretakers -->
+  <rect class="proc" x="215" y="322" width="320" height="66"/>
+  <text class="t tb" x="375" y="340">Setup: Caretakers</text>
+  <text class="t" x="375" y="360">name and shift by voice, confirm,</text>
+  <text class="t" x="375" y="377">capture 10 face images</text>
+
+  <!-- D2: more caretakers -->
+  <polygon class="dec" points="375,412 467,466 375,520 283,466"/>
+  <text class="t tb" x="375" y="456">More</text>
+  <text class="t tb" x="375" y="477">Caretakers ?</text>
+
+  <!-- Medicines -->
+  <rect class="proc" x="215" y="544" width="320" height="56"/>
+  <text class="t tb" x="375" y="562">Setup: Medicines</text>
+  <text class="t" x="375" y="583">load packs, say "confirm", OCR scan</text>
+
+  <!-- Listen (loop target) -->
+  <rect class="proc" x="215" y="624" width="320" height="66"/>
+  <text class="t tb" x="375" y="642">Listen for the Wake Word</text>
+  <text class="t" x="375" y="662">"bot" and near misses like "boat",</text>
+  <text class="t" x="375" y="679">then say "I am listening."</text>
+
+  <!-- Classify -->
+  <rect class="proc" x="215" y="712" width="320" height="56"/>
+  <text class="t tb" x="375" y="730">Classify the Command</text>
+  <text class="t" x="375" y="751">Qwen picks one of 10 intents</text>
+
+  <!-- D3: drill -->
+  <polygon class="dec" points="375,792 467,846 375,900 283,846"/>
+  <text class="t tb" x="375" y="836">Drill</text>
+  <text class="t tb" x="375" y="857">Medicine ?</text>
+
+  <!-- Drill routine -->
+  <rect class="out" x="505" y="814" width="230" height="64"/>
+  <text class="t tb" x="620" y="835">Drill Routine</text>
+  <text class="t" x="620" y="857">SAM 2 boundary, Z in, trace, Z out</text>
+  <text class="it" x="620" y="900">No face check before drilling</text>
+  <text class="it" x="620" y="918">in the current code</text>
+
+  <!-- Spoken answer -->
+  <rect class="out" x="250" y="926" width="250" height="56"/>
+  <text class="t tb" x="375" y="944">Spoken Answer</text>
+  <text class="t" x="375" y="965">patients, doses, pain log, chat</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,186" marker-end="url(#head)"/>
+  <path class="wire" d="M375,298 L375,318" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="312">Yes</text>
+  <path class="wire" d="M375,388 L375,408" marker-end="url(#head)"/>
+  <path class="wire" d="M375,520 L375,540" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="534">No</text>
+  <path class="wire" d="M375,600 L375,620" marker-end="url(#head)"/>
+  <path class="wire" d="M375,690 L375,708" marker-end="url(#head)"/>
+  <path class="wire" d="M375,768 L375,788" marker-end="url(#head)"/>
+  <path class="wire" d="M375,900 L375,922" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="916">No</text>
+
+  <!-- Setup wait loop -->
+  <path class="wire" d="M283,244 L150,244 L150,172 L370,172" marker-end="url(#head)"/>
+  <text class="yn" x="250" y="232">No</text>
+
+  <!-- More caretakers loop -->
+  <path class="wire" d="M283,466 L150,466 L150,355 L211,355" marker-end="url(#head)"/>
+  <text class="yn" x="248" y="454">Yes</text>
+
+  <!-- Drill branch -->
+  <path class="wire" d="M467,846 L501,846" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="834">Yes</text>
+
+  <!-- Back to listening -->
+  <path class="wire" d="M620,814 L620,657 L539,657" marker-end="url(#head)"/>
+  <path class="wire" d="M250,954 L150,954 L150,657 L211,657" marker-end="url(#head)"/>
+</svg>

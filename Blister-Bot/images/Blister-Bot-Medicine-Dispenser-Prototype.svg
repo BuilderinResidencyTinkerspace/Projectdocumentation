@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: Blister Bot medicine dispenser prototype. Black on white.
+    Left: title. Right: a blister pack seen from the front, one pill outlined with a dashed
+    boundary (the SAM 2 contour) and a crosshair, the drill tip coming in from behind, X/Y arrows.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 7 5; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 52px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 30px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .wp   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; }
+    </style>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">BLISTER BOT</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="188">MEDICINE DISPENSER</text>
+  <text class="h2" x="36" y="226">PROTOTYPE</text>
+  <text class="sub" x="38" y="274">Arduino UNO Q  ·  3 x 28BYJ-48</text>
+  <text class="sub" x="38" y="296">SAM 2 pill boundaries  ·  offline voice</text>
+  <text class="tag" x="38" y="462">EDGE AI ON THE BOARD  ·  NO CLOUD</text>
+
+  <g transform="translate(30,0)">
+  <!-- Blister pack (front view) -->
+  <rect class="o" x="440" y="40" width="170" height="290" rx="14"/>
+  <g>
+    <circle class="o" cx="480" cy="85" r="19"/><circle class="o" cx="525" cy="85" r="19"/><circle class="o" cx="570" cy="85" r="19"/>
+    <circle class="o" cx="480" cy="140" r="19"/><circle class="o" cx="525" cy="140" r="19"/><circle class="o" cx="570" cy="140" r="19"/>
+    <circle class="o" cx="480" cy="195" r="19"/><circle class="o" cx="570" cy="195" r="19"/>
+    <circle class="o" cx="480" cy="250" r="19"/><circle class="o" cx="525" cy="250" r="19"/><circle class="o" cx="570" cy="250" r="19"/>
+    <circle class="o" cx="480" cy="300" r="16" stroke-dasharray="4 4"/>
+    <circle class="o" cx="525" cy="300" r="16"/><circle class="o" cx="570" cy="300" r="16"/>
+  </g>
+  <!-- Target pill with dashed boundary and crosshair -->
+  <circle class="o" cx="525" cy="195" r="19"/>
+  <circle class="loop" cx="525" cy="195" r="27"/>
+  <path class="t" d="M507,195 L543,195 M525,177 L525,213"/>
+  <text class="wp" x="622" y="190">SAM 2</text>
+  <text class="wp" x="622" y="206">BOUNDARY</text>
+  <path class="t" d="M618,198 L556,198" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- Side view inset: camera in front, pack, drill behind -->
+  <path class="t" d="M430,352 L730,352" stroke-dasharray="3 5"/>
+  <text class="wp" x="430" y="372">SIDE VIEW</text>
+  <rect class="o" x="455" y="405" width="40" height="30" rx="4"/>
+  <circle class="t" cx="495" cy="420" r="6"/>
+  <path class="t" d="M503,420 L560,420" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  <text class="wp" x="440" y="460">CAMERA 2 (FRONT)</text>
+  <rect class="f" x="578" y="385" width="4" height="70"/>
+  <path class="o" d="M578,395 Q560,402 578,410 Z"/>
+  <path class="o" d="M578,412 Q560,420 578,428 Z"/>
+  <path class="o" d="M578,429 Q560,437 578,445 Z"/>
+  <path class="o" d="M690,412 L718,412 L718,428 L690,428 Z"/>
+  <path class="o" d="M690,416 L640,420 L690,424 Z"/>
+  <text class="wp" x="640" y="460">DRILL (REAR)</text>
+</svg>

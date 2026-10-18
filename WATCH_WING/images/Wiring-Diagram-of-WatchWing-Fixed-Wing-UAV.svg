@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="600" viewBox="0 0 750 600">
+  <!--
+    Wiring diagram: WatchWing fixed-wing patrol UAV. Black on white.
+    Inputs on top (FS-i6 -> FS-iA10B PPM, M10 GPS + compass, laptop USB) into the Pixhawk 2.4.8.
+    MAIN OUT rail along the bottom of the Pixhawk: 1 left aileron, 2 elevator, 3 ESC, 4 rudder, 5 right aileron.
+    The 3S LiPo goes only to the ESC; the ESC's 3-pin lead on MAIN OUT 3 also feeds 5V from its BEC to the rail.
+    Every connection here is stated in the repository README (Wiring section and MAIN OUT table).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bat  { fill: none; stroke: #000000; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .rf   { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 7 5; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .dot  { fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="600"/>
+
+  <!-- ===== Inputs ===== -->
+  <rect class="box" x="25" y="24" width="150" height="56" rx="4"/>
+  <text class="lbl" x="100" y="44">FLYSKY FS-i6</text>
+  <text class="sm" x="100" y="64" text-anchor="middle">TRANSMITTER</text>
+  <path class="thin" d="M45,24 L45,12"/>
+
+  <rect class="box" x="240" y="24" width="150" height="56" rx="4"/>
+  <text class="lbl" x="315" y="44">FS-iA10B</text>
+  <text class="sm" x="315" y="64" text-anchor="middle">RECEIVER (PPM OUT)</text>
+  <path class="thin" d="M372,24 L380,8 M382,24 L392,10"/>
+
+  <path class="rf" d="M175,52 L240,52"/>
+  <text class="sm" x="207" y="40" text-anchor="middle">2.4 GHz</text>
+
+  <rect class="box" x="425" y="24" width="160" height="56" rx="4"/>
+  <text class="lbl" x="505" y="44">M10 GPS</text>
+  <text class="sm" x="505" y="64" text-anchor="middle">+ IST8310 COMPASS</text>
+
+  <rect class="box" x="610" y="24" width="115" height="56" rx="4"/>
+  <text class="lbl" x="667" y="44">LAPTOP</text>
+  <text class="sm" x="667" y="64" text-anchor="middle">MISSION PLANNER</text>
+
+  <!-- input leads -->
+  <path class="w" d="M315,80 L315,140"/>
+  <text class="sm" x="322" y="106">PPM</text>
+  <path class="w" d="M480,80 L480,140"/>
+  <text class="sm" x="487" y="106">UART</text>
+  <path class="w" d="M530,80 L530,140"/>
+  <text class="sm" x="537" y="106">I2C</text>
+  <path class="w" d="M667,80 L667,140"/>
+  <text class="sm" x="674" y="106">micro-USB</text>
+
+  <!-- ===== Pixhawk ===== -->
+  <rect class="box" x="25" y="140" width="700" height="112" rx="5"/>
+  <text class="sm" x="315" y="156" text-anchor="middle">RC IN</text>
+  <text class="sm" x="480" y="156" text-anchor="middle">GPS</text>
+  <text class="sm" x="530" y="156" text-anchor="middle">I2C</text>
+  <text class="sm" x="667" y="156" text-anchor="middle">USB</text>
+  <circle class="dot" cx="315" cy="140" r="3.5"/><circle class="dot" cx="480" cy="140" r="3.5"/>
+  <circle class="dot" cx="530" cy="140" r="3.5"/><circle class="dot" cx="667" cy="140" r="3.5"/>
+  <text class="lbl" x="150" y="186" style="font-size:17px">PIXHAWK 2.4.8</text>
+  <text class="sm" x="150" y="206" text-anchor="middle">ARDUPLANE V4.7.1</text>
+  <text class="sm" x="150" y="236" text-anchor="middle">MAIN OUT (shared + / − rail)</text>
+  <text class="sm" x="660" y="216" text-anchor="middle">6 to 8 unused</text>
+
+  <!-- MAIN OUT pins -->
+  <text class="sm" x="268" y="236" text-anchor="middle">1</text>
+  <text class="sm" x="352" y="236" text-anchor="middle">2</text>
+  <text class="sm" x="436" y="236" text-anchor="middle">3</text>
+  <text class="sm" x="520" y="236" text-anchor="middle">4</text>
+  <text class="sm" x="604" y="236" text-anchor="middle">5</text>
+  <circle class="dot" cx="268" cy="252" r="3.5"/><circle class="dot" cx="352" cy="252" r="3.5"/>
+  <circle class="dot" cx="436" cy="252" r="3.5"/><circle class="dot" cx="520" cy="252" r="3.5"/>
+  <circle class="dot" cx="604" cy="252" r="3.5"/>
+
+  <!-- ===== Servos and ESC on the rail ===== -->
+  <path class="w" d="M268,252 L268,290 L91,290 L91,330"/>
+  <path class="w" d="M352,252 L352,300 L233,300 L233,330"/>
+  <path class="w" d="M436,252 L436,300 L375,300 L375,330"/>
+  <path class="w" d="M520,252 L520,330"/>
+  <path class="w" d="M604,252 L604,290 L659,290 L659,330"/>
+
+  <rect class="box" x="25" y="330" width="132" height="60" rx="4"/>
+  <text class="lbl" x="91" y="352">LEFT AILERON</text>
+  <text class="sm" x="91" y="372" text-anchor="middle">SG90 SERVO</text>
+
+  <rect class="box" x="167" y="330" width="132" height="60" rx="4"/>
+  <text class="lbl" x="233" y="352">ELEVATOR</text>
+  <text class="sm" x="233" y="372" text-anchor="middle">SG90 SERVO</text>
+
+  <rect class="box" x="309" y="330" width="132" height="60" rx="4"/>
+  <text class="lbl" x="375" y="352">SIMONK 30A</text>
+  <text class="sm" x="375" y="372" text-anchor="middle">ESC WITH BEC</text>
+
+  <rect class="box" x="451" y="330" width="132" height="60" rx="4"/>
+  <text class="lbl" x="517" y="352">RUDDER</text>
+  <text class="sm" x="517" y="372" text-anchor="middle">SG90 SERVO</text>
+
+  <rect class="box" x="593" y="330" width="132" height="60" rx="4"/>
+  <text class="lbl" x="659" y="352">RIGHT AILERON</text>
+  <text class="sm" x="659" y="372" text-anchor="middle">SG90 SERVO</text>
+
+  <text class="sm" x="384" y="316">signal + 5V BEC</text>
+
+  <!-- ===== Power train ===== -->
+  <rect class="box" x="120" y="455" width="170" height="64" rx="4"/>
+  <text class="lbl" x="205" y="478">3S LIPO</text>
+  <text class="sm" x="205" y="498" text-anchor="middle">11.1V 3300mAh</text>
+  <rect class="thin" x="128" y="468" width="10" height="38"/>
+
+  <path class="bat" d="M350,390 L350,478 L290,478"/>
+  <path class="bat" d="M362,390 L362,496 L290,496"/>
+  <text class="sm" x="318" y="466" text-anchor="middle">+ / −</text>
+
+  <rect class="box" x="460" y="455" width="170" height="64" rx="4"/>
+  <text class="lbl" x="545" y="478">A2212 1400KV</text>
+  <text class="sm" x="545" y="498" text-anchor="middle">BRUSHLESS MOTOR</text>
+
+  <path class="thin" d="M386,390 L386,475 L460,475"/>
+  <path class="thin" d="M393,390 L393,483 L460,483"/>
+  <path class="thin" d="M400,390 L400,491 L460,491"/>
+
+  <!-- notes -->
+  <text class="note" x="375" y="545">The battery plugs into the ESC only, never into the Pixhawk.</text>
+
+  <!-- Legend -->
+  <path class="w" d="M30,578 L70,578"/><text class="sm" x="78" y="578">Signal / servo lead</text>
+  <path class="bat" d="M200,578 L240,578"/><text class="sm" x="248" y="578">Battery lead</text>
+  <path class="thin" d="M340,574 L380,574"/><path class="thin" d="M340,582 L380,582"/><text class="sm" x="388" y="578">Motor phases (3 wires)</text>
+  <path class="rf" d="M545,578 L585,578"/><text class="sm" x="593" y="578">Radio link</text>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="560" viewBox="0 0 750 560">
+  <!--
+    Wiring diagram: OpenMove automatic chessboard prototype. Black on white.
+    Stated in the repo (code/hardware_smoke_test/README.md and the firmware pin constants):
+      X socket STEP D2 / DIR D5, Y socket STEP D3 / DIR D6, shared active-low ENABLE D8,
+      servo signal on the Z+ limit-switch header = D11, servo on a separate regulated 5V supply with common ground,
+      12V 3A adapter for the motor side, USB serial to the host at 115200 baud.
+    Assumed (standard, not stated): the 12V adapter enters through the shield's screw power terminal.
+    Not recorded: what the regulated 5V supply is.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bat  { fill: none; stroke: #000000; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .sig  { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 7 5; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .dot  { fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="560"/>
+
+  <!-- Host -->
+  <rect class="box" x="268" y="22" width="214" height="56" rx="4"/>
+  <text class="lbl" x="375" y="42">LAPTOP (GUI / TUI)</text>
+  <text class="sm" x="375" y="62" text-anchor="middle">/dev/ttyUSB0, 115200 baud</text>
+  <path class="w" d="M375,78 L375,138"/>
+  <text class="sm" x="384" y="108">USB</text>
+
+  <!-- Uno + CNC Shield -->
+  <rect class="box" x="240" y="138" width="270" height="290" rx="6"/>
+  <text class="lbl" x="375" y="160">ARDUINO UNO</text>
+  <text class="lbl" x="375" y="178">+ CNC SHIELD V3</text>
+
+  <rect class="box" x="256" y="198" width="104" height="70" rx="3"/>
+  <text class="lbl" x="308" y="214">DRV8825</text>
+  <text class="sm" x="308" y="234" text-anchor="middle">X socket</text>
+  <text class="sm" x="308" y="252" text-anchor="middle">STEP D2, DIR D5</text>
+
+  <rect class="box" x="256" y="292" width="104" height="70" rx="3"/>
+  <text class="lbl" x="308" y="308">DRV8825</text>
+  <text class="sm" x="308" y="328" text-anchor="middle">Y socket</text>
+  <text class="sm" x="308" y="346" text-anchor="middle">STEP D3, DIR D6</text>
+
+  <text class="sm" x="256" y="392">EN D8, active LOW,</text>
+  <text class="sm" x="256" y="408">shared by both drivers</text>
+
+  <text class="sm" x="430" y="222" text-anchor="middle">12V TERMINAL</text>
+  <rect class="box" x="414" y="232" width="34" height="20" rx="2"/>
+  <circle class="thin" cx="424" cy="242" r="3"/><circle class="thin" cx="438" cy="242" r="3"/>
+
+  <text class="sm" x="436" y="318" text-anchor="middle">Z+ HEADER</text>
+  <text class="sm" x="436" y="334" text-anchor="middle">= D11</text>
+  <circle class="dot" cx="510" cy="326" r="3.5"/>
+  <text class="sm" x="436" y="380" text-anchor="middle">GND</text>
+  <circle class="dot" cx="510" cy="380" r="3.5"/>
+
+  <!-- Motors -->
+  <rect class="box" x="30" y="196" width="120" height="74" rx="4"/>
+  <text class="lbl" x="90" y="222">NEMA 17</text>
+  <text class="sm" x="90" y="244" text-anchor="middle">MOTOR A</text>
+  <rect class="box" x="30" y="290" width="120" height="74" rx="4"/>
+  <text class="lbl" x="90" y="316">NEMA 17</text>
+  <text class="sm" x="90" y="338" text-anchor="middle">MOTOR B</text>
+  <path class="thin" d="M150,222 L256,222 M150,229 L256,229 M150,236 L256,236 M150,243 L256,243"/>
+  <path class="thin" d="M150,316 L256,316 M150,323 L256,323 M150,330 L256,330 M150,337 L256,337"/>
+  <text class="sm" x="203" y="208" text-anchor="middle">4 wires</text>
+  <text class="sm" x="203" y="302" text-anchor="middle">4 wires</text>
+
+  <!-- 12V adapter -->
+  <rect class="box" x="590" y="196" width="130" height="64" rx="4"/>
+  <text class="lbl" x="655" y="218">12V 3A</text>
+  <text class="sm" x="655" y="240" text-anchor="middle">ADAPTER (MOTORS)</text>
+  <path class="bat" d="M590,236 L448,236"/>
+  <path class="bat" d="M590,248 L448,248"/>
+  <text class="sm" x="552" y="224" text-anchor="middle">+ / −</text>
+  <text class="sm" x="552" y="266" text-anchor="middle">assumed</text>
+
+  <!-- Servo -->
+  <rect class="box" x="590" y="296" width="130" height="64" rx="4"/>
+  <text class="lbl" x="655" y="318">MG90S SERVO</text>
+  <text class="sm" x="655" y="340" text-anchor="middle">MAGNET LIFT</text>
+  <path class="w" d="M510,326 L590,326"/>
+  <text class="sm" x="550" y="314" text-anchor="middle">signal</text>
+
+  <!-- 5V supply -->
+  <rect class="box" x="590" y="420" width="130" height="64" rx="4"/>
+  <text class="lbl" x="655" y="442">REGULATED 5V</text>
+  <text class="sm" x="655" y="464" text-anchor="middle">source not recorded</text>
+  <path class="w" d="M640,420 L640,360"/>
+  <text class="sm" x="600" y="390">+5V</text>
+  <path class="w" d="M670,420 L670,360"/>
+  <text class="sm" x="676" y="390">GND</text>
+  <path class="w" d="M590,470 L540,470 L540,380 L510,380"/>
+  <text class="sm" x="532" y="440" text-anchor="end">common</text>
+  <text class="sm" x="532" y="456" text-anchor="end">ground</text>
+
+  <!-- Notes -->
+  <text class="note" x="375" y="510">The servo never runs from the 12V motor supply. Firmware names the drivers motor A and B (H-bot).</text>
+
+  <!-- Legend -->
+  <path class="w" d="M120,540 L160,540"/><text class="sm" x="168" y="540">Signal / USB / 5V</text>
+  <path class="bat" d="M290,540 L330,540"/><text class="sm" x="338" y="540">12V motor power</text>
+  <path class="thin" d="M460,536 L500,536"/><path class="thin" d="M460,544 L500,544"/><text class="sm" x="508" y="540">Motor coils</text>
+</svg>

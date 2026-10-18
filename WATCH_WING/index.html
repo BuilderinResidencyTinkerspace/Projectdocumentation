@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>WatchWing UAV Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">1 TODO</mark> value still open</span>
+  </div>
+  <article>
+    <h1>How to Build WatchWing, a Fixed-Wing Patrol UAV Using Pixhawk and ArduPlane</h1>
+    <p class="byline">Draft article · WatchWing, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>watchwing-fixed-wing-patrol-uav-pixhawk-arduplane</code></dd>
+        <dt>Meta description</dt><dd>Build a foam fixed-wing patrol UAV with a Pixhawk 2.4.8, ArduPlane and a FlySky FS-i6. Covers wiring, airframe, Mission Planner setup and pre-flight checks. <span style="color:var(--muted)">(156 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Pixhawk 2.4.8</li><li>ArduPlane</li><li>Mission Planner</li><li>Fixed-Wing UAV</li><li>Flite Test Simple Scout</li><li>Depron</li><li>FlySky FS-i6</li><li>FS-iA10B</li><li>PPM</li><li>A2212 1400KV</li><li>SimonK 30A ESC</li><li>Waypoint Mission</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/WatchWing-Fixed-Wing-Patrol-UAV.jpg" alt="WatchWing Fixed-Wing Patrol UAV" decoding="async"></figure>
+<p>A security guard on night duty walks the same perimeter again and again to see if anything has changed. So, can a small aircraft fly that route by itself, round after round? That is the job WatchWing was built to try.</p>
+<p>In this project, we build WatchWing, a fixed-wing patrol UAV cut from 5mm Depron to the Flite Test Simple Scout plan. A Pixhawk 2.4.8 running ArduPlane flies it, the pilot has a FlySky FS-i6 transmitter, and the patrol route is a loop of GPS waypoints planned in Mission Planner. This guide covers the parts, the wiring, the airframe, the Mission Planner setup and every ArduPlane parameter we changed. Know where our build stands before you start: the electronics all worked on the bench, but the fixed-wing patrol UAV crashed on each of its three manual flights, so the autonomous mission was configured and never flown. The checks that would have saved it are in the pre-flight section. You can also check out similar <a href="https://circuitdigest.com/drone-projects" target="_blank" rel="noopener">drone projects</a> and <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is WatchWing?</p><p><strong>WatchWing</strong> is a foam <strong>fixed-wing patrol UAV</strong> built on the Flite Test Simple Scout, with a <strong>Pixhawk 2.4.8 running ArduPlane V4.7.1</strong>, a <strong>FlySky FS-i6</strong> radio and an <strong>A2212 1400KV</strong> motor. It is meant to fly the same GPS waypoint loop again and again. So far it has made three manual flights, and the waypoint mission is configured but not flown.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-the-watchwing-fixed-wing-patrol-uav">What Is WatchWing?</a></li><li class="top"><a href="#how-does-the-watchwing-fixed-wing-uav-work">How WatchWing Works</a></li><li class="top"><a href="#components-required-for-the-watchwing-fixed-wing-uav">Components Required</a></li><li class="top"><a href="#wiring-diagram-of-the-watchwing-fixed-wing-uav">Wiring Diagram</a></li><li class="sub"><a href="#pixhawk-main-out-channel-assignment">MAIN OUT Channel Assignment</a></li><li class="top"><a href="#building-the-watchwing-airframe">Building the Airframe</a></li><li class="top"><a href="#hardware-assembly-of-watchwing">Hardware Assembly</a></li><li class="top"><a href="#mission-planner-setup-for-arduplane-on-the-pixhawk">Mission Planner Setup</a></li><li class="top"><a href="#pre-flight-checks-and-testing">Pre-Flight Checks and Testing</a></li><li class="top"><a href="#arduplane-parameter-configuration-explained">Parameter Configuration Explained</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#flight-tests-output-of-the-watchwing-fixed-wing-uav">Flight Tests</a></li><li class="top"><a href="#troubleshooting-the-watchwing-fixed-wing-uav">Troubleshooting</a></li><li class="top"><a href="#watchwing-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-the-watchwing-fixed-wing-patrol-uav">What Is the WatchWing Fixed-Wing Patrol UAV?</h2>
+<p>WatchWing is a small electric aircraft meant to fly a fixed patrol route on its own, photographing each GPS waypoint in every round so that the rounds can be compared to flag any change. A fixed-wing suits this, as a perimeter has long, straight legs, and a wing covers more ground on one battery than a quadcopter does. It cannot hover, though, so Loiter in ArduPlane means circling a point. The camera was only bench-tested, on a Raspberry Pi Zero 2 W, so this guide covers the flying build, and its scripts are at the end. For the camera basics, check out our tutorial on <a href="https://circuitdigest.com/microcontroller-projects/interfacing-pi-camera-module-with-raspberry-pi-zero-w" target="_blank" rel="noopener">interfacing the Pi Camera with the Raspberry Pi Zero W</a>.</p>
+<h2 id="how-does-the-watchwing-fixed-wing-uav-work">How Does the WatchWing Fixed-Wing UAV Work?</h2>
+<p>The FS-i6 talks to the FS-iA10B receiver over 2.4 GHz, and the receiver sends all the channels to the Pixhawk on a single PPM wire. The Pixhawk combines its own IMU and barometer with the M10 GPS and compass and drives four SG90 servos and the SimonK 30A ESC. The 3S LiPo goes to the ESC only, and the ESC's BEC powers the servo rail and the Pixhawk. The laptop connects over USB only for setup, as there is no telemetry radio. Below is the block diagram of the WatchWing fixed-wing UAV.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-WatchWing-Fixed-Wing-UAV.jpg" alt="Block diagram of WatchWing fixed-wing UAV showing FS-i6 transmitter, FS-iA10B receiver, M10 GPS, Pixhawk 2.4.8, SG90 servos, SimonK ESC, A2212 motor and 3S LiPo" decoding="async"></figure>
+<p>The dashed box is the Raspberry Pi camera, which is not part of this build. Circuit Digest also has a <a href="https://circuitdigest.com/electronic-circuits/build-your-own-drone-using-kk215-flight-controller-from-selecting-right-component-to-first-flight-part1" target="_blank" rel="noopener">quadcopter build using the KK2.1.5 flight controller</a> and a tutorial on <a href="https://circuitdigest.com/tutorial/how-to-connect-the-litewing-esp32-drone-betaflight" target="_blank" rel="noopener">connecting the LiteWing ESP32 drone to Betaflight</a>. If interested, do check them out.</p>
+<p>Below is the flowchart of a full flight, from power-on to landing.</p>
+<figure class="shot"><img src="images/WatchWing-Flight-Sequence-Flowchart.jpg" alt="Flowchart of WatchWing flight sequence showing boot, pre-arm checks, arming, hand launch, AUTO waypoint loop with DO_JUMP, RTL and landing" decoding="async"></figure>
+<p>The Pixhawk boots disarmed, so the throttle stays at minimum until the pre-arm checks pass and the board is armed. The pilot hand-launches the aircraft in Manual or FBWA, and flipping the mode switch to AUTO hands it over to the mission, where DO_JUMP repeats the waypoint loop and RTL brings it home. The pilot can flip back to FBWA or Manual at any time.</p>
+<h2 id="components-required-for-the-watchwing-fixed-wing-uav">Components Required for the WatchWing Fixed-Wing UAV</h2>
+<p>Below is the list of components required to build this project.</p>
+<figure class="shot"><img src="images/Components-Required-for-WatchWing-Fixed-Wing-UAV.jpg" alt="Components required for WatchWing fixed-wing UAV including Pixhawk 2.4.8, M10 GPS, FlySky FS-i6, FS-iA10B receiver, A2212 motor, SimonK ESC, LiPo, SG90 servos and Depron sheet" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Pixhawk 2.4.8</td><td>Flight controller, ArduPlane V4.7.1</td><td>1</td></tr><tr><td>2.</td><td>M10 GPS Module</td><td>GPS with IST8310 compass</td><td>1</td></tr><tr><td>3.</td><td>FlySky FS-i6</td><td>6-channel transmitter</td><td>1</td></tr><tr><td>4.</td><td>FlySky FS-iA10B</td><td>Receiver, PPM output</td><td>1</td></tr><tr><td>5.</td><td>A2212 1400KV Motor</td><td>Brushless outrunner</td><td>1</td></tr><tr><td>6.</td><td>SimonK 30A ESC</td><td>Motor driver with BEC</td><td>1</td></tr><tr><td>7.</td><td>3S LiPo, 3300mAh</td><td>Flight battery</td><td>1</td></tr><tr><td>8.</td><td>Propeller <mark class="todo">TODO: size</mark></td><td>Matched to the motor on 3S</td><td>1</td></tr><tr><td>9.</td><td>SG90 Micro Servo</td><td>Ailerons, elevator and rudder</td><td>4</td></tr><tr><td>10.</td><td>Pixhawk Safety Switch</td><td>Unlocks the outputs</td><td>1</td></tr><tr><td>11.</td><td>Depron Sheet, 5mm</td><td>Airframe</td><td>As required</td></tr><tr><td>12.</td><td>3D-Printed Firewall and Servo Horns</td><td>Motor mount and control horns</td><td>1 set</td></tr><tr><td>13.</td><td>Spar, Stiff Wire, Hot Glue, Tape, Zip Ties</td><td>Wing spar, pushrods and assembly</td><td>As required</td></tr><tr><td>14.</td><td>Micro-USB Data Cable</td><td>Pixhawk to laptop</td><td>1</td></tr></tbody></table></div>
+<p>The Pixhawk 2.4.8 is a clone of the Pixhawk 1, and Mission Planner lists it as Pixhawk1. We sized the build around the A2212 1400KV giving about 900 grams of thrust, a figure we never measured, so check a thrust table for it on 3S before choosing the propeller. With no power module, Mission Planner reads 0.00V for the battery. The same A2212 class of motor is used in our <a href="https://circuitdigest.com/microcontroller-projects/what-is-bldc-motor-and-arduino-bldc-motor-control" target="_blank" rel="noopener">BLDC motor control with Arduino</a> tutorial as well.</p>
+<p>Apart from these parts, you need a Windows laptop with Mission Planner, a printer and tape for the plan, a sharp knife and a steel ruler, a LiPo balance charger, a multimeter, a 3D printer or print service, and an RC flight simulator such as PicaSim, which is free.</p>
+<h2 id="wiring-diagram-of-the-watchwing-fixed-wing-uav">Wiring Diagram of the WatchWing Fixed-Wing UAV</h2>
+<p>Below is the wiring diagram for the WatchWing fixed-wing UAV.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-WatchWing-Fixed-Wing-UAV.jpg" alt="Wiring Diagram of WatchWing Fixed-Wing UAV" title="Wiring Diagram of WatchWing Fixed-Wing UAV" decoding="async"></figure>
+<p>The brain of the aircraft is the Pixhawk 2.4.8. The FS-iA10B sends PPM, 5V and GND to the RC IN port on one lead, which carries all the channels. To get PPM, set <strong>System &gt; RX Setup &gt; Output mode</strong> to <strong>PPM</strong> on the FS-i6. The M10 module's GPS cable goes to the GPS port and its compass cable goes to the I2C port. The 3S LiPo connects only to the ESC, which drives the motor through three phase wires. The ESC's servo lead on MAIN OUT 3 carries the throttle signal and feeds 5V from the BEC into the servo rail. All the MAIN OUT + and − pins are one shared rail, so feed it from one source only. That is all about the wiring. To see an FS-i6 drive a servo on its own, do check out our <a href="https://circuitdigest.com/article/how-to-control-servo-motor-using-fs-i6-transmitter-receiver" target="_blank" rel="noopener">servo control using the FS-i6 transmitter-receiver</a> tutorial.</p>
+<h3 id="pixhawk-main-out-channel-assignment">Pixhawk MAIN OUT Channel Assignment</h3>
+<div class="table-wrap"><table><thead><tr><th>MAIN OUT</th><th>Connects To</th><th>SERVOx_FUNCTION</th></tr></thead><tbody><tr><td>1</td><td>Left aileron servo</td><td>4 (Aileron)</td></tr><tr><td>2</td><td>Elevator servo</td><td>19 (Elevator)</td></tr><tr><td>3</td><td>ESC signal lead, BEC 5V to the rail</td><td>70 (Throttle)</td></tr><tr><td>4</td><td>Rudder servo</td><td>21 (Rudder)</td></tr><tr><td>5</td><td>Right aileron servo</td><td>4 (Aileron)</td></tr><tr><td>6 to 8</td><td>Unused</td><td>-</td></tr></tbody></table></div>
+<h2 id="building-the-watchwing-airframe">Building the WatchWing Airframe</h2>
+<p>Use genuine 5mm Depron for the airframe. Below are the three foam materials we tried, and only the last one is worth using.</p>
+<figure class="shot"><img src="images/Foam-Materials-Tried-for-WatchWing-Airframe.jpg" alt="Foam materials tried for WatchWing airframe: heavy PVC Sunboard wing, Thermocol with a jagged hot-wire cut, and the finished 5mm Depron Simple Scout" decoding="async"></figure>
+<p>A wing set in PVC foam board, sold locally as Sunboard, weighed around 300 grams for 1250 cm² of wing, about 0.24 g/cm², or around eight times heavier than Depron of a similar thickness by our calculation. Thermocol was too thick, and slicing it with a DIY hot-wire cutter failed. The cutter's gear-cable wire, used in place of nichrome, measured 4.57Ω and drew about 3.5A at 16V. Below is that attempt.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Hot-Wire-Cutting-Thermocol.jpg" width="640"><source src="videos/WatchWing-Hot-Wire-Cutting-Thermocol.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/4cb5d6a5-31f4-4e36-bd63-a17d4b966aa3" type="video/mp4"><a href="https://github.com/user-attachments/assets/4cb5d6a5-31f4-4e36-bd63-a17d4b966aa3">Hot-wire cutting attempt (MP4)</a></video></figure>
+<p>The wire scorched the balsa templates, left jagged cuts and then snapped. Depron cuts cleanly with a knife, and the Scout plan is designed around it. Ask for it by name, as "foam board" in a shop usually means signage board, and weigh a sample first; Depron is only around 0.03 g/cm³. If you do need to cut polystyrene, our <a href="https://circuitdigest.com/electronic-circuits/diy-portable-hot-wire-foam-cutter" target="_blank" rel="noopener">portable hot wire foam cutter using nichrome wire</a> shows how to build a proper one.</p>
+<p>The airframe is the stock Flite Test Simple Scout, built exactly as per the published <a href="https://www.flitetest.com/articles/ft-simple-scout" target="_blank" rel="noopener">Simple Scout plan</a> and its <a href="https://www.flitetest.com/articles/ft-simple-scout-build" target="_blank" rel="noopener">build article</a>. Below is our finished airframe.</p>
+<figure class="shot"><img src="images/Flite-Test-Simple-Scout-Airframe-Built-from-Depron.jpg" alt="Flite Test Simple Scout airframe built from 5mm Depron for WatchWing fixed-wing UAV, with wing, fuselage and tail covered in tape" decoding="async"></figure>
+<p>The table below gives the plan's published numbers. Our electronics weigh more than a bare Scout carries, so weigh your own aircraft once it is built.</p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Value (from the Plan)</th></tr></thead><tbody><tr><td>Wingspan</td><td>952mm</td></tr><tr><td>Wing area</td><td>20.9 dm²</td></tr><tr><td>All-up weight</td><td>535.8 grams</td></tr><tr><td>Wing loading</td><td>25.6 g/dm²</td></tr><tr><td>Centre of gravity</td><td>62mm behind the leading edge</td></tr><tr><td>Recommended control throw</td><td>About 12°</td></tr><tr><td>Thrust-to-weight</td><td>About 1.68:1 with 900 grams of thrust</td></tr></tbody></table></div>
+<p>The 3D-printed parts are in the cad folder of the repository. <code>rc-firewall (1).stl</code> is the motor firewall, and <code>print_batch_4horns_1firewall.stl</code> prints four servo horns and a firewall in one go. Print the firewall with low infill. Ours broke in the first crash and took the force that would otherwise have gone into the motor.</p>
+<h2 id="hardware-assembly-of-watchwing">Hardware Assembly of WatchWing</h2>
+<p>Below is the electronics bay of our build from the underside, which shows where everything ends up.</p>
+<figure class="shot"><img src="images/WatchWing-Electronics-Bay-with-Pixhawk-ESC-and-Servos.jpg" alt="Electronics bay of WatchWing fixed-wing UAV with 3S LiPo, SimonK 30A ESC, side-mounted Pixhawk, FS-iA10B receiver and SG90 servos" decoding="async"></figure>
+<p class="step"><strong>Step 1⇒ Cut and Build the Airframe</strong></p>
+<p>Print the plan at 100% scale and check its calibration square before cutting. Trace the parts onto the Depron, cut them with a sharp knife against a steel ruler, and join them with hot glue as per the build article, with a carbon rod or bamboo skewer along the wing as a spar. Glue the printed firewall to the nose and mount the motor on it.</p>
+<p class="step"><strong>Step 2⇒ Install the Servos</strong></p>
+<p>Centre each SG90 before connecting its pushrod. Bend the stiff-wire pushrods to reach each surface and use the printed horns so the rods connect properly at both ends, which was the hardest part of our build. Check that every surface moves freely through its full throw.</p>
+<p class="step"><strong>Step 3⇒ Mount the Electronics</strong></p>
+<p>Mount the Pixhawk, the receiver and the ESC inside the fuselage. Our Pixhawk is on the side wall, which needs the custom board orientation in the parameter section. Leave the GPS exposed through a gap with its antenna facing up. Fit the battery last, sliding it until the aircraft balances at 62mm behind the wing leading edge, and fix it with double-sided tape. If you are new to GPS modules, refer to our <a href="https://circuitdigest.com/microcontroller-projects/connect-arduino-with-neo-6m-gps-module" target="_blank" rel="noopener">NEO-6M GPS module guide</a>.</p>
+<p class="step"><strong>Step 4⇒ Bench-Check, Then Close the Hatch</strong></p>
+<p>With the propeller off, check that every surface follows the sticks. Below is our bench check.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Control-Surface-Check.jpg" width="640"><source src="videos/WatchWing-Control-Surface-Check.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/c18ed667-0398-4f2e-9c53-f4187ca28d09" type="video/mp4"><a href="https://github.com/user-attachments/assets/c18ed667-0398-4f2e-9c53-f4187ca28d09">Control-surface check (MP4)</a></video></figure>
+<p>The underside is the only way into the bay, so finish all wiring and tests before you close it with tape and zip ties.</p>
+<h2 id="mission-planner-setup-for-arduplane-on-the-pixhawk">Mission Planner Setup for ArduPlane on the Pixhawk</h2>
+<p>Connect the Pixhawk to Mission Planner over USB at 115200 baud (ours showed up on COM15) and follow these steps in order.</p>
+<p class="step"><strong>Step 1⇒ Flash ArduPlane</strong></p>
+<p>Go to <strong>Setup &gt; Install Firmware</strong>, click <strong>Plane</strong>, pick the Pixhawk1 entry and wait for "Upload Done".</p>
+<p class="step"><strong>Step 2⇒ Calibrate the Accelerometer and Compass</strong></p>
+<p>Run <strong>Accel Calibration</strong> and hold the board still in each of its six positions. The internal compass can be calibrated on the bench, but the external IST8310 calibrates properly only when the Pixhawk and GPS are mounted and rotated together, so do it after mounting.</p>
+<p class="step"><strong>Step 3⇒ Bind and Calibrate the Radio</strong></p>
+<p>Hold the receiver's bind key while powering it and select <strong>System &gt; RX Bind</strong> on the FS-i6. Then open <strong>Radio Calibration</strong> and move every stick and switch through its full range; all the green bars must move, including channel 3. Below is our radio calibration with the FS-i6.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Radio-Calibration-in-Mission-Planner.jpg" width="360"><source src="videos/WatchWing-Radio-Calibration-in-Mission-Planner.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/d9e56841-344a-40bb-9b3b-cab85152925d" type="video/mp4"><a href="https://github.com/user-attachments/assets/d9e56841-344a-40bb-9b3b-cab85152925d">Radio calibration in Mission Planner (MP4)</a></video></figure>
+<p class="step"><strong>Step 4⇒ Set the Parameters</strong></p>
+<p>Enter the parameters from the parameter section below, then write them and reboot the board.</p>
+<p class="step"><strong>Step 5⇒ Calibrate the ESC</strong></p>
+<p>The <strong>Calibrate ESCs</strong> button fails on ArduPlane with "Please ensure your version is AC3.3+", and a disarmed ArduPlane holds the throttle at minimum, so calibrate outside the Pixhawk. Take the propeller off, plug the ESC straight into the receiver's throttle channel with the receiver set to PWM, hold full throttle, connect the battery and wait for the beeps, then pull the throttle down for the second beeps. Move the ESC back to MAIN OUT 3 afterwards.</p>
+<p class="step"><strong>Step 6⇒ Plan the Patrol Mission</strong></p>
+<p>In the <strong>Plan</strong> tab, set the default altitude to 100 m relative (from the launch point), drop waypoints around the perimeter, add a DO_JUMP back to waypoint 1 for the number of rounds, and finish with RETURN_TO_LAUNCH. Click <strong>Write</strong>, then <strong>Read</strong> to check what the aircraft holds. <code>WP_RADIUS</code> was 90 m for us, and on a small perimeter you will want it lower.</p>
+<h2 id="pre-flight-checks-and-testing">Pre-Flight Checks and Testing</h2>
+<p>Set the control throws first. Move each surface to the recommended 12° by hand, note the PWM that gives it on the <strong>Servo Output</strong> screen, and write that into <code>SERVOx_MIN</code> and <code>SERVOx_MAX</code>. We never got to this, so our servos ran on default ranges. Then run the checks below before every flight.</p>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Check</th><th>How</th></tr></thead><tbody><tr><td>1.</td><td>Propeller off for bench work</td><td>Before every power-up</td></tr><tr><td>2.</td><td>Pre-arm clean</td><td>No errors in the Messages tab</td></tr><tr><td>3.</td><td>GPS 3D fix</td><td>Fix Type 3D, outdoors</td></tr><tr><td>4.</td><td>Compass calibrated with everything mounted</td><td>Done after final mounting</td></tr><tr><td>5.</td><td>Radio calibrated</td><td>All bars move, including channel 3</td></tr><tr><td>6.</td><td>Control directions by eye</td><td>Pull back: elevator up. Roll right: right aileron up, left down. Yaw right: rudder right</td></tr><tr><td>7.</td><td>Mode switch rehearsed</td><td>Flip through all three positions and confirm each mode</td></tr><tr><td>8.</td><td>Throttle works only when armed</td><td>Propeller off, arm, test, disarm</td></tr><tr><td>9.</td><td>CG at 62mm behind the wing leading edge</td><td>Balance it on your fingertips</td></tr><tr><td>10.</td><td>Battery strapped, hatch closed, GPS exposed</td><td>Visual check</td></tr><tr><td>11.</td><td>Site is clear</td><td>Open field, no trees, no power lines, no people downwind</td></tr><tr><td>12.</td><td>Parameters saved to a file</td><td>Full Parameter List, Save to file</td></tr></tbody></table></div>
+<p>Below is our static thrust check on the finished airframe, held overhead with the propeller on.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Static-Thrust-Test.jpg" width="360"><source src="videos/WatchWing-Static-Thrust-Test.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/7c95ffb8-d15e-42a9-8387-aaaa71229296" type="video/mp4"><a href="https://github.com/user-attachments/assets/7c95ffb8-d15e-42a9-8387-aaaa71229296">Static thrust test (MP4)</a></video></figure>
+<p>It gave a good amount of thrust, though we did not measure it. Practise on an RC simulator and learn FBWA there before the first flight. We went straight from this check to the first flight without the simulator or check number 6, and the reversed elevator crashed it as soon as the stick moved.</p>
+<h2 id="arduplane-parameter-configuration-explained">ArduPlane Parameter Configuration Explained</h2>
+<p>WatchWing has no firmware of its own. ArduPlane does the flying, and the build is defined by the parameters below, set in <strong>Config &gt; Full Parameter List</strong>. Save the list to a file whenever something works, as we lost time when another team reflashed our board and we had no saved file.</p>
+<p class="step"><strong>Servo Output Functions</strong></p>
+<div class="code-wrap"><pre class="code"><code>SERVO1_FUNCTION   4     # Aileron, left
+SERVO2_FUNCTION   19    # Elevator
+SERVO3_FUNCTION   70    # Throttle, ESC signal
+SERVO4_FUNCTION   21    # Rudder
+SERVO5_FUNCTION   4     # Aileron, right
+SERVO5_REVERSED   1     # only if both ailerons move the same way</code></pre></div>
+<p>ArduPlane has no separate "Aileron2" function, so both aileron servos use function 4. Set <code>SERVO5_REVERSED</code> only if both ailerons move the same way, and check by eye that roll right lifts the right aileron.</p>
+<p class="step"><strong>Flight-Mode Switch on Channel 5</strong></p>
+<div class="code-wrap"><pre class="code"><code>FLTMODE_CH   5
+FLTMODE1     0     # Manual
+FLTMODE2     0     # Manual
+FLTMODE3     5     # FBWA
+FLTMODE4     5     # FBWA
+FLTMODE5     12    # Loiter
+FLTMODE6     12    # Loiter</code></pre></div>
+<p>Channel 5 is a 3-position switch on the FS-i6, with Manual at the top, FBWA in the middle and Loiter at the bottom. ArduPlane splits 1000 to 2000 µs into six fixed slots, and a typical switch sends about 1000, 1500 and 2000 µs, which lands in slots 1, 4 and 6. The middle position is only 9 µs above the slot 3/4 boundary at 1491 µs, so each pair of slots gets the same mode. Read your own switch values on the <strong>Radio Calibration</strong> screen to confirm.</p>
+<p class="step"><strong>Custom Board Orientation</strong></p>
+<div class="code-wrap"><pre class="code"><code>AHRS_ORIENTATION  101   # Custom 1
+CUST_ROT_ENABLE   1
+CUST_ROT1_ROLL    90
+CUST_ROT1_PITCH   0
+CUST_ROT1_YAW     180</code></pre></div>
+<p>A Pixhawk on the fuselage side wall needs Roll 90° and Yaw 180°, and there is no preset for this combination, so this block sets a custom rotation as Custom 1. Reboot after writing it and tip the aircraft by hand: nose up should show nose up on the artificial horizon. Skip this block if your Pixhawk sits flat and faces forward.</p>
+<p class="step"><strong>Arming and Safety</strong></p>
+<div class="code-wrap"><pre class="code"><code>ARMING_REQUIRE     1    # throttle stays at minimum until armed
+ARMING_RUDDER      1    # arm with full right rudder, throttle at minimum
+BRD_SAFETY_DEFLT   0    # bench workaround only, not a flight setting</code></pre></div>
+<p>With <code>ARMING_REQUIRE</code> at 1, the throttle stays at minimum while disarmed, but the surfaces still move, so everything looks healthy except the motor. We lost most of a week checking the RCMAP values, the wiring and the channel order before finding that the pre-arm checks were failing on a compass that was not fully calibrated. Below is the Servo Output screen while we were chasing this.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Servo-Output-in-Mission-Planner.jpg" width="360"><source src="videos/WatchWing-Servo-Output-in-Mission-Planner.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/6a6e90e5-7b14-45b2-b108-5be83ae9cdb1" type="video/mp4"><a href="https://github.com/user-attachments/assets/6a6e90e5-7b14-45b2-b108-5be83ae9cdb1">Servo Output screen in Mission Planner (MP4)</a></video></figure>
+<p>Force-arming from the <strong>Actions</strong> tab got the motor running, but clear the pre-arm errors before flying. <code>BRD_SAFETY_DEFLT</code> 0 starts the board with safety off, a bench workaround for a faulty safety switch like ours.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below are the three flights, in order. The first lasted only a few seconds, as the elevator was reversed.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Flight-1.jpg" width="360"><source src="videos/WatchWing-Flight-1.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/8a103069-e0ae-4b2f-8837-02de886d7a3d" type="video/mp4"><a href="https://github.com/user-attachments/assets/8a103069-e0ae-4b2f-8837-02de886d7a3d">Flight 1 (MP4)</a></video></figure>
+<p>The second flight is below, after practice on the PicaSim simulator and with the elevator corrected.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Flight-2.jpg" width="360"><source src="videos/WatchWing-Flight-2.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/e85e026e-feed-42d0-a233-7aa0a86a7abd" type="video/mp4"><a href="https://github.com/user-attachments/assets/e85e026e-feed-42d0-a233-7aa0a86a7abd">Flight 2 (MP4)</a></video></figure>
+<p>Below is the third flight, from a bigger open field.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Flight-3.jpg" width="640"><source src="videos/WatchWing-Flight-3.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/d0688072-a5b2-436c-84c3-b29f3b602719" type="video/mp4"><a href="https://github.com/user-attachments/assets/d0688072-a5b2-436c-84c3-b29f3b602719">Flight 3 (MP4)</a></video></figure>
+<p>These clips are also in the <a href="https://github.com/BuilderinResidencyTinkerspace/WATCH_WING/blob/main/docs/week-09.md" target="_blank" rel="noopener">Week 9</a> and <a href="https://github.com/BuilderinResidencyTinkerspace/WATCH_WING/blob/main/docs/week-10.md" target="_blank" rel="noopener">Week 10</a> logs of the repository.</p>
+<h2 id="flight-tests-output-of-the-watchwing-fixed-wing-uav">Flight Tests: Output of the WatchWing Fixed-Wing UAV</h2>
+<p>On the bench, ArduPlane connected reliably after a full reflash, the GPS got a 3D fix, all the channels were live over PPM, and the motor responded once armed. All three flights were manual, and each ended in a crash.</p>
+<div class="table-wrap"><table><thead><tr><th>Flight</th><th>What Happened</th><th>Damage</th></tr></thead><tbody><tr><td>1</td><td>Flown with no simulator practice or control check; the elevator was reversed, and it crashed as soon as the stick moved</td><td>Broken propeller and firewall, small cracks</td></tr><tr><td>2</td><td>After PicaSim practice, it flew; when it seemed headed for a power line, the pilot banked hard left and it went straight down</td><td>Heavy, taped back together</td></tr><tr><td>3</td><td>In a bigger field, it climbed higher than expected in Manual; the switch overshot FBWA into Loiter as the throttle came down</td><td>Went into a power line, beyond repair</td></tr></tbody></table></div>
+<p>Below is the airframe after the third flight.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/WatchWing-Airframe-After-Flight-3.jpg" width="360"><source src="videos/WatchWing-Airframe-After-Flight-3.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/42bfe03f-b019-4237-b2a9-4cf66adad5d7" type="video/mp4"><a href="https://github.com/user-attachments/assets/42bfe03f-b019-4237-b2a9-4cf66adad5d7">Airframe after flight 3 (MP4)</a></video></figure>
+<p>With no telemetry and no recorded data, we cannot say how much of the last crash was the mode change and how much the throttle. The waypoint mission, the external compass calibration and the 12° throws were never finished.</p>
+<h2 id="troubleshooting-the-watchwing-fixed-wing-uav">Troubleshooting the WatchWing Fixed-Wing UAV</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>Servos move but the motor does not</td><td>The vehicle is disarmed</td><td>Clear the pre-arm errors in the Messages tab, then arm with full right rudder</td></tr><tr><td>Calibrate ESCs fails with "AC3.3+"</td><td>The button is built for ArduCopter</td><td>Calibrate with the ESC on the receiver's throttle channel, propeller off</td></tr><tr><td>"PreArm: Waiting for RC"</td><td>Receiver unbound, wrong output mode or wrong port</td><td>Re-bind, set PPM output and check the lead goes to RC IN</td></tr><tr><td>Board shows "Legacy FMU" and will not connect</td><td>Bootloader mode</td><td>Check the COM port and data cable, unplug other peripherals and reflash</td></tr><tr><td>Aircraft reacts the wrong way to the elevator</td><td>Servo direction reversed</td><td>Check every surface by eye before each flight and use <strong>Reverse</strong> on Servo Output</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>ArduPlane on the Pixhawk 2.4.8 gave us stabilisation, waypoints and failsafes without writing any flight code, and every part of the setup in this guide worked on the bench. The flying side needs the most care, and the pre-flight checks come straight from our three crashes. There is still room for improvement, such as a telemetry radio, a power module and <code>FS_LONG_ACTN</code> set to 1 so the aircraft returns home on signal loss. Further, one can put a camera back on board, just like this <a href="https://circuitdigest.com/tutorial/adding-wi-fi-camera-to-litewing-esp32-drone" target="_blank" rel="noopener">Wi-Fi camera on the LiteWing ESP32 drone</a> on Circuit Digest.</p>
+<h2 id="watchwing-github-repository">WatchWing GitHub Repository</h2>
+<p>The WATCH_WING repository has the full README, the build logs with their photos and flight videos, and the STL files. WatchWing was built by Adriel Jacob and Vishakh at Tinkerspace, MEC, as part of the Builder in Residence programme, and the repository is released under the MIT licence.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/WATCH_WING" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/WATCH_WING/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-watchwing-fixed-wing-uav">Frequently Asked Questions About the WatchWing Fixed-Wing UAV</h2>
+<p class="step"><strong>⇥ 1. Why is FBWA better than Manual for a first-time pilot?</strong></p>
+<p>FBWA limits how far the aircraft can bank and pitch, so a panicked correction is less likely to stall it. In Manual, the sticks go straight to the servos with no help at all.</p>
+<p class="step"><strong>⇥ 2. Can I build the Simple Storch instead of the Simple Scout?</strong></p>
+<p>Yes, but it is a heavier class, with a 1460mm span and about 1005 grams all-up weight, so it needs a bigger motor and battery than the A2212 1400KV and 3300mAh pack used here.</p>
+<p class="step"><strong>⇥ 3. Is a fixed-wing UAV like this safe to fly?</strong></p>
+<p>It can be, if you fly it in an open area away from people, trees and power lines. Check the local rules for unmanned aircraft before you fly, and take extra care with autonomous flights.</p>
+<h2 id="drone-and-rc-flight-projects">Drone and RC Flight Projects</h2>
+<p>Take your flying projects further with guides on flight controllers, RC radios and brushless motors.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/electronic-circuits/build-your-own-drone-using-kk215-flight-controller-from-selecting-right-component-to-first-flight-part1" target="_blank" rel="noopener">Build your own Drone using KK2.1.5 Flight Controller - From Selecting Right Components to First Flight (Part-1)</a></strong>: <em>A quadcopter build that goes from selecting the right components to the first flight.</em></li><li><strong><a href="https://circuitdigest.com/article/how-to-control-servo-motor-using-fs-i6-transmitter-receiver" target="_blank" rel="noopener">How to Control Servo Motor using FS-i6 Transmitter-Receiver</a></strong>: <em>In this tutorial, we show the connections and steps that need to be followed to control a servo motor with the FS-i6.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/what-is-bldc-motor-and-arduino-bldc-motor-control" target="_blank" rel="noopener">What is Brushless DC Motor (BLDC) and How to Control it with Arduino</a></strong>: <em>An A2212/13T BLDC motor and a 20A ESC, controlled from an Arduino.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>WatchWing has no firmware of its own, so the complete code is the ArduPlane parameter set and the Raspberry Pi camera scripts from the repository README.</p>
+<details class="codefile"><summary><span class="path">ArduPlane parameters (Pixhawk 2.4.8, ArduPlane V4.7.1)</span><span class="count">38 lines</span></summary><pre class="code"><code># WatchWing - parameters set or checked for this build
+# Enter in Mission Planner: Config &gt; Full Parameter List, then Write Params
+
+# Servo outputs, MAIN OUT 1 to 5
+SERVO1_FUNCTION    4      # Aileron, left
+SERVO2_FUNCTION    19     # Elevator
+SERVO3_FUNCTION    70     # Throttle, ESC signal (ESC's BEC also feeds the rail)
+SERVO4_FUNCTION    21     # Rudder
+SERVO5_FUNCTION    4      # Aileron, right
+SERVO5_REVERSED    1      # only if both ailerons move the same way
+
+# Flight-mode switch: 3-position switch on channel 5
+FLTMODE_CH         5
+FLTMODE1           0      # Manual
+FLTMODE2           0      # Manual
+FLTMODE3           5      # FBWA
+FLTMODE4           5      # FBWA
+FLTMODE5           12     # Loiter
+FLTMODE6           12     # Loiter
+
+# Pixhawk mounted on the fuselage side wall: Roll 90, Yaw 180
+AHRS_ORIENTATION   101    # Custom 1
+CUST_ROT_ENABLE    1
+CUST_ROT1_ROLL     90
+CUST_ROT1_PITCH    0
+CUST_ROT1_YAW      180
+
+# Arming
+ARMING_REQUIRE     1      # throttle held at minimum until armed
+ARMING_RUDDER      1      # arm with full right rudder, throttle at minimum
+# BRD_SAFETY_DEFLT 0      # bench workaround for a faulty safety switch only
+
+# Mission
+WP_RADIUS          90     # metres
+
+# Planned camera link on TELEM2 (design only, not wired)
+# SERIAL2_PROTOCOL 2      # MAVLink 2
+# SERIAL2_BAUD     57     # 57600 baud</code></pre></details>
+<details class="codefile"><summary><span class="path">Raspberry Pi still capture with fixed exposure (bench only)</span><span class="count">11 lines</span></summary><pre class="code"><code class="language-python">from picamera2 import Picamera2
+import time
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_still_configuration(main={&quot;size&quot;: (2304, 1296)}))
+# AE off, 2 ms exposure (about 1/500 s), raise gain to compensate for the dark frame
+picam2.set_controls({&quot;AeEnable&quot;: False, &quot;ExposureTime&quot;: 2000, &quot;AnalogueGain&quot;: 4.0})
+picam2.start()
+time.sleep(1)                 # let the controls settle
+picam2.capture_file(&quot;frame.jpg&quot;)
+picam2.stop()</code></pre></details>
+<details class="codefile"><summary><span class="path">Raspberry Pi live preview, MJPEG over HTTP (bench only)</span><span class="count">21 lines</span></summary><pre class="code"><code class="language-python">import io, time
+from flask import Flask, Response
+from picamera2 import Picamera2
+
+app = Flask(__name__)
+cam = Picamera2()
+cam.configure(cam.create_video_configuration(main={&quot;size&quot;: (1280, 720)}))
+cam.start()
+
+def frames():
+    while True:
+        buf = io.BytesIO()
+        cam.capture_file(buf, format=&quot;jpeg&quot;)
+        yield b&quot;--frame\r\nContent-Type: image/jpeg\r\n\r\n&quot; + buf.getvalue() + b&quot;\r\n&quot;
+        time.sleep(0.05)
+
+@app.route(&quot;/&quot;)
+def stream():
+    return Response(frames(), mimetype=&quot;multipart/x-mixed-replace; boundary=frame&quot;)
+
+app.run(host=&quot;0.0.0.0&quot;, port=8000, threaded=True)</code></pre></details>
+<details class="codefile"><summary><span class="path">GPS-triggered capture, design sketch (not wired into the build)</span><span class="count">8 lines</span></summary><pre class="code"><code class="language-python">from pymavlink import mavutil
+
+link = mavutil.mavlink_connection(&quot;/dev/serial0&quot;, baud=57600)
+link.wait_heartbeat()
+while True:
+    msg = link.recv_match(type=&quot;GLOBAL_POSITION_INT&quot;, blocking=True)
+    lat, lon = msg.lat / 1e7, msg.lon / 1e7   # degrees
+    # compare (lat, lon) with the stored checkpoint list, then call capture_file()</code></pre></details>
+  </article>
+</div>
+</body>
+</html>

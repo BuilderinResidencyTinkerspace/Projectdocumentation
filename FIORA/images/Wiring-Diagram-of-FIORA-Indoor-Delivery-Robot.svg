@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="640" viewBox="0 0 750 640">
+  <!--
+    Wiring diagram: FIORA indoor delivery robot. Black on white.
+    Top: Raspberry Pi 5 with the RPLIDAR A1M8 on USB (through its adapter board) and a power bank on USB-C.
+    Bottom: Arduino Uno with the L293D Motor Driver Shield stacked on it, four GB37 motors on M1 to M4,
+    the HC-05 on the Arduino's serial lines and the LiPo on the shield's external power terminal.
+    From the logs and photos: LiDAR on the Pi, power bank feeding the Pi, HC-05 on the Arduino, four motors on the shield.
+    Assumed (marked dashed): which serial pins the HC-05 uses, the LiPo on EXT_PWR, and the motor-to-terminal order.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bat  { fill: none; stroke: #000000; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .asm  { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 7 5; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .dot  { fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="640"/>
+
+  <!-- ===== Sensing side ===== -->
+  <rect class="box" x="30" y="40" width="150" height="70" rx="4"/>
+  <text class="lbl" x="105" y="66">RPLIDAR A1M8</text>
+  <text class="sm" x="105" y="88" text-anchor="middle">360° LASER SCANNER</text>
+
+  <rect class="box" x="240" y="52" width="90" height="46" rx="4"/>
+  <text class="sm" x="285" y="68" text-anchor="middle">USB</text>
+  <text class="sm" x="285" y="84" text-anchor="middle">ADAPTER</text>
+
+  <rect class="box" x="390" y="30" width="170" height="90" rx="4"/>
+  <text class="lbl" x="475" y="64">RASPBERRY PI 5</text>
+  <text class="sm" x="475" y="86" text-anchor="middle">ROS 2 + RViz2</text>
+  <rect class="thin" x="400" y="36" width="110" height="7"/>
+
+  <rect class="box" x="610" y="45" width="110" height="60" rx="10"/>
+  <text class="lbl" x="665" y="68">POWER</text>
+  <text class="lbl" x="665" y="86">BANK</text>
+
+  <path class="w" d="M180,75 L240,75"/>
+  <text class="sm" x="196" y="62">cable</text>
+  <path class="w" d="M330,75 L390,75"/>
+  <text class="sm" x="342" y="62">USB</text>
+  <path class="w" d="M610,75 L560,75"/>
+  <text class="sm" x="566" y="62">USB-C</text>
+
+  <!-- separator -->
+  <path class="thin" d="M30,160 L720,160" stroke-dasharray="3 5"/>
+  <rect class="bg" x="200" y="151" width="350" height="18"/>
+  <text class="note" x="375" y="160">No data link between the Pi and the Arduino yet</text>
+
+  <!-- ===== Drive side ===== -->
+  <!-- Arduino Uno with L293D shield -->
+  <rect class="box" x="250" y="210" width="250" height="210" rx="6"/>
+  <rect class="thin" x="262" y="218" width="226" height="10"/>
+  <rect class="thin" x="262" y="402" width="226" height="10"/>
+  <text class="lbl" x="375" y="290">ARDUINO UNO</text>
+  <text class="lbl" x="375" y="310">+ L293D MOTOR</text>
+  <text class="lbl" x="375" y="330">DRIVER SHIELD</text>
+  <!-- motor terminals -->
+  <text class="sm" x="262" y="250">M1</text>
+  <text class="sm" x="262" y="378">M2</text>
+  <text class="sm" x="470" y="250">M3</text>
+  <text class="sm" x="470" y="378">M4</text>
+  <circle class="dot" cx="250" cy="250" r="3.5"/><circle class="dot" cx="250" cy="378" r="3.5"/>
+  <circle class="dot" cx="500" cy="250" r="3.5"/><circle class="dot" cx="500" cy="378" r="3.5"/>
+  <!-- external power terminal and serial pins -->
+  <text class="sm" x="460" y="436">EXT_PWR</text>
+  <circle class="dot" cx="452" cy="420" r="3.5"/>
+  <text class="sm" x="292" y="436" text-anchor="end">HC-05 SERIAL</text>
+  <circle class="dot" cx="300" cy="420" r="3.5"/>
+
+  <!-- motors -->
+  <rect class="box" x="40" y="222" width="120" height="56" rx="4"/>
+  <text class="lbl" x="100" y="244">GB37 12V</text>
+  <text class="sm" x="100" y="263" text-anchor="middle">MOTOR 1</text>
+  <rect class="box" x="40" y="350" width="120" height="56" rx="4"/>
+  <text class="lbl" x="100" y="372">GB37 12V</text>
+  <text class="sm" x="100" y="391" text-anchor="middle">MOTOR 2</text>
+  <rect class="box" x="590" y="222" width="120" height="56" rx="4"/>
+  <text class="lbl" x="650" y="244">GB37 12V</text>
+  <text class="sm" x="650" y="263" text-anchor="middle">MOTOR 3</text>
+  <rect class="box" x="590" y="350" width="120" height="56" rx="4"/>
+  <text class="lbl" x="650" y="372">GB37 12V</text>
+  <text class="sm" x="650" y="391" text-anchor="middle">MOTOR 4</text>
+
+  <path class="thin" d="M160,246 L250,246 M160,254 L250,254"/>
+  <path class="thin" d="M160,374 L250,374 M160,382 L250,382"/>
+  <path class="thin" d="M500,246 L590,246 M500,254 L590,254"/>
+  <path class="thin" d="M500,374 L590,374 M500,382 L590,382"/>
+
+  <!-- HC-05 -->
+  <rect class="box" x="60" y="480" width="150" height="60" rx="4"/>
+  <text class="lbl" x="135" y="502">HC-05</text>
+  <text class="sm" x="135" y="522" text-anchor="middle">BLUETOOTH MODULE</text>
+  <path class="asm" d="M210,510 L300,510 L300,420"/>
+  <text class="sm" x="308" y="470">pins not recorded</text>
+
+  <!-- LiPo -->
+  <rect class="box" x="540" y="480" width="170" height="60" rx="4"/>
+  <text class="lbl" x="625" y="502">LIPO BATTERY</text>
+  <text class="sm" x="625" y="522" text-anchor="middle">VOLTAGE NOT RECORDED</text>
+  <path class="bat" d="M540,500 L452,500 L452,424" stroke-dasharray="10 6"/>
+  <text class="sm" x="462" y="470">+ / − (assumed)</text>
+
+  <!-- notes -->
+  <text class="note" x="375" y="572">Dashed: assumed connections. The logs say the HC-05, the motors and the battery were wired to</text>
+  <text class="note" x="375" y="588">the Arduino setup, but not on which pins or terminals. Encoder leads are not shown.</text>
+
+  <!-- Legend -->
+  <path class="w" d="M40,618 L80,618"/><text class="sm" x="88" y="618">USB / power</text>
+  <path class="thin" d="M190,614 L230,614"/><path class="thin" d="M190,622 L230,622"/><text class="sm" x="238" y="618">Motor leads</text>
+  <path class="asm" d="M340,618 L380,618"/><text class="sm" x="388" y="618">Assumed signal</text>
+  <path class="bat" d="M500,618 L540,618" stroke-dasharray="10 6"/><text class="sm" x="548" y="618">Assumed battery lead</text>
+</svg>

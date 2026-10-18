@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="600" viewBox="0 0 750 600">
+  <!--
+    Wiring diagram: MARS base rover. Black on white.
+    Stated in the logs: 14.8V pack, buck converter, Arduino Uno, HC-05, three front HC-SR04s,
+    L298N and four DC gear motors, all joined on one perfboard (Weeks 0, 5, 7 and 8).
+    Not stated, so drawn dashed and marked assumed: which supply pin the buck feeds, the motor
+    pairing on the L298N outputs, and every Arduino pin number.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bat  { fill: none; stroke: #000000; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .as   { fill: none; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 7 5; stroke-linecap: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="600"/>
+
+  <!-- ===== Power and radio (top row) ===== -->
+  <rect class="box" x="24" y="30" width="170" height="64" rx="4"/>
+  <text class="lbl" x="109" y="52">14.8V LI-ION PACK</text>
+  <text class="sm" x="109" y="74" text-anchor="middle">2200mAh, 4S1P</text>
+
+  <rect class="box" x="290" y="30" width="150" height="64" rx="4"/>
+  <text class="lbl" x="365" y="52">BUCK</text>
+  <text class="sm" x="365" y="74" text-anchor="middle">CONVERTER</text>
+
+  <rect class="box" x="560" y="30" width="166" height="64" rx="4"/>
+  <text class="lbl" x="643" y="52">HC-05</text>
+  <text class="sm" x="643" y="74" text-anchor="middle">BLUETOOTH MODULE</text>
+
+  <!-- battery to buck and to L298N motor supply -->
+  <path class="bat" d="M194,52 L290,52"/>
+  <text class="sm" x="214" y="40">14.8V</text>
+  <path class="bat" d="M150,94 L150,200 L230,200 L230,250"/>
+  <text class="sm" x="158" y="150">14.8V to L298N</text>
+
+  <!-- buck to Uno (assumed pin) -->
+  <path class="as" d="M400,94 L400,250"/>
+  <text class="sm" x="408" y="150">regulated supply</text>
+  <text class="sm" x="408" y="166">(pin and voltage</text>
+  <text class="sm" x="408" y="182">not recorded)</text>
+
+  <!-- HC-05 to Uno (assumed pins) -->
+  <path class="as" d="M600,94 L600,200 L480,200 L480,250"/>
+  <text class="sm" x="606" y="150">TX / RX</text>
+
+  <!-- ===== L298N ===== -->
+  <rect class="box" x="170" y="250" width="130" height="150" rx="4"/>
+  <text class="lbl" x="235" y="306">L298N</text>
+  <text class="sm" x="235" y="326" text-anchor="middle">MOTOR DRIVER</text>
+  <text class="sm" x="176" y="270">OUT1/2</text>
+  <text class="sm" x="176" y="384">OUT3/4</text>
+  <text class="sm" x="246" y="270">12V IN</text>
+
+  <!-- ===== Arduino Uno ===== -->
+  <rect class="box" x="360" y="250" width="160" height="150" rx="6"/>
+  <text class="lbl" x="440" y="316">ARDUINO</text>
+  <text class="lbl" x="440" y="334">UNO</text>
+  <rect class="thin" x="372" y="256" width="110" height="8"/>
+  <rect class="thin" x="384" y="386" width="120" height="8"/>
+
+  <!-- Uno to L298N (assumed pins) -->
+  <path class="as" d="M360,330 L300,330"/>
+  <path class="as" d="M360,350 L300,350"/>
+  <text class="sm" x="306" y="374">IN1 to IN4</text>
+
+  <!-- ===== Motors ===== -->
+  <rect class="box" x="24" y="226" width="80" height="36" rx="6"/>
+  <text class="lbl" x="64" y="244">M1</text>
+  <rect class="box" x="24" y="276" width="80" height="36" rx="6"/>
+  <text class="lbl" x="64" y="294">M2</text>
+  <rect class="box" x="24" y="340" width="80" height="36" rx="6"/>
+  <text class="lbl" x="64" y="358">M3</text>
+  <rect class="box" x="24" y="390" width="80" height="36" rx="6"/>
+  <text class="lbl" x="64" y="408">M4</text>
+
+  <path class="as" d="M104,240 L140,240 L140,270 L170,270 M104,290 L140,290 L140,270"/>
+  <path class="as" d="M104,354 L140,354 L140,384 L170,384 M104,404 L140,404 L140,384"/>
+  <text class="sm" x="24" y="446">BO GEAR MOTORS, PAIRS ASSUMED</text>
+
+  <!-- ===== Ultrasonic sensors ===== -->
+  <rect class="box" x="590" y="232" width="136" height="54" rx="4"/>
+  <circle class="thin" cx="610" cy="259" r="10"/><circle class="thin" cx="634" cy="259" r="10"/>
+  <text class="sm" x="652" y="252">HC-SR04</text>
+  <text class="sm" x="652" y="268">LEFT +25°</text>
+
+  <rect class="box" x="590" y="298" width="136" height="54" rx="4"/>
+  <circle class="thin" cx="610" cy="325" r="10"/><circle class="thin" cx="634" cy="325" r="10"/>
+  <text class="sm" x="652" y="318">HC-SR04</text>
+  <text class="sm" x="652" y="334">CENTRE</text>
+
+  <rect class="box" x="590" y="364" width="136" height="54" rx="4"/>
+  <circle class="thin" cx="610" cy="391" r="10"/><circle class="thin" cx="634" cy="391" r="10"/>
+  <text class="sm" x="652" y="384">HC-SR04</text>
+  <text class="sm" x="652" y="400">RIGHT −25°</text>
+
+  <path class="as" d="M520,270 L560,270 L560,259 L590,259"/>
+  <path class="as" d="M520,325 L590,325"/>
+  <path class="as" d="M520,380 L560,380 L560,391 L590,391"/>
+  <text class="sm" x="524" y="304">TRIG/ECHO</text>
+
+  <!-- ground and perfboard notes -->
+  <text class="note" x="375" y="474">All of these parts sit on one perfboard with a common ground (Week 8).</text>
+  <text class="note" x="375" y="494">Dashed lines are assumed: the logs do not record the pin numbers, the buck output</text>
+  <text class="note" x="375" y="512">or how the four motors pair up on the L298N outputs.</text>
+
+  <!-- Legend -->
+  <path class="bat" d="M30,566 L70,566"/><text class="sm" x="78" y="566">Battery lead (from the logs)</text>
+    <path class="as" d="M300,566 L340,566"/><text class="sm" x="348" y="566">Assumed connection</text>
+</svg>

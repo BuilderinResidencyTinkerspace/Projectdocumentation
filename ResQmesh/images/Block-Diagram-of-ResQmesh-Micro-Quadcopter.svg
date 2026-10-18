@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="470" viewBox="0 0 750 470">
+  <!--
+    Block diagram: ResQmesh micro quadcopter (digestdocs, CircuitDigest style)
+    Phone (Wi-Fi SoftAP + WebSocket) and IMU (I2C) feed the XIAO ESP32-S3, which drives four AO3400A
+    low-side switches and four 720 coreless motors. The 1S LiPo feeds the motor rail and the XIAO.
+    Dashed: the ESP32 handheld transmitter (firmware in the repo) and the ESP-NOW followers (not tested yet).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+      .dbox { fill: #ffffff; stroke: #000000; stroke-width: 3; stroke-dasharray: 10 7; }
+      .wire { fill: none; stroke: #000000; stroke-width: 4; stroke-linejoin: miter; }
+      .dash { fill: none; stroke: #000000; stroke-width: 4; stroke-dasharray: 11 8; }
+      .lbl  { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 15px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .note { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 13.5px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="470"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Row A -->
+  <rect class="box" x="20" y="20" width="180" height="70"/>
+  <text class="lbl" x="110" y="45">Pilot Phone</text>
+  <text class="lbl" x="110" y="66">(Browser Joystick)</text>
+
+  <rect class="dbox" x="265" y="20" width="220" height="70"/>
+  <text class="lbl" x="375" y="45">Handheld Controller</text>
+  <text class="lbl" x="375" y="66">(ESP32, ESP-NOW)</text>
+
+  <rect class="dbox" x="550" y="20" width="180" height="70"/>
+  <text class="lbl" x="640" y="45">Follower Drones</text>
+  <text class="lbl" x="640" y="66">(Not Tested Yet)</text>
+
+  <!-- Row B -->
+  <rect class="box" x="20" y="170" width="180" height="70"/>
+  <text class="lbl" x="110" y="195">Motion Sensor</text>
+  <text class="lbl" x="110" y="216">(GY-9250 IMU)</text>
+
+  <rect class="box" x="265" y="170" width="220" height="70"/>
+  <text class="lbl" x="375" y="195">Flight Controller</text>
+  <text class="lbl" x="375" y="216">(XIAO ESP32-S3)</text>
+
+  <rect class="box" x="550" y="170" width="180" height="70"/>
+  <text class="lbl" x="640" y="195">Motor Switches</text>
+  <text class="lbl" x="640" y="216">(4 x AO3400A)</text>
+
+  <!-- Row C -->
+  <rect class="box" x="265" y="330" width="220" height="70"/>
+  <text class="lbl" x="375" y="355">Battery</text>
+  <text class="lbl" x="375" y="376">(1S LiPo, 380mAh)</text>
+
+  <rect class="box" x="550" y="330" width="180" height="70"/>
+  <text class="lbl" x="640" y="355">Motors</text>
+  <text class="lbl" x="640" y="376">(4 x 720 Coreless)</text>
+
+  <!-- Connectors -->
+  <path class="wire" d="M200,55 L232,55 L232,190 L261,190" marker-end="url(#head)"/>
+  <text class="note" x="232" y="108" transform="rotate(-90 232 108)" dy="-10">Wi-Fi</text>
+
+  <path class="wire" d="M200,222 L261,222" marker-end="url(#head)"/>
+  <text class="note" x="231" y="237">I2C</text>
+
+  <path class="dash" d="M375,90 L375,166" marker-end="url(#head)"/>
+  <text class="note" x="420" y="128">ESP-NOW</text>
+
+  <path class="dash" d="M485,185 L518,185 L518,55 L546,55" marker-end="url(#head)"/>
+  <text class="note" x="518" y="112" transform="rotate(-90 518 112)" dy="-10">relay</text>
+
+  <path class="wire" d="M485,215 L546,215" marker-end="url(#head)"/>
+  <text class="note" x="517" y="230">PWM</text>
+
+  <path class="wire" d="M640,240 L640,326" marker-end="url(#head)"/>
+  <text class="note" x="672" y="283">Motor −</text>
+
+  <path class="wire" d="M485,365 L546,365" marker-end="url(#head)"/>
+  <text class="note" x="517" y="352">3.7V</text>
+
+  <path class="wire" d="M375,330 L375,244" marker-end="url(#head)"/>
+  <text class="note" x="408" y="287">BAT pads</text>
+
+  <!-- Legend -->
+  <rect class="box" x="22" y="420" width="24" height="16" style="stroke-width:2"/>
+  <text class="note" x="92" y="429">Built</text>
+  <rect class="dbox" x="140" y="420" width="24" height="16" style="stroke-width:2"/>
+  <text class="note" x="250" y="429">Written in code, not tested</text>
+</svg>

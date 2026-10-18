@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>FIORA Robot Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">3 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>How to Build FIORA, a LiDAR Mapping Rover for Indoor Delivery Using Raspberry Pi 5</h1>
+    <p class="byline">Draft article · FIORA, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>fiora-indoor-delivery-robot-raspberry-pi-5-rplidar</code></dd>
+        <dt>Meta description</dt><dd>Build an indoor delivery robot base with Raspberry Pi 5, RPLIDAR A1M8, Arduino Uno and mecanum wheels. Covers parts, printed couplers, wiring and ROS 2 mapping. <span style="color:var(--muted)">(160 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Raspberry Pi 5</li><li>RPLIDAR A1M8</li><li>ROS 2 Jazzy</li><li>RViz2</li><li>SLAM</li><li>Mecanum Wheels</li><li>GB37 Motor</li><li>Arduino Uno</li><li>L293D Motor Driver Shield</li><li>HC-05 Bluetooth</li><li>3D Printing</li><li>Indoor Delivery Robot</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/FIORA-Indoor-Delivery-Robot.jpg" alt="FIORA Indoor Delivery Robot" decoding="async"></figure>
+<p>In a college or an office, someone is always walking a document or a small parcel from one room to another. It is a short trip, but it happens many times a day. So, could a small robot make those trips instead, while the person who needs the item asks for it from their desk? That is the job FIORA is being built for.</p>
+<p>In this project, we show how to build FIORA, an indoor delivery robot base with a round foam-sheet body, four mecanum wheels and an RPLIDAR A1M8 on top. An Arduino Uno with an L293D Motor Driver Shield drives the four GB37 motors from a phone through an HC-05 Bluetooth module, and a Raspberry Pi 5 runs ROS 2 with the LiDAR to map a room in RViz2. Following this guide, you get a rover that you drive by hand and a LiDAR setup that maps the space around it. The indoor delivery robot does not deliver on its own yet. The link from ROS 2 to the motors, autonomous navigation and the Telegram bot for delivery requests are still being built, and the Arduino sketch and the ROS 2 settings are not in the repository yet. You can also check out similar <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> and <a href="https://circuitdigest.com/simple-raspberry-pi-projects-for-beginners" target="_blank" rel="noopener">Raspberry Pi projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is FIORA?</p><p><strong>FIORA</strong> is an <strong>indoor delivery robot</strong> prototype built on a round foam-sheet base with four <strong>mecanum wheels</strong> and <strong>GB37 motors</strong>, an <strong>Arduino Uno with an L293D shield</strong> for driving, and a <strong>Raspberry Pi 5 with an RPLIDAR A1M8 and ROS 2</strong> for mapping. Today it is driven by hand over Bluetooth and can map a room. Autonomous delivery is still being built.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-fiora">What Is FIORA?</a></li><li class="top"><a href="#how-does-the-fiora-indoor-delivery-robot-work">How FIORA Works</a></li><li class="top"><a href="#components-required-for-the-fiora-indoor-delivery-robot">Components Required</a></li><li class="top"><a href="#wiring-diagram-of-the-fiora-indoor-delivery-robot">Wiring Diagram</a></li><li class="sub"><a href="#connection-table">Connection Table</a></li><li class="top"><a href="#building-the-base-couplers-and-motor-mounts">Base, Couplers and Motor Mounts</a></li><li class="top"><a href="#assembling-the-drive-electronics">Drive Electronics</a></li><li class="top"><a href="#setting-up-the-rplidar-a1m8-with-ros-2-on-the-raspberry-pi-5">RPLIDAR and ROS 2 Setup</a></li><li class="top"><a href="#building-the-fiora-body">Body</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-mapping-tinkerspace-with-fiora">Output</a></li><li class="top"><a href="#troubleshooting-the-fiora-indoor-delivery-robot">Troubleshooting</a></li><li class="top"><a href="#fiora-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-fiora">What Is FIORA?</h2>
+<p>FIORA is meant to carry documents, materials and small packages between fixed points inside a building, such as an office, a warehouse, a hospital or a college. Its round base follows the look of Bella, a commercial delivery robot. The software plan is ROS 2 Jazzy, with SLAM Toolbox for mapping and Nav2 for navigation. The build is kept modular, so the base, the drive, the mapping and the user side can each be tested before the next part depends on it. If interested, do check out the <a href="https://circuitdigest.com/news/esp32-self-driving-robot-with-arduino-ros2-lidar" target="_blank" rel="noopener">ESP32 self-driving robot with ROS2 and LiDAR</a> on Circuit Digest, which already maps and drives itself.</p>
+<h2 id="how-does-the-fiora-indoor-delivery-robot-work">How Does the FIORA Indoor Delivery Robot Work?</h2>
+<p>The working is split into two halves that are not connected to each other yet. The drive half is an Arduino Uno with an L293D Motor Driver Shield stacked on it. A phone running a Bluetooth car controller app sends commands to the HC-05 module, the Arduino reads them, and the shield runs the four GB37 motors and their mecanum wheels. The sensing half is a Raspberry Pi 5 with the RPLIDAR A1M8 on USB. The Pi runs ROS 2, takes the 360-degree scans from the LiDAR and builds a map that you can watch in RViz2. Below is the block diagram of the FIORA indoor delivery robot.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-FIORA-Indoor-Delivery-Robot.jpg" alt="Block diagram of FIORA indoor delivery robot showing RPLIDAR A1M8, Raspberry Pi 5 with ROS 2, RViz2, HC-05, Arduino Uno with L293D shield, GB37 motors and mecanum wheels" decoding="async"></figure>
+<p>The dashed parts are planned. A Telegram bot will send delivery requests to the Pi, and the Pi will need a link to the Arduino so that ROS 2 can drive the motors.</p>
+<p>Below is the delivery workflow the robot is being built towards, redrawn from the project README.</p>
+<figure class="shot"><img src="images/FIORA-Planned-Delivery-Workflow-Flowchart.jpg" alt="Flowchart of the planned FIORA delivery workflow from power-on and LiDAR start-up to map loading, delivery request, route planning, obstacle checks and user notification" decoding="async"></figure>
+<p>Only the first two steps work today. The Pi starts the LiDAR, and you can build a map by driving the robot around by hand. For delivery requests, we picked Telegram over WhatsApp, as the WhatsApp API goes through Meta's official setup, permissions and verification, while anyone can create a Telegram bot. The bot is not built yet. To see how a Telegram bot talks to a Pi, check out our <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-telegram-bot" target="_blank" rel="noopener">Telegram bot with Raspberry Pi</a> tutorial.</p>
+<h2 id="components-required-for-the-fiora-indoor-delivery-robot">Components Required for the FIORA Indoor Delivery Robot</h2>
+<p>Below is the list of components used in this build.</p>
+<figure class="shot"><img src="images/Components-Required-for-FIORA-Indoor-Delivery-Robot.jpg" alt="Components required for FIORA indoor delivery robot including Raspberry Pi 5, RPLIDAR A1M8, Arduino Uno, L293D motor driver shield, HC-05, GB37 motors and mecanum wheels" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Raspberry Pi 5</td><td>Onboard computer for the LiDAR and ROS 2</td><td>1</td></tr><tr><td>2.</td><td>SLAMTEC RPLIDAR A1M8</td><td>360-degree laser scanner, with its USB adapter</td><td>1</td></tr><tr><td>3.</td><td>Arduino Uno</td><td>Motor controller</td><td>1</td></tr><tr><td>4.</td><td>L293D Motor Driver Shield</td><td>Drives the four motors</td><td>1</td></tr><tr><td>5.</td><td>HC-05 Bluetooth Module</td><td>Receives drive commands from the phone</td><td>1</td></tr><tr><td>6.</td><td>GB37 12V 60 RPM Geared Motor with Encoder</td><td>Drive motor</td><td>4</td></tr><tr><td>7.</td><td>Mecanum Wheel</td><td>Lets the chassis move in different directions</td><td>4</td></tr><tr><td>8.</td><td>LiPo Battery <mark class="todo">TODO: voltage and capacity</mark></td><td>Motor power</td><td>1</td></tr><tr><td>9.</td><td>Supply for the Raspberry Pi 5</td><td>We used a power bank; see the note below</td><td>1</td></tr><tr><td>10.</td><td>3D-Printed Coupler</td><td>Joins each motor shaft to its wheel hub</td><td>4</td></tr><tr><td>11.</td><td>3D-Printed Triangular Motor Mount</td><td>Holds each motor on the base</td><td>4</td></tr><tr><td>12.</td><td>Foam Sheet</td><td>Base (80 cm across) and prototype body</td><td>As required</td></tr><tr><td>13.</td><td>Phone with a Bluetooth Car Controller App</td><td>Manual driving</td><td>1</td></tr></tbody></table></div>
+<p>The L293D shield is the driver we would pick again. It stacks straight onto the Uno, and it was the first setup that ran all four motors reliably, after two ESP32 boards failed and L298 boards ran very hot (see the drive electronics section). The RPLIDAR A1M8 replaced the YDLIDAR X2 from our first plan on our mentor's advice. The GB37 motors have encoders, but the encoder leads are not used yet. For the Pi, use a supply that meets the Pi 5's needs, as our power bank could not keep it running during mapping. Apart from these parts, you need a 3D printer for the couplers and mounts, a caliper, a sharp knife for the foam sheet and a screen to watch RViz2. If you like to see more builds around this board, check out our collection of <a href="https://circuitdigest.com/arduino-projects" target="_blank" rel="noopener">Arduino projects</a>.</p>
+<h2 id="wiring-diagram-of-the-fiora-indoor-delivery-robot">Wiring Diagram of the FIORA Indoor Delivery Robot</h2>
+<p>Below is the wiring diagram for the FIORA indoor delivery robot.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-FIORA-Indoor-Delivery-Robot.jpg" alt="Wiring Diagram of FIORA Indoor Delivery Robot" title="Wiring Diagram of FIORA Indoor Delivery Robot" decoding="async"></figure>
+<p>The robot has two separate circuits. On the sensing side, the RPLIDAR A1M8 connects to its small USB adapter board, and the adapter plugs into a USB port on the Raspberry Pi 5, which gets its power on the USB-C port. On the drive side, the L293D Motor Driver Shield sits on top of the Arduino Uno, and the four GB37 motors connect to its M1 to M4 terminals. The HC-05 connects to the Arduino's serial lines, and the LiPo powers the motors through the shield. Our logs do not record which pins the HC-05 uses, which terminal each motor sits on, or how the battery is connected, so those connections are drawn dashed as the usual way to wire this shield. That is all about the wiring. If you are wiring an HC-05 for the first time, the <a href="https://circuitdigest.com/microcontroller-projects/bluetooth-controlled-robot-car-using-arduino" target="_blank" rel="noopener">Bluetooth controlled toy car using Arduino</a> on Circuit Digest shows that side step by step.</p>
+<h3 id="connection-table">Connection Table</h3>
+<div class="table-wrap"><table><thead><tr><th>Connection</th><th>From</th><th>To</th><th>Recorded in the Repo?</th></tr></thead><tbody><tr><td>LiDAR data</td><td>RPLIDAR A1M8</td><td>USB adapter board, then a USB port on the Pi 5</td><td>Yes</td></tr><tr><td>Pi power</td><td>Power bank</td><td>Pi 5 USB-C</td><td>Yes, replace with a proper supply</td></tr><tr><td>Motor driver</td><td>L293D Motor Driver Shield</td><td>Stacked on the Arduino Uno</td><td>Yes</td></tr><tr><td>Motors</td><td>Four GB37 motors</td><td>Shield terminals M1 to M4</td><td>Yes, order not recorded</td></tr><tr><td>Bluetooth</td><td>HC-05</td><td>Arduino serial lines</td><td>Assumed, pins not recorded</td></tr><tr><td>Motor power</td><td>LiPo</td><td>Shield EXT_PWR terminal</td><td>Assumed</td></tr><tr><td>Encoders</td><td>GB37 encoder leads</td><td>Not connected</td><td>Yes</td></tr></tbody></table></div>
+<h2 id="building-the-base-couplers-and-motor-mounts">Building the Base, Couplers and Motor Mounts</h2>
+<p>Below are the base and motor-mount stages that the steps in this section go through.</p>
+<figure class="shot"><img src="images/FIORA-Base-and-Motor-Mount-Build-Steps.jpg" alt="FIORA base build steps: circular foam-sheet base, triangular 3D-printed motor mounts, and mecanum wheels sitting in their cutouts" decoding="async"></figure>
+<p class="step"><strong>Step 1⇒ Cut the Base</strong></p>
+<p>Cut a circle with a radius of 40 cm from foam sheet, and cut a 90mm × 34mm slot for each mecanum wheel. The slot size comes from our wheel, so measure yours before cutting. Foam sheet is quick for a prototype, but it needs reinforcement around the motor mounting points.</p>
+<p class="step"><strong>Step 2⇒ Print the Motor-to-Wheel Couplers</strong></p>
+<p>Ready-made motor-to-wheel adapters either did not fit our wheel hub or cost too much, and a GrabCAD model we printed came out larger than the hub. So, measure the hexagonal hole in the wheel hub with a caliper and design a coupler that takes the motor shaft on one side and fills the hexagon on the other. Our prints came out about 1mm bigger or smaller than the CAD size, which is normal 3D-printing tolerance, as the printer, the material and the heat all change the final size. Reduce the measured size by about 1mm, print a test piece and adjust from there. Keep the walls thick, as our first thin coupler pushed in fine and broke very quickly. Below are some of the more than 15 versions we printed.</p>
+<figure class="shot"><img src="images/FIORA-3D-Printed-Coupler-Prints.jpg" alt="3D-printed motor-to-wheel couplers for FIORA indoor delivery robot, from the more than 15 versions printed before one fitted" decoding="async"></figure>
+<p>Once the shaft is in the coupler, check how much room is left towards the wheel adapter. We had about 4mm, and the coupler used only about 1mm of it, so we extended the hexagonal section further into the wheel's hexagonal hole. With that change, the wheel sat fully on the coupler. The coupler and mount CAD files are not in the repository yet <mark class="todo">TODO: add the coupler and motor-mount CAD or STL files to the cad folder</mark>. For more printed parts in real builds, take a look at the <a href="https://circuitdigest.com/3d-printing-projects" target="_blank" rel="noopener">3D printing projects</a> on Circuit Digest.</p>
+<p class="step"><strong>Step 3⇒ Print the Triangular Motor Mounts</strong></p>
+<p>Measure the motor's front face plate and print a small test part first, only to check that the motor fits into it. A full square mount held our motor too tightly and covered almost its whole length, and a smaller square mount was too small. The triangular shape in the middle panel above suited the round base best.</p>
+<p class="step"><strong>Step 4⇒ Fit the Motors, Couplers and Wheels</strong></p>
+<p>Put each motor in its mount, push the coupler onto the shaft and the wheel onto the coupler, and place the set on the base. Each wheel must sit inside its cutout. If the coupler is too long, the mounts have to move back until the left and right ones touch, and the wheels no longer line up with the slots, so fix the coupler length instead of moving the mounts.</p>
+<h2 id="assembling-the-drive-electronics">Assembling the Drive Electronics</h2>
+<p>Stack the L293D Motor Driver Shield on the Arduino Uno, connect the four GB37 motors to its motor terminals, and connect the HC-05 to the Arduino. Upload your motor sketch and test a single motor first from a Bluetooth car controller app on the phone. Once it responds correctly, connect all four motors, test them again, and then mount the Arduino, the shield, the HC-05 and the battery on the base and drive the rover. Our sketch is not in the repository yet, so for now you will need your own sketch that reads the app's commands from the HC-05 and drives the shield.</p>
+<p>Below are the two controller setups we tried before the L293D shield.</p>
+<figure class="shot"><img src="images/FIORA-Motor-Controllers-We-Tried.jpg" alt="Motor controllers tried for FIORA before the L293D shield: ESP32-S3 Pico with TB6612FNG driver on a breadboard, and Arduino Uno with L298 driver boards on the base" decoding="async"></figure>
+<p>The ESP32-S3 Pico with a TB6612FNG driver ran the motors for a while, then stopped. The board became extremely hot, the data cable got hot as well, and the board was burned. An ESP32 DevKit then worked at first and also stopped. We suspected the power supply but never confirmed the cause, so if a board gets hot, disconnect it at once and check the power, grounding and wiring before you try again. The Arduino Uno with L298 driver boards worked, but the drivers became very hot and lost a lot of power. To learn how this driver works, refer to our <a href="https://circuitdigest.com/microcontroller-projects/interfacing-l298n-motor-driver-with-arduino" target="_blank" rel="noopener">L298N motor driver with Arduino</a> tutorial.</p>
+<h2 id="setting-up-the-rplidar-a1m8-with-ros-2-on-the-raspberry-pi-5">Setting Up the RPLIDAR A1M8 with ROS 2 on the Raspberry Pi 5</h2>
+<p>Below is the RPLIDAR A1M8 with its USB adapter board, the 360-degree laser range finder that FIORA maps with.</p>
+<figure class="shot"><img src="images/SLAMTEC-RPLIDAR-A1M8-for-FIORA.jpg" alt="SLAMTEC RPLIDAR A1M8 360-degree LiDAR with its USB adapter board used on FIORA indoor delivery robot" decoding="async"></figure>
+<p>Start small. Get the raw scan data on the Pi first, and only then move on to mapping. Our own launch files and SLAM settings are not in the repository yet, so the steps below are the standard way to bring up an RPLIDAR A1 in ROS 2 Jazzy with Slamtec's <a href="https://github.com/Slamtec/rplidar_ros/tree/ros2" target="_blank" rel="noopener">rplidar_ros</a> package.</p>
+<p class="step"><strong>Step 1⇒ Build the rplidar_ros Package</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git
+cd ~/ros2_ws/
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install
+source ./install/setup.bash</code></pre></div>
+<p>This makes a ROS 2 workspace, clones Slamtec's driver into it and builds it. ROS 2 Jazzy installs from binary packages on Ubuntu 24.04, which runs on the Raspberry Pi 5.</p>
+<p class="step"><strong>Step 2⇒ Give Access to the Serial Port</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">sudo chmod 777 /dev/ttyUSB0</code></pre></div>
+<p>The LiDAR's adapter shows up as a USB serial port, usually /dev/ttyUSB0. The chmod lasts until the next reboot, and the package also has a script, scripts/create_udev_rules.sh, that sets up a permanent rule.</p>
+<p class="step"><strong>Step 3⇒ Launch the LiDAR in RViz2</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">ros2 launch rplidar_ros view_rplidar_a1_launch.py</code></pre></div>
+<p>This starts the LiDAR node and opens RViz2 with the live scan. Once the scan looks right, a SLAM package can turn it into a map, and our plan names SLAM Toolbox for this.</p>
+<p class="step"><strong>Step 4⇒ Account for the Robot's Size</strong></p>
+<p>The LiDAR sits at the centre of the body, so an obstacle can touch the edge of the body before the LiDAR treats it as a collision. Give the robot's body dimensions to the software so that its size is taken into account. We added the prototype body's dimensions in RViz2 before mapping further.</p>
+<p class="step"><strong>Step 5⇒ Map the Space and Save the Map</strong></p>
+<p>Run SLAM, drive the robot around the space from the phone while the map grows, and save each map for later use. We mapped different areas of TinkerSpace this way and saved each one. For another ROS robot that maps with LiDAR SLAM, see the <a href="https://circuitdigest.com/contest/india-automation-challenge-2021/Autonomous-UV-Robot-with-SLAM" target="_blank" rel="noopener">autonomous UV robot with SLAM</a> entry on Circuit Digest.</p>
+<h2 id="building-the-fiora-body">Building the FIORA Body</h2>
+<p>The body has to carry the LiDAR on top with a clear view all around. Below is the side-view sketch we worked from.</p>
+<figure class="shot"><img src="images/FIORA-Body-Sketch-Side-View.jpg" alt="Hand-drawn side view sketch of FIORA indoor delivery robot body with LiDAR and screen on top, two levels in the middle and a 60mm base for wheels and controllers" decoding="async"></figure>
+<p>The sketch puts the LiDAR on top with a screen beside it, two levels in the middle, and a 60mm base that holds the wheels and the controllers. A foam-sheet prototype body is quick to make, and it is the body we mapped with. Our 3D-printed body design came out at least 4 feet tall, which would have taken several weeks and a lot of filament to print, so we started making it smaller. Check the overall size and the print time before you finish a printed body in CAD.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is FIORA mapping TinkerSpace. One of us drives the robot from a phone over Bluetooth while the map grows on the laptop screen.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="videos/FIORA-LiDAR-Mapping-Run.jpg" width="360"><source src="videos/FIORA-LiDAR-Mapping-Run.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/bc92c07e-f1ff-470a-ac00-ad31e8d23390" type="video/mp4"><a href="https://github.com/user-attachments/assets/bc92c07e-f1ff-470a-ac00-ad31e8d23390">FIORA LiDAR mapping run (MP4)</a></video></figure>
+<p>The same clip is in the repository's <a href="https://github.com/BuilderinResidencyTinkerspace/FIORA/blob/main/docs/week-07.md" target="_blank" rel="noopener">Week 7 log</a>.</p>
+<h2 id="output-mapping-tinkerspace-with-fiora">Output: Mapping TinkerSpace with FIORA</h2>
+<p>Below is the prototype body with the RPLIDAR A1M8 on its top deck.</p>
+<figure class="shot"><img src="images/FIORA-Prototype-Body-with-RPLIDAR-and-Raspberry-Pi-5.jpg" alt="FIORA prototype body made of foam sheet with RPLIDAR A1M8 and Raspberry Pi 5 on the top deck and the Arduino, battery and mecanum wheels inside" decoding="async"></figure>
+<p>The LiDAR stands on a small block on the top deck with the Raspberry Pi 5 behind it, and the Arduino, the shield, the battery and the wheels sit inside the round body. Below is part of the TinkerSpace map in RViz2.</p>
+<figure class="shot"><img src="images/FIORA-RViz2-Map-of-TinkerSpace.jpg" alt="RViz2 map of TinkerSpace built with the RPLIDAR A1M8 on FIORA indoor delivery robot, showing free space, black obstacle cells and the robot position" decoding="async"></figure>
+<p>The light area is the space the LiDAR has seen as free, the black cells are obstacles that its laser hit, and the blue circle is the robot. During SLAM mapping, the Raspberry Pi kept turning off. We think the power bank could not supply enough current for the Pi 5, which made the mapping difficult. Localisation on a saved map, route planning and autonomous driving have not been done yet.</p>
+<h2 id="troubleshooting-the-fiora-indoor-delivery-robot">Troubleshooting the FIORA Indoor Delivery Robot</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>Printed coupler does not fit the wheel hub</td><td>The print is about 1mm off the CAD size</td><td>Reduce the measured size by about 1mm, print, test and adjust</td></tr><tr><td>Coupler breaks soon after fitting</td><td>Walls designed too thin</td><td>Make the coupler thicker and print it again</td></tr><tr><td>Wheel does not sit in its cutout</td><td>Coupler too long, so the mounts get pushed back until they touch</td><td>Extend the hexagonal section into the wheel hub instead of moving the mount</td></tr><tr><td>Controller gets very hot and stops</td><td>Not found in our case; check power, grounding and wiring</td><td>Disconnect at once and check the circuit before powering it again</td></tr><tr><td>L298 boards get very hot and the motors feel weak</td><td>Heat and power loss in the L298 driver</td><td>Use the L293D Motor Driver Shield on the Uno, as in this build</td></tr><tr><td>Raspberry Pi turns off during mapping</td><td>Power bank cannot supply enough current</td><td>Use a supply that meets the Pi 5's needs, such as the official 27W USB-C adapter</td></tr><tr><td>Body edge can hit obstacles the map misses</td><td>The LiDAR is at the centre of the body</td><td>Add the robot's body dimensions to the setup</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>With the steps above, you can build FIORA's base, drive it by hand over Bluetooth and map a space with the RPLIDAR A1M8, ROS 2 and RViz2. The base, the drive and the mapping each work, though separately. The parts that turn it into a delivery robot are still to come: a link between ROS 2 and the motor controller, the robot's footprint set up properly for navigation, a reliable supply for the Pi, named delivery points on a saved map, the Telegram bot and a smaller body that can be printed in time. Further, one can add a camera and a web dashboard, just like this <a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">web-controlled Raspberry Pi surveillance robot</a> on Circuit Digest.</p>
+<h2 id="fiora-github-repository">FIORA GitHub Repository</h2>
+<p>The FIORA repository has the README and the build logs with the photos and the mapping video. The code and cad folders are still empty, so the Arduino sketch, the ROS 2 settings and the printed parts' files are not available there yet. FIORA was built by Alen Thomas K and Shamil at TinkerSpace as part of the Builder in Residence programme, with help from Devadath on the LiDAR and SLAM setup, and the repository is released under the GNU GPL v3 licence.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/FIORA" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/FIORA/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-fiora-indoor-delivery-robot">Frequently Asked Questions About the FIORA Indoor Delivery Robot</h2>
+<p class="step"><strong>⇥ 1. Can FIORA deliver items on its own yet?</strong></p>
+<p>No. It is driven by hand over Bluetooth, and the LiDAR has been used to build maps. Localisation, route planning, autonomous driving and the Telegram bot are still being built.</p>
+<p class="step"><strong>⇥ 2. Why use mecanum wheels on an indoor delivery robot?</strong></p>
+<p>Mecanum wheels let the chassis move in different directions, including sideways, which helps in corridors and small rooms. They also make odometry and keeping the four wheels in step harder, which our planning notes list as a challenge.</p>
+<p class="step"><strong>⇥ 3. Why Telegram instead of WhatsApp for delivery requests?</strong></p>
+<p>The WhatsApp API needs Meta's official setup, permissions and verification, while Telegram lets anyone create their own bot. That made Telegram the practical choice for a student prototype.</p>
+<h2 id="robotics-and-lidar-projects-on-circuit-digest">Robotics and LiDAR Projects on Circuit Digest</h2>
+<p>Explore more robot and Raspberry Pi builds on Circuit Digest, with step-by-step guides, wiring diagrams and code.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/news/esp32-self-driving-robot-with-arduino-ros2-lidar" target="_blank" rel="noopener">ESP32 Self-Driving Robot with Arduino, ROS2 and LiDAR</a></strong>: <em>The Maker's Pet Robotics Kit is a DIY learning kit for robotics enthusiasts, students and hobbyists who want to explore autonomous navigation and mapping.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/bluetooth-controlled-robot-car-using-arduino" target="_blank" rel="noopener">Bluetooth Controlled Toy Car using Arduino</a></strong>: <em>In this project, we are going to develop a Bluetooth controlled robo car, using a Bluetooth module and an Android application.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-telegram-bot" target="_blank" rel="noopener">Using Telegram Bot with Raspberry Pi: Sharing Text and Files</a></strong>: <em>Raspberry Pi has always been fun and easy to build projects, and its Linux-based operating system helps in getting projects online quickly.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>FIORA's code is not in the repository yet. The Arduino motor-control sketch and the ROS 2 launch files and SLAM settings are still to be added to the code folder. <mark class="todo">TODO: add the Arduino motor-control sketch and the ROS 2 launch and SLAM settings to the repository</mark></p>
+  </article>
+</div>
+</body>
+</html>

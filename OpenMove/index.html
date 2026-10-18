@@ -1,0 +1,1638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>OpenMove Chessboard Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">4 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>Building OpenMove, an Automatic Chessboard Prototype Using Arduino Uno and Stockfish</h1>
+    <p class="byline">Draft article · OpenMove, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>openmove-automatic-chessboard-arduino-uno-stockfish</code></dd>
+        <dt>Meta description</dt><dd>Build an automatic chessboard prototype with Arduino Uno, CNC Shield V3, NEMA 17 motors and a magnet lift. Covers wiring, calibration, firmware and Stockfish. <span style="color:var(--muted)">(158 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Arduino Uno</li><li>CNC Shield V3</li><li>DRV8825</li><li>NEMA 17</li><li>H-bot</li><li>GT2 Belt</li><li>MG90S Servo</li><li>Automatic Chessboard</li><li>Stockfish</li><li>python-chess</li><li>PySide6</li><li>FastAPI</li><li>Docker</li><li>Azure VM</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/OpenMove-Automatic-Chessboard-Prototype.jpg" alt="OpenMove Automatic Chessboard Prototype" decoding="async"></figure>
+<p>OpenMove started with the moving chess pieces from Harry Potter and one question: could a real chessboard understand what is happening on it, think about the next move, and push a piece on its own? A magnet under the board can drag a piece across the squares, so the job comes down to moving that magnet accurately.</p>
+<p>In this project, I am building OpenMove, an automatic chessboard prototype where a magnet under the board moves the pieces. An Arduino Uno with a CNC Shield V3 drives two NEMA 17 motors through DRV8825 drivers, an MG90S servo lifts a magnet up to the underside of the board, and a desktop app on a laptop sends the moves over USB. Stockfish runs separately as a small web service. Right now the automatic chessboard is an XY motion prototype. The carriage jogs in the right directions from a1, but it has not moved a real piece yet, so this guide covers the motion, calibration and software in full, and the pickup as far as it has been tested. You can also check out similar <a href="https://circuitdigest.com/arduino-projects" target="_blank" rel="noopener">Arduino projects</a> and <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is OpenMove?</p><p><strong>OpenMove</strong> is an <strong>automatic chessboard prototype</strong> that moves pieces from underneath with a servo-lifted magnet on an XY carriage. An <strong>Arduino Uno and CNC Shield V3</strong> drive two <strong>NEMA 17</strong> motors, a PySide6 desktop app sends moves over USB, and a Stockfish API runs on an Azure VM. Small jogs work; piece pickup and full games are not validated yet.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-openmove">What Is OpenMove?</a></li><li class="top"><a href="#how-does-the-openmove-automatic-chessboard-work">How OpenMove Works</a></li><li class="top"><a href="#components-required-for-the-openmove-chessboard">Components Required</a></li><li class="top"><a href="#wiring-diagram-of-the-openmove-chessboard">Wiring Diagram</a></li><li class="sub"><a href="#cnc-shield-v3-pin-connections">CNC Shield V3 Pin Connections</a></li><li class="top"><a href="#testing-the-motion-electronics-on-the-bench">Bench Testing the Electronics</a></li><li class="top"><a href="#building-the-magnet-lift">Building the Magnet Lift</a></li><li class="top"><a href="#uploading-the-firmware-and-running-the-desktop-gui">Firmware Upload and GUI</a></li><li class="sub"><a href="#openmove-serial-commands">Serial Commands</a></li><li class="top"><a href="#calibrating-the-board-mapping">Calibrating the Board Mapping</a></li><li class="top"><a href="#running-the-stockfish-api">Running the Stockfish API</a></li><li class="top"><a href="#openmove-code-explanation">Code Explanation</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-testing-the-openmove-prototype">Output</a></li><li class="top"><a href="#troubleshooting-the-openmove-chessboard">Troubleshooting</a></li><li class="top"><a href="#lessons-from-our-build">Lessons From Our Build</a></li><li class="top"><a href="#openmove-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-openmove">What Is OpenMove?</h2>
+<p>OpenMove has a mechanism under the board that moves a piece, a Stockfish engine that picks a reply, and a planned 8 × 8 grid of Hall-effect sensors to find the pieces. The Arduino handles pins, steps and the magnet, while the laptop owns the chess rules, the game state and the engine, and a move from Stockfish should never reach the motors until the host has checked it against the board. If you build your own, start with the motion. Circuit Digest has also covered an <a href="https://circuitdigest.com/news/autonomous-chessboard-uses-esp32-and-stockfish-for-intelligent-gameplay" target="_blank" rel="noopener">autonomous chessboard that uses an ESP32 and Stockfish</a>. If interested, do check it out.</p>
+<h2 id="how-does-the-openmove-automatic-chessboard-work">How Does the OpenMove Automatic Chessboard Work?</h2>
+<p>The working is split between the laptop and the Arduino. The desktop app keeps the game state with python-chess and sends one move at a time over USB serial at 115200 baud. The Uno turns that move into square coordinates, and the two DRV8825 drivers on the CNC Shield step the NEMA 17 motors, which pull the carriage on GT2 belts in an H-bot layout. On the carriage, an MG90S servo raises a magnet to the underside of the board to catch a piece and lowers it again to let go. Below is the block diagram of the OpenMove automatic chessboard.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-OpenMove-Automatic-Chessboard.jpg" alt="Block diagram of OpenMove automatic chessboard showing host computer, Arduino Uno with CNC Shield V3, DRV8825 drivers, NEMA 17 motors, XY carriage, MG90S magnet lift and Stockfish API" decoding="async"></figure>
+<p>The dashed boxes are not connected yet. The Stockfish API works on its own, and the Hall-effect grid is still an idea. The servo-and-carriage idea is close to the pen lift in the Circuit Digest <a href="https://circuitdigest.com/microcontroller-projects/arduino-cnc-machine-project-code" target="_blank" rel="noopener">Arduino CNC plotter</a>, where a mini servo raises and lowers the pen.</p>
+<p>Below is the flowchart of the firmware running on the Uno.</p>
+<figure class="shot"><img src="images/OpenMove-Firmware-Command-Flowchart.jpg" alt="Flowchart of OpenMove firmware showing safe startup, serial commands, emergency stop, HOME and GOTO handling, chess move checks, piece carrying and board trust" decoding="async"></figure>
+<p>The firmware starts with the drivers switched off and waits for you to place the carriage at the centre of a1 and send HOME. A chess move only runs if the carriage is homed, the board has been confirmed with RESETBOARD, and the move is legal and free of captures, castling, en passant and promotion. If a move fails halfway, the firmware marks the board as untrusted, because the pieces may no longer match its stored position.</p>
+<h2 id="components-required-for-the-openmove-chessboard">Components Required for the OpenMove Chessboard</h2>
+<p>Below is the list of components required to build this project.</p>
+<figure class="shot"><img src="images/Components-Required-for-OpenMove-Automatic-Chessboard.jpg" alt="Components used for OpenMove automatic chessboard including Arduino Uno, CNC Shield V3, DRV8825 drivers, NEMA 17 motors, GT2 belt, steel rods, MG90S servo, magnet and 12V adapter" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Arduino Uno (CP2102 USB)</td><td>Low-level motion controller</td><td>1</td></tr><tr><td>2.</td><td>CNC Shield V3</td><td>Driver sockets, STEP/DIR/ENABLE breakout</td><td>1</td></tr><tr><td>3.</td><td>DRV8825 Stepper Driver</td><td>1/8 microstepping, VREF about 0.65V</td><td>2</td></tr><tr><td>4.</td><td>NEMA 17 Stepper Motor</td><td>1.8° steps, drives the belts</td><td>2</td></tr><tr><td>5.</td><td>GT2 Belt with 20-Tooth Pulleys</td><td>H-bot transmission</td><td>As required</td></tr><tr><td>6.</td><td>Stainless-Steel Rod, 4mm × 300mm</td><td>Linear support</td><td>2</td></tr><tr><td>7.</td><td>MG90S Servo</td><td>Raises and lowers the magnet</td><td>1</td></tr><tr><td>8.</td><td>Permanent Magnet <mark class="todo">TODO: size and grade</mark></td><td>Catches a piece through the board</td><td>1</td></tr><tr><td>9.</td><td>3D-Printed Rack and Pinion</td><td>Turns servo rotation into vertical travel</td><td>1 set</td></tr><tr><td>10.</td><td>12V 3A Adapter</td><td>Motor power</td><td>1</td></tr><tr><td>11.</td><td>Regulated 5V Supply <mark class="todo">TODO: model</mark></td><td>Servo power</td><td>1</td></tr><tr><td>12.</td><td>Chessboard and Pieces <mark class="todo">TODO: board thickness and piece base</mark></td><td>44mm between square centres</td><td>1 set</td></tr><tr><td>13.</td><td>Laptop with Python 3</td><td>Desktop GUI, terminal UI, python-chess</td><td>1</td></tr></tbody></table></div>
+<p>The Uno in my photos is an Adiy board with a CP2102 USB chip, which is why it shows up as /dev/ttyUSB0 on Linux. The firmware's 40 steps per millimetre comes from the 1.8° motors, the DRV8825s set to 1/8 microstepping, and a GT2 belt on 20-tooth pulleys, so keep those three the same or recalculate <code>MOTOR_STEPS_PER_MM</code>. For a first look at this motor and driver pair, refer to the <a href="https://circuitdigest.com/microcontroller-projects/control-nema-17-stepper-motor-with-arduino-using-drv8825-stepper-motor-driver" target="_blank" rel="noopener">NEMA 17 with Arduino and DRV8825</a> tutorial on Circuit Digest.</p>
+<h2 id="wiring-diagram-of-the-openmove-chessboard">Wiring Diagram of the OpenMove Chessboard</h2>
+<p>Below is the wiring diagram for the OpenMove chessboard.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-OpenMove-Automatic-Chessboard.jpg" alt="Wiring Diagram of OpenMove Automatic Chessboard" title="Wiring Diagram of OpenMove Automatic Chessboard" decoding="async"></figure>
+<p>The CNC Shield sits on top of the Uno, and the two DRV8825 drivers plug into its X and Y sockets, as per the table below. The firmware names the motors A and B, as both of them work together on every move in an H-bot. The servo signal goes to the shield's Z+ limit-switch header, which is D11 on the Uno. Power the servo from a separate regulated 5V supply with its ground tied to the shield ground, and never connect it to the 12V motor supply. The 12V 3A adapter feeds the motor side, and a motor should never be plugged in or pulled out while that supply is on. That is all about the wiring. If you are new to servos, do check out our <a href="https://circuitdigest.com/microcontroller-projects/interface-servo-motor-with-arduino" target="_blank" rel="noopener">servo motor with Arduino</a> guide.</p>
+<h3 id="cnc-shield-v3-pin-connections">CNC Shield V3 Pin Connections</h3>
+<div class="table-wrap"><table><thead><tr><th>Device</th><th>CNC Shield V3 Connection</th><th>Arduino Pin</th></tr></thead><tbody><tr><td>Motor A driver STEP / DIR</td><td>X socket</td><td>D2 / D5</td></tr><tr><td>Motor B driver STEP / DIR</td><td>Y socket</td><td>D3 / D6</td></tr><tr><td>Shared driver ENABLE</td><td>Shield enable, active LOW</td><td>D8</td></tr><tr><td>MG90S servo signal</td><td>Z+ limit-switch header</td><td>D11</td></tr></tbody></table></div>
+<h2 id="testing-the-motion-electronics-on-the-bench">Testing the Motion Electronics on the Bench</h2>
+<p>Test the electronics on the desk before building any mechanics. Below are the Uno and the CNC Shield with its two DRV8825 drivers.</p>
+<figure class="shot"><img src="images/Arduino-Uno-and-CNC-Shield-V3-for-OpenMove.jpg" alt="Arduino Uno with CP2102 USB and CNC Shield V3 with two DRV8825 stepper drivers used for OpenMove" decoding="async"></figure>
+<p>Set the driver current first. Both of my drivers measured about 0.65V on VREF, but the current limit also depends on the sense resistors on each driver board, so read their markings and set VREF from them. I have not done that yet, so my actual limit is still unknown.</p>
+<p>Then upload code/hardware_smoke_test/hardware_smoke_test.ino. It sends 100 pulses to both motors together at about 50 steps per second, pauses, reverses, and swings the servo between 30 and 120 degrees, over and over. Both of my motors moved and reversed together, and the servo followed. Below is the servo from that test.</p>
+<figure class="shot"><img src="images/MG90S-Servo-for-OpenMove-Magnet-Lift.jpg" alt="MG90S servo used for the OpenMove magnet lift during the hardware smoke test" decoding="async"></figure>
+<p>This test proves the whole chain is alive, but it does not check each motor on its own or any movement under load, so test each motor alone as well.</p>
+<h2 id="building-the-magnet-lift">Building the Magnet Lift</h2>
+<p>A magnet sitting at one height cannot choose whether to hold a piece or let it go, so it needs a way to move up and down. A servo rotates and the magnet has to travel vertically, so a 3D-printed rack and pinion sits between them. Below are the linear servo mechanism and its 3D model.</p>
+<figure class="shot"><img src="images/OpenMove-Linear-Servo-Magnet-Lift.jpg" alt="Linear servo magnet lift for OpenMove with a micro servo driving a 3D-printed rack, and the 3D model of the bracket, pinion and rack" decoding="async"></figure>
+<p>The repository's cad folder has only a README so far, so model and print your own bracket, pinion and rack. The magnet has to come close enough to carry a piece through the board, and drop far enough away to leave it behind. In the firmware, a 2100 µs pulse puts the magnet against the underside of the board, which I checked by eye, and 1000 µs takes it clear. The servo gets 500 ms to settle before the carriage moves, since nothing measures its position. I have not done a successful piece transfer yet, so tune the magnet and the two pulse widths on your own board. In addition to this build, here is a collection of <a href="https://circuitdigest.com/3d-printing-projects" target="_blank" rel="noopener">3D printing projects</a> for reference.</p>
+<h2 id="uploading-the-firmware-and-running-the-desktop-gui">Uploading the Firmware and Running the Desktop GUI</h2>
+<p>The steps below set up the firmware and the desktop controller on a Linux laptop.</p>
+<p class="step"><strong>Step 1⇒ Upload the Firmware</strong></p>
+<p>The sketch is code/openmove_chess/openmove_chess.ino. Compile and upload it for the Uno with the Arduino IDE or with arduino-cli, as shown below. Close the GUI first, as it holds the serial port.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">arduino-cli compile --fqbn arduino:avr:uno code/openmove_chess
+arduino-cli upload --port /dev/ttyUSB0 --fqbn arduino:avr:uno code/openmove_chess</code></pre></div>
+<p class="step"><strong>Step 2⇒ Start the Desktop GUI</strong></p>
+<p>Install the GUI requirements, PySide6 and python-chess, in a virtual environment and start it with the serial port.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">python -m venv .venv
+source .venv/bin/activate
+pip install -r code/requirements-gui.txt
+python code/openmove_gui.py --port /dev/ttyUSB0</code></pre></div>
+<p>The terminal UI needs only Python's standard library, and <code>python code/openmove_tui.py --port /dev/ttyUSB0</code> starts it, with <code>--home</code> and <code>--reset</code> to send HOME and RESETBOARD at startup. Below is the GUI before connecting. Its move controls stay disabled until the controller reports protocol 7, the a1 mapping, a home and a confirmed board.</p>
+<figure class="shot"><img src="images/OpenMove-Desktop-GUI.png" alt="OpenMove desktop GUI built with PySide6 showing the chessboard, connection panel, PGN box and Set Home, Reset Board, Servo and Abort buttons" decoding="async"></figure>
+<p class="step"><strong>Step 3⇒ Set Home and Reset Board</strong></p>
+<p>An upload clears both confirmations. Move the carriage by hand to the centre of a1 and press <strong>Set Home</strong>. Then arrange the pieces in the starting position and press <strong>Reset Board</strong>. These buttons only record what you did. They do not move anything back for you.</p>
+<p class="step"><strong>Step 4⇒ Start with Small Jogs</strong></p>
+<p>Use the 1 mm and 10 mm jogs to check both directions before trying GOTO, a move or a PGN.</p>
+<h3 id="openmove-serial-commands">OpenMove Serial Commands</h3>
+<div class="table-wrap"><table><thead><tr><th>Command</th><th>What It Does</th></tr></thead><tbody><tr><td>HOME</td><td>Sets the current carriage position as a1 and enables the drivers</td></tr><tr><td>RESETBOARD</td><td>Confirms the standard starting position</td></tr><tr><td>STATUS, SELFTEST</td><td>Report the mapping, home, trust and stop state</td></tr><tr><td>JOGX+1, JOGX-10, JOGY+1, JOGY-10 (and the other signs)</td><td>Move 1 mm or 10 mm along one axis</td></tr><tr><td>GOTO e4</td><td>Moves the carriage to the centre of a square</td></tr><tr><td>e2e4, Nf3</td><td>Plays a legal, non-capturing chess move</td></tr><tr><td>RETURN e4e2</td><td>Moves a piece back without the rules check, for PGN restore</td></tr><tr><td>MAGNET90, MAGNET0</td><td>Raises the magnet to the board or takes it clear</td></tr><tr><td>DISABLE</td><td>Switches the drivers off and clears home</td></tr><tr><td>! or Ctrl-X</td><td>Emergency stop</td></tr></tbody></table></div>
+<p>Commands are not case-sensitive.</p>
+<h2 id="calibrating-the-board-mapping">Calibrating the Board Mapping</h2>
+<p>The Arduino does not know where the carriage is when it starts, and there is no limit switch, so the mapping between squares and motor steps has to be checked on the real board. Below is the coordinate mapping I ended up with, next to the two wrong guesses that came before it.</p>
+<figure class="shot"><img src="images/OpenMove-Board-Coordinate-Mapping.jpg" alt="OpenMove board coordinate mapping with a1 at the origin, 44 mm square pitch, h8 at 308 mm and the two wrong origin guesses" decoding="async"></figure>
+<p>Measure the distance between neighbouring square centres first. Mine is 44 mm, which puts h8 at (308, 308) with a1 at (0, 0). Then home at a1 and check that a small positive X jog moves towards b1 and a positive Y jog towards a2. After that, test GOTO on squares far from a1. My first origin label, h1, sent GOTO g1 to g8, and the second, h8, sent GOTO e2 to d7, which meant the mapping was rotated by 180 degrees and the real origin was a1. Firmware 2.5 fixed this by reversing only the logical X axis with <code>REVERSE_LOGICAL_X</code>. Finally, check the travel, as seven 44 mm gaps add up to 308 mm while my rods are 300 mm long.</p>
+<h2 id="running-the-stockfish-api">Running the Stockfish API</h2>
+<p>The engine lives in the stockfiash folder of the repository as a small FastAPI app in a Docker container. It takes a full FEN position and a search time between 50 and 5000 ms, checks an API key, and replies with a best move in UCI notation, such as e2e4. To run it locally, put a long random key in the environment file and start the container.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">cd stockfiash
+cp .env.example .env              # set OPENMOVE_API_KEY, e.g. openssl rand -hex 32
+docker compose up --build
+curl http://localhost:8080/health</code></pre></div>
+<p>The container is limited to one CPU and 512 MiB of memory and runs on a read-only filesystem. Mine runs on an Azure VM, bound to 127.0.0.1:8080, so I reach it through an SSH tunnel, and public DNS and TLS are still pending. The recorded warm responses on the VM are below.</p>
+<div class="table-wrap"><table><thead><tr><th>Search Time</th><th>Response Time on the VM</th></tr></thead><tbody><tr><td>50 ms</td><td>About 59 ms</td></tr><tr><td>250 ms</td><td>About 255 ms</td></tr><tr><td>500 ms</td><td>About 506 ms</td></tr></tbody></table></div>
+<p>These timings are for the service on the VM, not a round trip from the board. Five API tests pass, with the success test using a mock engine. A more basic electronic chessboard is the <a href="https://circuitdigest.com/project/raspberry-pi-chess-board" target="_blank" rel="noopener">DIY computer chess board using Raspberry Pi</a> on Circuit Digest.</p>
+<h2 id="openmove-code-explanation">OpenMove Code Explanation</h2>
+<p>The firmware is written in the Arduino IDE for the Uno. Version 2.7 in the repository speaks serial protocol 7 at 115200 baud, and the desktop GUI is written in Python with PySide6 and python-chess. Below are the main parts.</p>
+<p class="step"><strong>Pins and Calibration</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-cpp">const uint8_t A_STEP_PIN = 2;
+const uint8_t B_STEP_PIN = 3;
+const uint8_t A_DIR_PIN = 5;
+const uint8_t B_DIR_PIN = 6;
+const uint8_t ENABLE_PIN = 8;  // Active LOW.
+const uint8_t ACTUATOR_PIN = 11;  // CNC Shield Z+ header; PWM signal only.
+const float MOTOR_STEPS_PER_MM = 40.0f;
+const float SQUARE_SIZE_MM = 44.0f; // User-measured adjacent square centres.
+const bool REVERSE_LOGICAL_X = true;
+const int ACTUATOR_RETRACT_US = 1000; // Magnet raised / piece released.
+const int ACTUATOR_EXTEND_US = 2100; // Confirmed surface contact.</code></pre></div>
+<p>These constants hold the pin map and the numbers measured on the real board, so change <code>SQUARE_SIZE_MM</code> and <code>MOTOR_STEPS_PER_MM</code> for your own board and drive. The comment on 1000 µs says "raised", while my build notes describe the magnet going up to grab a piece, so check the direction on your own build.</p>
+<p class="step"><strong>Turning X and Y into Two Motors</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-cpp">float logicalX = REVERSE_LOGICAL_X ? -x : x;
+float mappedX = SWAP_X_Y ? y : logicalX;
+float mappedY = SWAP_X_Y ? logicalX : y;
+long targetA = lroundf((mappedX + mappedY) * MOTOR_STEPS_PER_MM);
+long targetB = lroundf((mappedY - mappedX) * MOTOR_STEPS_PER_MM);
+if (!moveMotors(targetA, targetB)) return false;</code></pre></div>
+<p>The <code>moveTo()</code> function converts a position in millimetres into step targets. In this H-bot mapping, motor A follows X plus Y and motor B follows Y minus X, so a straight move along one axis turns both motors.</p>
+<p class="step"><strong>Carrying a Piece</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-cpp">bool pickupSquare(uint8_t file, uint8_t rank) {
+  releaseMagnet();
+  if (!moveTo(squareX(file), squareY(rank))) return false;
+  engageMagnet();
+  return !motionAborted;
+}</code></pre></div>
+<p>To move a piece, the carriage goes to the source square with the magnet clear, raises the magnet, travels to the destination and lowers it. Most pieces travel in a straight line between square centres, since a legal move already has a clear path. The magnet cannot jump, so for a knight, <code>planKnightMove()</code> tries three square-by-square routes, parks up to two blocking pieces on empty squares, moves the knight, and then puts the blockers back. This planner has not been tested on the board yet.</p>
+<p class="step"><strong>Checking a PGN Before Replay</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">for move in moves:
+    if board.is_capture(move):
+        raise ValueError(&quot;PGN captures are not physically supported yet&quot;)
+    if board.is_castling(move):
+        raise ValueError(&quot;PGN castling is not physically supported yet&quot;)
+    if move.promotion:
+        raise ValueError(&quot;PGN promotions are not physically supported yet&quot;)
+    board.push(move)</code></pre></div>
+<p><code>parse_replayable_pgn()</code> in the GUI walks through every move of the PGN before anything is sent, so an unsupported move cannot turn up halfway through a replay.</p>
+<p class="step"><strong>Restoring the Board with RETURN</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">move = self.playback_moves[self.playback_index - 1]
+reverse_move = chess.square_name(move.to_square) + chess.square_name(move.from_square)
+self._send(f&quot;RETURN {reverse_move}&quot;, success=self._pgn_return_completed,
+           timeout=120.0, playback=True)</code></pre></div>
+<p>After the last move, the GUI waits 10 seconds and plays the moves backwards with <code>RETURN</code>, so e2e4 comes back as <code>RETURN e4e2</code>. RETURN skips the rules check, as a pawn moving backwards would fail it. With <strong>Loop after restore</strong> ticked, it checks the controller status and plays the PGN again, or stops if home or board trust was lost.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the video demonstration of OpenMove.</p>
+<a class="video-card" href="#todo-link"><span class="play" aria-hidden="true"></span><span><strong>Watch the OpenMove automatic chessboard</strong><span class="sub">YouTube · video not published yet (VIDEO_ID)</span></span></a>
+<p><mark class="todo">TODO: video of the carriage jogging from a1, a GOTO test and the GUI connected to the controller</mark></p>
+<h2 id="output-testing-the-openmove-prototype">Output: Testing the OpenMove Prototype</h2>
+<p>Below is what the controller prints when it starts, taken from the firmware's <code>setup()</code>.</p>
+<div class="code-wrap"><pre class="code"><code class="language-text">OpenMove chess motion controller 2.7
+mapping:home=a1,+x=a-to-h,+y=1-to-8,white=ranks-1-2
+mode:white-and-black automation; captures disabled
+ready:place carriage at a1 centre, then send HOME</code></pre></div>
+<p>The smoke test ran on the hardware, and both motors and the servo moved. After firmware 2.5, the small positive X and Y jogs matched a1 to b1 and a1 to a2 on the board. Firmware 2.6 compiled to 19,146 bytes of flash and 858 bytes of RAM, uploaded, and a read-only status query confirmed protocol 7 and the a1 mapping. The records disagree on whether 2.7 was uploaded, so the installed version still needs checking. No full-square accuracy test, piece pickup or physical PGN replay has been done yet.</p>
+<h2 id="troubleshooting-the-openmove-chessboard">Troubleshooting the OpenMove Chessboard</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>GOTO g1 goes to g8</td><td>The origin label does not match the real corner</td><td>Test GOTO from the real a1, then fix the mapping in firmware</td></tr><tr><td>One motor hums, or the Y driver runs warmer</td><td>Current limit or wiring not verified</td><td>Read the sense resistors, set VREF from them, and test each motor alone</td></tr><tr><td>Upload fails because the port is busy</td><td>The GUI still holds /dev/ttyUSB0</td><td>Disconnect the GUI before arduino-cli upload</td></tr><tr><td>GUI shows Mapping mismatch and moves are disabled</td><td>Firmware reports a different protocol or origin</td><td>Upload firmware that reports protocol 7 and the a1 mapping</td></tr><tr><td>error:not-homed or error:confirm-standard-physical-board</td><td>Home or board trust lost after an upload, a stop or a failed move</td><td>Put the carriage at a1, press Set Home, set up the pieces, press Reset Board</td></tr><tr><td>The carriage stops short of the h-file or the 8th rank</td><td>300 mm rods for 308 mm of travel between a1 and h8</td><td>Measure the real travel before full-board moves</td></tr></tbody></table></div>
+<h2 id="lessons-from-our-build">Lessons From Our Build</h2>
+<p>Keep motor direction and board direction as separate settings. In an H-bot, both motors turn for every straight move, so flipping one motor does something different from flipping the board's X axis, and mixing the two makes a test hard to read.</p>
+<p>Test the mapping with GOTO on far squares as well as one-square jogs. Both of my wrong origin labels showed up in GOTO tests across the board, and the second set of tests showed that the whole mapping was rotated by 180 degrees.</p>
+<p>Do not trust VREF alone on clone drivers, as the same reading can mean a different current limit when the sense resistors differ. After one fast test, one of my motors hummed and the Y driver ran warmer than the X driver, and I have not found the cause yet.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>OpenMove has the electronics, the firmware, a desktop controller and a Stockfish service, and the carriage jogs in the right directions from a properly labelled a1, but the hard part is still the mechanism. The next milestone is a repeatable full-square move from a1, then homing, then a magnet that moves exactly one piece and leaves it behind. There is still room for improvement, such as automatic homing, measured driver current limits and the 8 × 8 Hall-effect grid for finding pieces. Further, one can start that sensing work with this <a href="https://circuitdigest.com/microcontroller-projects/arduino-hall-effect-sensor" target="_blank" rel="noopener">Hall effect sensor with Arduino</a> tutorial on Circuit Digest.</p>
+<h2 id="openmove-github-repository">OpenMove GitHub Repository</h2>
+<p>The OpenMove repository has the Uno firmware, the desktop GUI and terminal UI, the hardware smoke test, the Stockfish API with its Dockerfile and tests, and the build notes. OpenMove is built by Mishal at Tinkerspace for Builder in Residence, with a replay trust fix contributed by arxhr007. The repository has no licence file.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/OpenMove" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/OpenMove/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-openmove">Frequently Asked Questions About OpenMove</h2>
+<p class="step"><strong>⇥ 1. Can OpenMove play a full game of chess yet?</strong></p>
+<p>No. Captures, castling, en passant, promotion and automatic homing are not supported, and no piece has been moved on the board yet. The firmware and GUI only allow non-capturing moves.</p>
+<p class="step"><strong>⇥ 2. Why does the Arduino not run Stockfish itself?</strong></p>
+<p>The Uno already handles the pins, steps and magnet timing, so Stockfish runs on a server, and the host checks its move against the board before the Arduino moves anything.</p>
+<p class="step"><strong>⇥ 3. How does OpenMove know where the pieces are?</strong></p>
+<p>It does not sense them yet. You set up the starting position by hand and confirm it with RESETBOARD, and the firmware tracks the moves from there.</p>
+<h2 id="chess-and-motion-projects">Chess and Motion Projects</h2>
+<p>Explore more Arduino builds with stepper motors, servos and magnetic sensing, with circuits and code.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/arduino-cnc-machine-project-code" target="_blank" rel="noopener">DIY Arduino Based CNC Plotter Machine</a></strong>: <em>CNC machines are computerised numerical control machines used to draw anything or design any mechanical part, and the controller can be a computer or a microcontroller.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/control-nema-17-stepper-motor-with-arduino-using-drv8825-stepper-motor-driver" target="_blank" rel="noopener">Control a NEMA 17 Stepper Motor with Arduino and DRV8825</a></strong>: <em>A stepper motor is a type of DC motor that works in discrete steps, and the NEMA 17 takes 200 steps for one full rotation.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/arduino-hall-effect-sensor" target="_blank" rel="noopener">Interfacing Hall Effect Sensor with Arduino</a></strong>: <em>Sensors convert real-world data into digital data that electronics can process, and this tutorial uses a Hall effect sensor to detect a magnet.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>The complete Uno firmware, the hardware smoke test and the Stockfish API are below. The desktop GUI (code/openmove_gui.py) and the terminal UI (code/openmove_tui.py) are in the code folder of the repository.</p>
+<details class="codefile"><summary><span class="path">code/openmove_chess/openmove_chess.ino</span><span class="count">1170 lines</span></summary><pre class="code"><code class="language-cpp">#include &lt;Servo.h&gt;
+#include &lt;math.h&gt;
+#include &lt;string.h&gt;
+
+// Coordinate contract shared with every host controller. Do not change one
+// field independently: a1 is the only manual home, white starts on ranks 1-2,
+// +X advances files a-&gt;h, and +Y advances ranks 1-&gt;8.
+const uint8_t PROTOCOL_VERSION = 7;
+const char FIRMWARE_VERSION[] = &quot;2.7&quot;;
+
+// Confirmed CNC Shield V3 wiring.
+const uint8_t A_STEP_PIN = 2;
+const uint8_t B_STEP_PIN = 3;
+const uint8_t A_DIR_PIN = 5;
+const uint8_t B_DIR_PIN = 6;
+const uint8_t ENABLE_PIN = 8;  // Active LOW.
+const uint8_t ACTUATOR_PIN = 11;  // CNC Shield Z+ header; PWM signal only.
+
+// Confirmed mechanics: 1.8 degree motors, GT2 belt, 20-tooth pulley,
+// and DRV8825 drivers configured for 1/8 microstepping.
+const float MOTOR_STEPS_PER_MM = 40.0f;
+const float SQUARE_SIZE_MM = 44.0f; // User-measured adjacent square centres.
+const float PLAYABLE_SIZE_MM = SQUARE_SIZE_MM * 8.0f;
+const float HALF_SQUARE_MM = SQUARE_SIZE_MM / 2.0f;
+// a1 is (0, 0), h8 is (308, 308), and the positive playable edges are at
+// (330, 330). Remaining travel is reserved for edge operations.
+const float MAX_X_MM = PLAYABLE_SIZE_MM;
+const float MAX_Y_MM = PLAYABLE_SIZE_MM;
+// Change only after measuring the physical jog directions.
+const bool INVERT_A_DIR = true;
+const bool INVERT_B_DIR = true;
+const bool SWAP_X_Y = false;
+// Physical test: the previous logical X+ moved b1-&gt;a1. Reverse X so logical
+// X+ moves a1-&gt;b1. Y is not reversed: Y+ already moved a1-&gt;a2.
+const bool REVERSE_LOGICAL_X = true;
+
+// MG90S with a custom 3D-printed linear mechanism. These are pulse widths.
+// User confirmed surface contact at 2100 us on 2026-09-17; 1000 us was clear
+// of the surface. Contact is visually calibrated, not sensed by the controller.
+const int ACTUATOR_RETRACT_US = 1000; // Magnet raised / piece released.
+const int ACTUATOR_EXTEND_US = 2100; // Confirmed surface contact.
+const int ACTUATOR_MIN_US = ACTUATOR_RETRACT_US;
+const int ACTUATOR_MAX_US = ACTUATOR_EXTEND_US;
+// Direct endpoint commands let the servo move at its native maximum speed.
+// Rated unloaded travel is ~300 ms over 180 degrees at 4.8 V. Allow 500 ms
+// before XY motion for the printed mechanism/load; this is not position feedback.
+const unsigned long ACTUATOR_SETTLE_MS = 500;
+
+// Conservative initial motion values. These require physical validation.
+const float START_STEP_RATE = 80.0f;
+const float MAX_STEP_RATE = 2500.0f;
+const float STEP_ACCELERATION = 6000.0f;
+const unsigned int STEP_HIGH_US = 10;
+
+Servo magnetActuator;
+
+long motorAPosition = 0;
+long motorBPosition = 0;
+float carriageX = 0.0f;
+float carriageY = 0.0f;
+bool manuallyHomed = false;
+bool motionAborted = false;
+bool emergencyStopLatched = false;
+bool emergencyDuringCommand = false;
+int actuatorPulseUs = ACTUATOR_RETRACT_US;
+bool actuatorSettled = false; // True only after the travel wait completes.
+
+char board[8][8];
+char inputLine[32];
+uint8_t inputLength = 0;
+bool discardLine = false;
+bool boardTrusted = false;
+bool whiteToMove = true;
+
+struct RelocationPlan {
+  char piece;
+  uint8_t source;
+  uint8_t parking;
+  uint8_t pathLength;
+  uint8_t path[64];
+};
+
+struct KnightPlan {
+  bool valid;
+  uint8_t route[3];
+  uint8_t relocationCount;
+  uint16_t loadedSteps;
+  RelocationPlan relocations[2];
+};
+
+KnightPlan knightPlan;
+int8_t plannerParent[64];
+uint8_t plannerQueue[64];
+
+// Host UIs cache status; report every loss of trust so they never go stale.
+void announceTrustState() {
+  Serial.print(F(&quot;info:homed=&quot;));
+  Serial.print(manuallyHomed ? 1 : 0);
+  Serial.print(F(&quot;,board_confirmed=&quot;));
+  Serial.println(boardTrusted ? 1 : 0);
+}
+
+void stopController() {
+  digitalWrite(ENABLE_PIN, HIGH);
+  magnetActuator.writeMicroseconds(ACTUATOR_RETRACT_US);
+  actuatorPulseUs = ACTUATOR_RETRACT_US;
+  actuatorSettled = false;
+  manuallyHomed = false;
+  boardTrusted = false;
+  motionAborted = true;
+  emergencyStopLatched = true;
+  emergencyDuringCommand = true;
+  inputLength = 0;
+  discardLine = true;
+  announceTrustState();
+}
+
+bool emergencyRequested();
+
+void settleActuator() {
+  unsigned long started = millis();
+  while (millis() - started &lt; ACTUATOR_SETTLE_MS) {
+    if (emergencyRequested()) { stopController(); return; }
+    delay(1);
+  }
+  actuatorSettled = true;
+}
+
+void resetBoardState() {
+  const char backRankWhite[8] = {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'};
+  const char backRankBlack[8] = {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'};
+
+  for (uint8_t file = 0; file &lt; 8; file++) {
+    board[file][0] = backRankWhite[file];
+    board[file][1] = 'P';
+    for (uint8_t rank = 2; rank &lt; 6; rank++) board[file][rank] = 0;
+    board[file][6] = 'p';
+    board[file][7] = backRankBlack[file];
+  }
+  whiteToMove = true;
+}
+
+void setActuatorPosition(int pulseUs) {
+  if (motionAborted) return;
+  if (actuatorSettled &amp;&amp; actuatorPulseUs == pulseUs) return;
+  actuatorSettled = false;
+  magnetActuator.writeMicroseconds(pulseUs);
+  actuatorPulseUs = pulseUs;
+  settleActuator();
+}
+
+void releaseMagnet() {
+  setActuatorPosition(ACTUATOR_RETRACT_US);
+}
+
+void engageMagnet() {
+  setActuatorPosition(ACTUATOR_EXTEND_US);
+}
+
+void waitMicros(unsigned long duration) {
+  if (duration &gt;= 1000UL) {
+    delay(duration / 1000UL);
+    duration %= 1000UL;
+  }
+  if (duration) delayMicroseconds((unsigned int)duration);
+}
+
+bool emergencyRequested() {
+  while (Serial.available()) {
+    int incoming = Serial.read();
+    if (incoming == '!' || incoming == 0x18) return true;
+    // Commands received during execution are rejected, never partly executed.
+    if (incoming == '\n' || incoming == '\r') {
+      if (discardLine) Serial.println(F(&quot;warning:command-discarded-while-busy&quot;));
+      discardLine = false;
+    } else discardLine = true;
+  }
+  return false;
+}
+
+void setDirection(uint8_t pin, long delta) {
+  bool inverted = pin == A_DIR_PIN ? INVERT_A_DIR : INVERT_B_DIR;
+  digitalWrite(pin, ((delta &gt;= 0) != inverted) ? HIGH : LOW);
+}
+
+bool moveMotors(long targetA, long targetB) {
+  if (motionAborted || !manuallyHomed) return false;
+  long deltaA = targetA - motorAPosition;
+  long deltaB = targetB - motorBPosition;
+  unsigned long stepsA = labs(deltaA);
+  unsigned long stepsB = labs(deltaB);
+  unsigned long totalEvents = max(stepsA, stepsB);
+
+  if (totalEvents == 0) return true;
+
+  setDirection(A_DIR_PIN, deltaA);
+  setDirection(B_DIR_PIN, deltaB);
+  delayMicroseconds(20);
+
+  unsigned long errorA = totalEvents / 2;
+  unsigned long errorB = totalEvents / 2;
+
+  for (unsigned long event = 0; event &lt; totalEvents; event++) {
+    if (emergencyRequested()) {
+      stopController();
+      return false;
+    }
+
+    bool stepA = false;
+    bool stepB = false;
+    errorA += stepsA;
+    errorB += stepsB;
+    if (errorA &gt;= totalEvents) {
+      errorA -= totalEvents;
+      stepA = true;
+    }
+    if (errorB &gt;= totalEvents) {
+      errorB -= totalEvents;
+      stepB = true;
+    }
+
+    unsigned long fromEnd = min(event, totalEvents - 1UL - event);
+    float rate = sqrt(START_STEP_RATE * START_STEP_RATE +
+                      2.0f * STEP_ACCELERATION * (float)fromEnd);
+    if (rate &gt; MAX_STEP_RATE) rate = MAX_STEP_RATE;
+    unsigned long period = (unsigned long)(1000000.0f / rate);
+
+    if (stepA) digitalWrite(A_STEP_PIN, HIGH);
+    if (stepB) digitalWrite(B_STEP_PIN, HIGH);
+    delayMicroseconds(STEP_HIGH_US);
+    if (stepA) digitalWrite(A_STEP_PIN, LOW);
+    if (stepB) digitalWrite(B_STEP_PIN, LOW);
+    waitMicros(period &gt; STEP_HIGH_US ? period - STEP_HIGH_US : 1UL);
+
+    if (stepA) motorAPosition += deltaA &gt;= 0 ? 1 : -1;
+    if (stepB) motorBPosition += deltaB &gt;= 0 ? 1 : -1;
+  }
+  return true;
+}
+
+bool moveTo(float x, float y) {
+  if (x &lt; 0.0f || x &gt; MAX_X_MM || y &lt; 0.0f || y &gt; MAX_Y_MM) {
+    Serial.println(F(&quot;error:target-outside-configured-workspace&quot;));
+    return false;
+  }
+
+  // Selected H-bot mapping. Both physical directions and scale need measurement.
+  float logicalX = REVERSE_LOGICAL_X ? -x : x;
+  float mappedX = SWAP_X_Y ? y : logicalX;
+  float mappedY = SWAP_X_Y ? logicalX : y;
+  long targetA = lroundf((mappedX + mappedY) * MOTOR_STEPS_PER_MM);
+  long targetB = lroundf((mappedY - mappedX) * MOTOR_STEPS_PER_MM);
+  if (!moveMotors(targetA, targetB)) return false;
+  carriageX = x;
+  carriageY = y;
+  return true;
+}
+
+// The manually established origin is the centre of a1.
+float squareX(uint8_t file) { return file * SQUARE_SIZE_MM; }
+float squareY(uint8_t rank) { return rank * SQUARE_SIZE_MM; }
+
+uint8_t squareIndex(uint8_t file, uint8_t rank) { return rank * 8 + file; }
+uint8_t indexFile(uint8_t index) { return index % 8; }
+uint8_t indexRank(uint8_t index) { return index / 8; }
+
+bool routeContains(const uint8_t *route, uint8_t square) {
+  return route[0] == square || route[1] == square || route[2] == square;
+}
+
+bool findEmptyPath(char state[8][8], uint8_t source, uint8_t destination,
+                   const uint8_t *forbiddenRoute, uint8_t *path, uint8_t &amp;pathLength) {
+  memset(plannerParent, -1, sizeof(plannerParent));
+  uint8_t head = 0;
+  uint8_t tail = 0;
+  plannerQueue[tail++] = source;
+  plannerParent[source] = source;
+
+  const int8_t fileSteps[4] = {1, -1, 0, 0};
+  const int8_t rankSteps[4] = {0, 0, 1, -1};
+  while (head &lt; tail &amp;&amp; plannerParent[destination] &lt; 0) {
+    uint8_t current = plannerQueue[head++];
+    int currentFile = indexFile(current);
+    int currentRank = indexRank(current);
+    for (uint8_t direction = 0; direction &lt; 4; direction++) {
+      int nextFile = currentFile + fileSteps[direction];
+      int nextRank = currentRank + rankSteps[direction];
+      if (nextFile &lt; 0 || nextFile &gt; 7 || nextRank &lt; 0 || nextRank &gt; 7) continue;
+      uint8_t next = squareIndex(nextFile, nextRank);
+      if (plannerParent[next] &gt;= 0 ||
+          (next != destination &amp;&amp; state[nextFile][nextRank]) ||
+          (next != source &amp;&amp; next == forbiddenRoute[2])) continue;
+      plannerParent[next] = current;
+      plannerQueue[tail++] = next;
+    }
+  }
+  if (plannerParent[destination] &lt; 0) return false;
+
+  pathLength = 0;
+  uint8_t current = destination;
+  while (current != source) {
+    path[pathLength++] = current;
+    current = plannerParent[current];
+  }
+  path[pathLength++] = source;
+  for (uint8_t left = 0, right = pathLength - 1; left &lt; right; left++, right--) {
+    uint8_t temporary = path[left];
+    path[left] = path[right];
+    path[right] = temporary;
+  }
+  return true;
+}
+
+void buildKnightRoute(uint8_t sourceFile, uint8_t sourceRank,
+                      uint8_t destinationFile, uint8_t destinationRank,
+                      uint8_t sequence, uint8_t *route) {
+  int8_t fileStep = destinationFile &gt; sourceFile ? 1 : -1;
+  int8_t rankStep = destinationRank &gt; sourceRank ? 1 : -1;
+  uint8_t file = sourceFile;
+  uint8_t rank = sourceRank;
+  bool longFileAxis = abs((int)destinationFile - sourceFile) == 2;
+
+  for (uint8_t step = 0; step &lt; 3; step++) {
+    bool moveLongAxis = sequence == 0 ? step &lt; 2 : sequence == 1 ? step != 1 : step &gt; 0;
+    if (longFileAxis == moveLongAxis) file += fileStep;
+    else rank += rankStep;
+    route[step] = squareIndex(file, rank);
+  }
+}
+
+bool candidateParkingPath(char state[8][8], uint8_t blocker, const uint8_t *route,
+                          uint8_t skipCandidates, uint8_t *parking,
+                          uint8_t *path, uint8_t &amp;pathLength) {
+  uint8_t blockerFile = indexFile(blocker);
+  uint8_t blockerRank = indexRank(blocker);
+  for (uint8_t distance = 1; distance &lt;= 14; distance++) {
+    for (uint8_t rank = 0; rank &lt; 8; rank++) {
+      for (uint8_t file = 0; file &lt; 8; file++) {
+        if (emergencyRequested()) {
+          stopController();
+          return false;
+        }
+        uint8_t candidate = squareIndex(file, rank);
+        if (state[file][rank] || routeContains(route, candidate) ||
+            abs((int)file - blockerFile) + abs((int)rank - blockerRank) != distance) continue;
+        if (findEmptyPath(state, blocker, candidate, route, path, pathLength)) {
+          if (skipCandidates) {
+            skipCandidates--;
+            continue;
+          }
+          *parking = candidate;
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+uint8_t gridDistance(uint8_t first, uint8_t second) {
+  return abs((int)indexFile(first) - indexFile(second)) +
+         abs((int)indexRank(first) - indexRank(second));
+}
+
+uint16_t carriageDistanceTo(uint8_t square) {
+  float distance = fabs(carriageX - squareX(indexFile(square))) +
+                   fabs(carriageY - squareY(indexRank(square)));
+  return lroundf(distance / SQUARE_SIZE_MM);
+}
+
+bool buildRelocationPlan(const uint8_t *route, const uint8_t *blockers,
+                         uint8_t blockerCount, bool reverseOrder, uint8_t knightSource,
+                         KnightPlan &amp;candidate) {
+  candidate.relocationCount = blockerCount;
+  candidate.loadedSteps = 3 + carriageDistanceTo(knightSource);
+  if (!blockerCount) return true;
+
+  uint8_t firstBlockerIndex = reverseOrder ? blockerCount - 1 : 0;
+  uint8_t firstBlocker = blockers[firstBlockerIndex];
+  bool found = false;
+  uint16_t bestLoadedSteps = 0;
+  for (uint8_t skippedFirst = 0; skippedFirst &lt; 64; skippedFirst++) {
+    char state[8][8];
+    memcpy(state, board, sizeof(state));
+    state[indexFile(route[2])][indexRank(route[2])] = 0;
+
+    RelocationPlan first;
+    first.piece = state[indexFile(firstBlocker)][indexRank(firstBlocker)];
+    first.source = firstBlocker;
+    if (!candidateParkingPath(state, firstBlocker, route, skippedFirst, &amp;first.parking,
+                              first.path, first.pathLength)) break;
+    state[indexFile(firstBlocker)][indexRank(firstBlocker)] = 0;
+    state[indexFile(first.parking)][indexRank(first.parking)] = first.piece;
+
+    RelocationPlan second;
+    uint16_t loadedSteps = 3 + 2 * (first.pathLength - 1) +
+                 carriageDistanceTo(first.source) +
+                 gridDistance(first.parking, knightSource) +
+                 gridDistance(route[2], first.parking);
+    if (blockerCount == 2) {
+      uint8_t secondBlockerIndex = reverseOrder ? 0 : 1;
+      uint8_t secondBlocker = blockers[secondBlockerIndex];
+      second.piece = state[indexFile(secondBlocker)][indexRank(secondBlocker)];
+      second.source = secondBlocker;
+      if (!candidateParkingPath(state, secondBlocker, route, 0, &amp;second.parking,
+                                second.path, second.pathLength)) continue;
+      loadedSteps += 2 * (second.pathLength - 1);
+      loadedSteps -= gridDistance(first.parking, knightSource) +
+             gridDistance(route[2], first.parking);
+      loadedSteps += gridDistance(first.parking, second.source) +
+             gridDistance(second.parking, knightSource) +
+             gridDistance(route[2], second.parking) +
+             gridDistance(second.source, first.parking);
+    }
+
+    if (!found || loadedSteps &lt; bestLoadedSteps) {
+      found = true;
+      bestLoadedSteps = loadedSteps;
+      candidate.relocations[0] = first;
+      if (blockerCount == 2) candidate.relocations[1] = second;
+    }
+  }
+  candidate.loadedSteps = bestLoadedSteps;
+  return found;
+}
+
+bool planKnightMove(uint8_t sourceFile, uint8_t sourceRank,
+                    uint8_t destinationFile, uint8_t destinationRank) {
+  knightPlan.valid = false;
+  uint8_t knightSource = squareIndex(sourceFile, sourceRank);
+  for (uint8_t sequence = 0; sequence &lt; 3; sequence++) {
+    uint8_t route[3];
+    buildKnightRoute(sourceFile, sourceRank, destinationFile, destinationRank, sequence, route);
+    uint8_t blockers[2];
+    uint8_t blockerCount = 0;
+    for (uint8_t step = 0; step &lt; 2; step++) {
+      if (board[indexFile(route[step])][indexRank(route[step])]) blockers[blockerCount++] = route[step];
+    }
+
+    uint8_t orderCount = blockerCount == 2 ? 2 : 1;
+    for (uint8_t order = 0; order &lt; orderCount; order++) {
+      KnightPlan candidate;
+      candidate.valid = true;
+      memcpy(candidate.route, route, sizeof(route));
+      if (!buildRelocationPlan(route, blockers, blockerCount, order == 1,
+               knightSource, candidate)) continue;
+      if (!knightPlan.valid || candidate.relocationCount &lt; knightPlan.relocationCount ||
+          (candidate.relocationCount == knightPlan.relocationCount &amp;&amp;
+           candidate.loadedSteps &lt; knightPlan.loadedSteps)) {
+        knightPlan = candidate;
+      }
+    }
+  }
+  return knightPlan.valid;
+}
+
+bool carryAlongPath(const uint8_t *path, uint8_t pathLength, bool reverse) {
+  uint8_t source = reverse ? path[pathLength - 1] : path[0];
+  if (!pickupSquare(indexFile(source), indexRank(source))) return false;
+  for (uint8_t step = 1; step &lt; pathLength; step++) {
+    uint8_t index = reverse ? path[pathLength - 1 - step] : path[step];
+    if (!moveTo(squareX(indexFile(index)), squareY(indexRank(index)))) {
+      releaseMagnet();
+      return false;
+    }
+  }
+  releaseMagnet();
+  return !motionAborted;
+}
+
+bool executeKnightPlan(uint8_t sourceFile, uint8_t sourceRank,
+                       uint8_t destinationFile, uint8_t destinationRank) {
+  char knight = board[sourceFile][sourceRank];
+  for (uint8_t relocation = 0; relocation &lt; knightPlan.relocationCount; relocation++) {
+    RelocationPlan &amp;planned = knightPlan.relocations[relocation];
+    if (!carryAlongPath(planned.path, planned.pathLength, false)) return false;
+    board[indexFile(planned.source)][indexRank(planned.source)] = 0;
+    board[indexFile(planned.parking)][indexRank(planned.parking)] = planned.piece;
+  }
+
+  if (!pickupSquare(sourceFile, sourceRank)) return false;
+  for (uint8_t step = 0; step &lt; 3; step++) {
+    uint8_t target = knightPlan.route[step];
+    if (!moveTo(squareX(indexFile(target)), squareY(indexRank(target)))) {
+      releaseMagnet();
+      return false;
+    }
+  }
+  releaseMagnet();
+  if (motionAborted) return false;
+  board[sourceFile][sourceRank] = 0;
+  board[destinationFile][destinationRank] = knight;
+
+  for (int8_t relocation = knightPlan.relocationCount - 1; relocation &gt;= 0; relocation--) {
+    RelocationPlan &amp;planned = knightPlan.relocations[relocation];
+    if (!carryAlongPath(planned.path, planned.pathLength, true)) return false;
+    board[indexFile(planned.parking)][indexRank(planned.parking)] = 0;
+    board[indexFile(planned.source)][indexRank(planned.source)] = planned.piece;
+  }
+  return true;
+}
+
+float departureLaneY(uint8_t sourceRank, uint8_t destinationRank) {
+  if (destinationRank &gt; sourceRank) return squareY(sourceRank) + HALF_SQUARE_MM;
+  if (destinationRank &lt; sourceRank) return squareY(sourceRank) - HALF_SQUARE_MM;
+  if (sourceRank == 7) return squareY(sourceRank) - HALF_SQUARE_MM;
+  return squareY(sourceRank) + HALF_SQUARE_MM;
+}
+
+float arrivalLaneY(uint8_t sourceRank, uint8_t destinationRank) {
+  if (destinationRank &gt; sourceRank) return squareY(destinationRank) - HALF_SQUARE_MM;
+  if (destinationRank &lt; sourceRank) return squareY(destinationRank) + HALF_SQUARE_MM;
+  return departureLaneY(sourceRank, destinationRank);
+}
+
+float safeVerticalLane(uint8_t sourceFile, uint8_t destinationFile) {
+  if (sourceFile == 7) return squareX(sourceFile) - HALF_SQUARE_MM;
+  if (destinationFile &gt;= sourceFile) return squareX(sourceFile) + HALF_SQUARE_MM;
+  return squareX(sourceFile) - HALF_SQUARE_MM;
+}
+
+bool carryBetweenSquares(uint8_t sourceFile, uint8_t sourceRank,
+                         uint8_t destinationFile, uint8_t destinationRank) {
+  int fileDistance = abs((int)destinationFile - (int)sourceFile);
+  int rankDistance = abs((int)destinationRank - (int)sourceRank);
+  bool straightMove = sourceFile == destinationFile || sourceRank == destinationRank;
+  bool diagonalMove = fileDistance == rankDistance;
+  if (straightMove || diagonalMove) {
+    return moveTo(squareX(destinationFile), squareY(destinationRank));
+  }
+
+  float sourceX = squareX(sourceFile);
+  float sourceLaneY = departureLaneY(sourceRank, destinationRank);
+  float laneX = safeVerticalLane(sourceFile, destinationFile);
+  float destinationLaneY = arrivalLaneY(sourceRank, destinationRank);
+  float destinationX = squareX(destinationFile);
+
+  return moveTo(sourceX, sourceLaneY) &amp;&amp;
+         moveTo(laneX, sourceLaneY) &amp;&amp;
+         moveTo(laneX, destinationLaneY) &amp;&amp;
+         moveTo(destinationX, destinationLaneY) &amp;&amp;
+         moveTo(destinationX, squareY(destinationRank));
+}
+
+bool pickupSquare(uint8_t file, uint8_t rank) {
+  releaseMagnet();
+  if (!moveTo(squareX(file), squareY(rank))) return false;
+  engageMagnet();
+  return !motionAborted;
+}
+
+bool mechanicallyMovePiece(uint8_t sourceFile, uint8_t sourceRank,
+                           uint8_t destinationFile, uint8_t destinationRank) {
+  if (board[sourceFile][sourceRank] == 'N' || board[sourceFile][sourceRank] == 'n') {
+    return executeKnightPlan(sourceFile, sourceRank, destinationFile, destinationRank);
+  }
+  if (!pickupSquare(sourceFile, sourceRank)) return false;
+  if (!carryBetweenSquares(sourceFile, sourceRank, destinationFile, destinationRank)) {
+    releaseMagnet();
+    return false;
+  }
+  releaseMagnet();
+  return !motionAborted;
+}
+
+bool isWhite(char piece) { return piece &gt;= 'A' &amp;&amp; piece &lt;= 'Z'; }
+bool isBlack(char piece) { return piece &gt;= 'a' &amp;&amp; piece &lt;= 'z'; }
+
+bool pathIsClear(uint8_t sourceFile, uint8_t sourceRank,
+                 uint8_t destinationFile, uint8_t destinationRank) {
+  int fileStep = destinationFile &gt; sourceFile ? 1 : destinationFile &lt; sourceFile ? -1 : 0;
+  int rankStep = destinationRank &gt; sourceRank ? 1 : destinationRank &lt; sourceRank ? -1 : 0;
+  int file = (int)sourceFile + fileStep;
+  int rank = (int)sourceRank + rankStep;
+
+  while (file != destinationFile || rank != destinationRank) {
+    if (board[file][rank]) return false;
+    file += fileStep;
+    rank += rankStep;
+  }
+  return true;
+}
+
+bool pieceAttacksSquare(char piece, uint8_t sourceFile, uint8_t sourceRank,
+                        uint8_t destinationFile, uint8_t destinationRank) {
+  int fileDelta = (int)destinationFile - (int)sourceFile;
+  int rankDelta = (int)destinationRank - (int)sourceRank;
+  int absoluteFileDelta = abs(fileDelta);
+  int absoluteRankDelta = abs(rankDelta);
+  char pieceType = isWhite(piece) ? piece + ('a' - 'A') : piece;
+
+  if (pieceType == 'p') {
+    int direction = isWhite(piece) ? 1 : -1;
+    return absoluteFileDelta == 1 &amp;&amp; rankDelta == direction;
+  }
+  if (pieceType == 'n') {
+    return (absoluteFileDelta == 1 &amp;&amp; absoluteRankDelta == 2) ||
+           (absoluteFileDelta == 2 &amp;&amp; absoluteRankDelta == 1);
+  }
+  if (pieceType == 'k') return max(absoluteFileDelta, absoluteRankDelta) == 1;
+  if (pieceType == 'b') {
+    return absoluteFileDelta == absoluteRankDelta &amp;&amp;
+           pathIsClear(sourceFile, sourceRank, destinationFile, destinationRank);
+  }
+  if (pieceType == 'r') {
+    return (fileDelta == 0 || rankDelta == 0) &amp;&amp;
+           pathIsClear(sourceFile, sourceRank, destinationFile, destinationRank);
+  }
+  if (pieceType == 'q') {
+    bool straight = fileDelta == 0 || rankDelta == 0;
+    bool diagonal = absoluteFileDelta == absoluteRankDelta;
+    return (straight || diagonal) &amp;&amp;
+           pathIsClear(sourceFile, sourceRank, destinationFile, destinationRank);
+  }
+  return false;
+}
+
+bool pieceMoveIsValid(char piece, uint8_t sourceFile, uint8_t sourceRank,
+                      uint8_t destinationFile, uint8_t destinationRank) {
+  char destinationPiece = board[destinationFile][destinationRank];
+  char pieceType = isWhite(piece) ? piece + ('a' - 'A') : piece;
+  int fileDelta = (int)destinationFile - (int)sourceFile;
+  int rankDelta = (int)destinationRank - (int)sourceRank;
+
+  if (pieceType != 'p') {
+    return pieceAttacksSquare(piece, sourceFile, sourceRank, destinationFile, destinationRank);
+  }
+
+  int direction = isWhite(piece) ? 1 : -1;
+  uint8_t startingRank = isWhite(piece) ? 1 : 6;
+  if (fileDelta == 0 &amp;&amp; !destinationPiece) {
+    if (rankDelta == direction) return true;
+    if (sourceRank == startingRank &amp;&amp; rankDelta == 2 * direction) {
+      return !board[sourceFile][sourceRank + direction];
+    }
+  }
+  return abs(fileDelta) == 1 &amp;&amp; rankDelta == direction &amp;&amp; destinationPiece;
+}
+
+bool moveLeavesKingInCheck(char movingPiece, uint8_t sourceFile, uint8_t sourceRank,
+                           uint8_t destinationFile, uint8_t destinationRank) {
+  char destinationPiece = board[destinationFile][destinationRank];
+  board[sourceFile][sourceRank] = 0;
+  board[destinationFile][destinationRank] = movingPiece;
+
+  char king = isWhite(movingPiece) ? 'K' : 'k';
+  uint8_t kingFile = 0;
+  uint8_t kingRank = 0;
+  bool kingFound = false;
+  for (uint8_t file = 0; file &lt; 8 &amp;&amp; !kingFound; file++) {
+    for (uint8_t rank = 0; rank &lt; 8; rank++) {
+      if (board[file][rank] == king) {
+        kingFile = file;
+        kingRank = rank;
+        kingFound = true;
+        break;
+      }
+    }
+  }
+
+  bool attacked = !kingFound;
+  for (uint8_t file = 0; file &lt; 8 &amp;&amp; !attacked; file++) {
+    for (uint8_t rank = 0; rank &lt; 8; rank++) {
+      char attacker = board[file][rank];
+      if (attacker &amp;&amp; isWhite(attacker) != isWhite(movingPiece) &amp;&amp;
+          pieceAttacksSquare(attacker, file, rank, kingFile, kingRank)) {
+        attacked = true;
+        break;
+      }
+    }
+  }
+
+  board[sourceFile][sourceRank] = movingPiece;
+  board[destinationFile][destinationRank] = destinationPiece;
+  return attacked;
+}
+
+bool parseSquare(const char *text, uint8_t &amp;file, uint8_t &amp;rank) {
+  if (text[0] &lt; 'a' || text[0] &gt; 'h' || text[1] &lt; '1' || text[1] &gt; '8') return false;
+  file = text[0] - 'a';
+  rank = text[1] - '1';
+  return true;
+}
+
+char lowerAscii(char value) {
+  return value &gt;= 'A' &amp;&amp; value &lt;= 'Z' ? value + ('a' - 'A') : value;
+}
+
+bool normalizeMoveNotation(const char *notation, char *coordinateMove) {
+  size_t length = strlen(notation);
+  if (length == 4 || length == 5) {
+    coordinateMove[0] = lowerAscii(notation[0]);
+    coordinateMove[1] = notation[1];
+    coordinateMove[2] = lowerAscii(notation[2]);
+    coordinateMove[3] = notation[3];
+    coordinateMove[4] = length == 5 ? lowerAscii(notation[4]) : 0;
+    coordinateMove[5] = 0;
+    uint8_t ignoredFile, ignoredRank;
+    if (parseSquare(coordinateMove, ignoredFile, ignoredRank) &amp;&amp;
+        parseSquare(coordinateMove + 2, ignoredFile, ignoredRank)) return true;
+  }
+
+  if (length &amp;&amp; (notation[length - 1] == '+' || notation[length - 1] == '#')) return false;
+  char promotion = 0;
+  if (length &gt;= 2 &amp;&amp; notation[length - 2] == '=') {
+    promotion = lowerAscii(notation[length - 1]);
+    length -= 2;
+  }
+  if (length &lt; 2) return false;
+
+  char destinationText[3] = {lowerAscii(notation[length - 2]), notation[length - 1], 0};
+  uint8_t destinationFile, destinationRank;
+  if (!parseSquare(destinationText, destinationFile, destinationRank)) return false;
+
+  char requestedType = 'P';
+  size_t index = 0;
+  if (notation[0] == 'K' || notation[0] == 'Q' || notation[0] == 'R' ||
+      notation[0] == 'B' || notation[0] == 'N') {
+    requestedType = notation[0];
+    index = 1;
+  }
+  size_t qualifierStart = index;
+
+  int requestedFile = -1;
+  int requestedRank = -1;
+  bool captureMarked = false;
+  for (; index &lt; length - 2; index++) {
+    char symbol = notation[index];
+    if (symbol == 'x' || symbol == 'X') captureMarked = true;
+    else if (symbol &gt;= 'a' &amp;&amp; symbol &lt;= 'h' &amp;&amp; requestedFile &lt; 0) requestedFile = symbol - 'a';
+    else if (symbol &gt;= '1' &amp;&amp; symbol &lt;= '8' &amp;&amp; requestedRank &lt; 0) requestedRank = symbol - '1';
+    else return false;
+  }
+
+  size_t qualifierLength = length - 2 - qualifierStart;
+  if (requestedType == 'P') {
+    if (captureMarked) {
+      if (qualifierLength != 2 || requestedFile &lt; 0 || requestedRank &gt;= 0) return false;
+    } else if (qualifierLength != 0 || requestedFile &gt;= 0 || requestedRank &gt;= 0) {
+      return false;
+    }
+  }
+
+  bool destinationOccupied = board[destinationFile][destinationRank] != 0;
+  if (captureMarked != destinationOccupied) return false;
+
+  if (!whiteToMove) requestedType += 'a' - 'A';
+  char boardPiece = requestedType;
+  uint8_t sourceFile = 0;
+  uint8_t sourceRank = 0;
+  uint8_t candidates = 0;
+  for (uint8_t file = 0; file &lt; 8; file++) {
+    for (uint8_t rank = 0; rank &lt; 8; rank++) {
+      if (board[file][rank] != boardPiece ||
+          (requestedFile &gt;= 0 &amp;&amp; requestedFile != file) ||
+          (requestedRank &gt;= 0 &amp;&amp; requestedRank != rank)) continue;
+      if (pieceMoveIsValid(boardPiece, file, rank, destinationFile, destinationRank) &amp;&amp;
+          !moveLeavesKingInCheck(boardPiece, file, rank, destinationFile, destinationRank)) {
+        sourceFile = file;
+        sourceRank = rank;
+        candidates++;
+      }
+    }
+  }
+  if (candidates != 1) return false;
+
+  coordinateMove[0] = 'a' + sourceFile;
+  coordinateMove[1] = '1' + sourceRank;
+  coordinateMove[2] = 'a' + destinationFile;
+  coordinateMove[3] = '1' + destinationRank;
+  coordinateMove[4] = promotion;
+  coordinateMove[5] = 0;
+  return true;
+}
+
+void runSelfTest() {
+  char savedBoard[8][8];
+  memcpy(savedBoard, board, sizeof(board));
+  bool savedWhiteToMove = whiteToMove;
+  resetBoardState();
+
+  char coordinateMove[6];
+  bool passed = normalizeMoveNotation(&quot;e4&quot;, coordinateMove) &amp;&amp;
+                !strcmp(coordinateMove, &quot;e2e4&quot;) &amp;&amp;
+                normalizeMoveNotation(&quot;Nf3&quot;, coordinateMove) &amp;&amp;
+                !strcmp(coordinateMove, &quot;g1f3&quot;) &amp;&amp;
+                !normalizeMoveNotation(&quot;Nxe5&quot;, coordinateMove) &amp;&amp;
+                !normalizeMoveNotation(&quot;xd5&quot;, coordinateMove) &amp;&amp;
+                !normalizeMoveNotation(&quot;ed5&quot;, coordinateMove) &amp;&amp;
+                !normalizeMoveNotation(&quot;e4+&quot;, coordinateMove) &amp;&amp;
+                planKnightMove(1, 0, 2, 2) &amp;&amp;
+                knightPlan.relocationCount == 1;
+
+  memcpy(board, savedBoard, sizeof(board));
+  whiteToMove = savedWhiteToMove;
+  Serial.println(passed ? F(&quot;ok:selftest-passed; no-motion&quot;) : F(&quot;error:selftest-failed; no-motion&quot;));
+}
+
+void rejectChessMove(const __FlashStringHelper *message) {
+  Serial.println(message);
+}
+
+void executeChessMove(const char *moveText) {
+  if (!boardTrusted) {
+    rejectChessMove(F(&quot;error:confirm-standard-physical-board-with-RESETBOARD&quot;));
+    return;
+  }
+  if (!manuallyHomed) {
+    rejectChessMove(F(&quot;error:not-homed; place carriage at a1 centre and send HOME&quot;));
+    return;
+  }
+
+  char coordinateMove[6];
+  if (!normalizeMoveNotation(moveText, coordinateMove)) {
+    rejectChessMove(F(&quot;error:invalid-or-ambiguous-move; use e2e4, Nf3, or Nxe5&quot;));
+    return;
+  }
+  moveText = coordinateMove;
+
+  size_t length = strlen(moveText);
+  if (length != 4 &amp;&amp; length != 5) {
+    rejectChessMove(F(&quot;error:use coordinate move such as e2e4 or e7e8q&quot;));
+    return;
+  }
+
+  uint8_t sourceFile, sourceRank, destinationFile, destinationRank;
+  if (!parseSquare(moveText, sourceFile, sourceRank) ||
+      !parseSquare(moveText + 2, destinationFile, destinationRank)) {
+    rejectChessMove(F(&quot;error:invalid-square&quot;));
+    return;
+  }
+
+  char movingPiece = board[sourceFile][sourceRank];
+  char destinationPiece = board[destinationFile][destinationRank];
+  if (!movingPiece) {
+    rejectChessMove(F(&quot;error:source-square-empty-in-internal-board-state&quot;));
+    return;
+  }
+  if (destinationPiece &amp;&amp;
+      ((isWhite(movingPiece) &amp;&amp; isWhite(destinationPiece)) ||
+       (isBlack(movingPiece) &amp;&amp; isBlack(destinationPiece)))) {
+    rejectChessMove(F(&quot;error:destination-has-same-colour-piece&quot;));
+    return;
+  }
+  if (whiteToMove != isWhite(movingPiece)) {
+    rejectChessMove(F(&quot;error:wrong-side-to-move&quot;));
+    return;
+  }
+  if (destinationPiece == 'K' || destinationPiece == 'k') {
+    rejectChessMove(F(&quot;error:capturing-a-king-is-not-a-legal-chess-move&quot;));
+    return;
+  }
+
+  char promotion = 0;
+  bool lastRank = (movingPiece == 'P' &amp;&amp; destinationRank == 7) ||
+                  (movingPiece == 'p' &amp;&amp; destinationRank == 0);
+  if (lastRank != (length == 5)) {
+    rejectChessMove(F(&quot;error:promotion-suffix-required-only-on-final-rank&quot;));
+    return;
+  }
+  if (length == 5) {
+    promotion = moveText[4];
+    if (promotion &gt;= 'A' &amp;&amp; promotion &lt;= 'Z') promotion += 'a' - 'A';
+    if ((movingPiece != 'P' &amp;&amp; movingPiece != 'p') ||
+        (promotion != 'q' &amp;&amp; promotion != 'r' &amp;&amp; promotion != 'b' &amp;&amp; promotion != 'n')) {
+      rejectChessMove(F(&quot;error:invalid-promotion&quot;));
+      return;
+    }
+    rejectChessMove(F(&quot;error:promotion-not-validated; replace-piece-and-state-manually&quot;));
+    return;
+  }
+
+  // En passant: diagonal pawn move to an empty destination.
+  bool enPassant = (movingPiece == 'P' || movingPiece == 'p') &amp;&amp;
+                   sourceFile != destinationFile &amp;&amp; !destinationPiece;
+
+  // These special actions need history/physical confirmation. Reject before motion.
+  if (enPassant) {
+    rejectChessMove(F(&quot;error:en-passant-not-validated&quot;));
+    return;
+  }
+  if ((movingPiece == 'K' || movingPiece == 'k') &amp;&amp;
+      abs((int)destinationFile - (int)sourceFile) == 2) {
+    rejectChessMove(F(&quot;error:castling-not-validated&quot;));
+    return;
+  }
+  if (!pieceMoveIsValid(movingPiece, sourceFile, sourceRank,
+                        destinationFile, destinationRank)) {
+    rejectChessMove(F(&quot;error:illegal-piece-movement-or-blocked-path&quot;));
+    return;
+  }
+  if (moveLeavesKingInCheck(movingPiece, sourceFile, sourceRank,
+                            destinationFile, destinationRank)) {
+    rejectChessMove(F(&quot;error:move-leaves-king-in-check&quot;));
+    return;
+  }
+  if (destinationPiece) {
+    rejectChessMove(F(&quot;error:captures-not-validated; remove-piece-manually&quot;));
+    return;
+  }
+  if ((movingPiece == 'N' || movingPiece == 'n') &amp;&amp;
+      !planKnightMove(sourceFile, sourceRank, destinationFile, destinationRank)) {
+    rejectChessMove(F(&quot;error:no-reversible-knight-relocation-plan&quot;));
+    return;
+  }
+
+  Serial.print(F(&quot;busy:&quot;));
+  Serial.println(moveText);
+
+  if (!mechanicallyMovePiece(sourceFile, sourceRank, destinationFile, destinationRank)) {
+    boardTrusted = false;
+    if (motionAborted) return;
+    announceTrustState();
+    Serial.println(F(&quot;error:piece-move-failed; physical-state-may-be-uncertain&quot;));
+    return;
+  }
+
+  board[sourceFile][sourceRank] = 0;
+  board[destinationFile][destinationRank] = movingPiece;
+  whiteToMove = !isWhite(movingPiece);
+
+  Serial.print(F(&quot;ok:&quot;));
+  Serial.println(moveText);
+}
+
+void returnPiece(const char *moveText) {
+  if (!boardTrusted) {
+    Serial.println(F(&quot;error:confirm-standard-physical-board-with-RESETBOARD&quot;));
+    return;
+  }
+  if (!manuallyHomed) {
+    Serial.println(F(&quot;error:not-homed; place carriage at a1 centre and send HOME&quot;));
+    return;
+  }
+  if (strlen(moveText) != 4) {
+    Serial.println(F(&quot;error:use RETURN followed by a coordinate move such as e4e2&quot;));
+    return;
+  }
+
+  uint8_t sourceFile, sourceRank, destinationFile, destinationRank;
+  if (!parseSquare(moveText, sourceFile, sourceRank) ||
+      !parseSquare(moveText + 2, destinationFile, destinationRank)) {
+    Serial.println(F(&quot;error:invalid-square&quot;));
+    return;
+  }
+  char movingPiece = board[sourceFile][sourceRank];
+  if (!movingPiece) {
+    Serial.println(F(&quot;error:return-source-square-empty-in-internal-board-state&quot;));
+    return;
+  }
+  if (board[destinationFile][destinationRank]) {
+    Serial.println(F(&quot;error:return-destination-not-empty-in-internal-board-state&quot;));
+    return;
+  }
+  if ((movingPiece == 'N' || movingPiece == 'n') &amp;&amp;
+      !planKnightMove(sourceFile, sourceRank, destinationFile, destinationRank)) {
+    Serial.println(F(&quot;error:no-reversible-knight-relocation-plan&quot;));
+    return;
+  }
+
+  Serial.print(F(&quot;busy:return-&quot;));
+  Serial.println(moveText);
+  if (!mechanicallyMovePiece(sourceFile, sourceRank, destinationFile, destinationRank)) {
+    boardTrusted = false;
+    if (motionAborted) return;
+    announceTrustState();
+    Serial.println(F(&quot;error:return-piece-failed; physical-state-may-be-uncertain&quot;));
+    return;
+  }
+  board[sourceFile][sourceRank] = 0;
+  board[destinationFile][destinationRank] = movingPiece;
+  whiteToMove = isWhite(movingPiece);
+  Serial.print(F(&quot;ok:return-&quot;));
+  Serial.println(moveText);
+}
+
+void gotoSquare(const char *squareText) {
+  if (!manuallyHomed) {
+    Serial.println(F(&quot;error:not-homed; run HOME first&quot;));
+    return;
+  }
+
+  uint8_t file, rank;
+  if (!parseSquare(squareText, file, rank) || squareText[2] != 0) {
+    Serial.println(F(&quot;error:use GOTO followed by a square, for example GOTO e3&quot;));
+    return;
+  }
+
+  releaseMagnet();
+  if (motionAborted) return;
+  if (moveTo(squareX(file), squareY(rank))) {
+    Serial.print(F(&quot;ok:goto-&quot;));
+    Serial.println(squareText);
+  }
+}
+
+void printStatus() {
+  Serial.print(F(&quot;status:homed=&quot;));
+  Serial.print(manuallyHomed ? 1 : 0);
+  Serial.print(F(&quot;,x=&quot;));
+  Serial.print(carriageX, 2);
+  Serial.print(F(&quot;,y=&quot;));
+  Serial.print(carriageY, 2);
+  Serial.print(F(&quot;,actuator_pulse_us=&quot;));
+  Serial.print(actuatorPulseUs);
+  Serial.print(F(&quot;,steps_per_mm=&quot;));
+  Serial.println(MOTOR_STEPS_PER_MM, 1);
+  Serial.print(F(&quot;info:max_step_rate=&quot;));
+  Serial.print(MAX_STEP_RATE, 1);
+  Serial.print(F(&quot;,step_acceleration=&quot;));
+  Serial.println(STEP_ACCELERATION, 1);
+  Serial.print(F(&quot;info:board_confirmed=&quot;));
+  Serial.println(boardTrusted ? 1 : 0);
+  Serial.print(F(&quot;info:protocol=&quot;));
+  Serial.print(PROTOCOL_VERSION);
+  Serial.println(F(&quot;,home_square=a1,x_axis=a-to-h,y_axis=1-to-8,white_ranks=1-2,x_motor_direction=reverse&quot;));
+  Serial.print(F(&quot;info:side_to_move=&quot;));
+  Serial.println(whiteToMove ? F(&quot;white&quot;) : F(&quot;black&quot;));
+  Serial.println(F(&quot;info:motion_side=white-and-black; captures-disabled&quot;));
+  Serial.print(F(&quot;info:actuator_release_us=&quot;));
+  Serial.print(ACTUATOR_RETRACT_US);
+  Serial.print(F(&quot;,actuator_engage_us=&quot;));
+  Serial.print(ACTUATOR_EXTEND_US);
+  Serial.print(F(&quot;,actuator_settle_ms=&quot;));
+  Serial.println(ACTUATOR_SETTLE_MS);
+  Serial.print(F(&quot;info:square_mm=&quot;));
+  Serial.print(SQUARE_SIZE_MM, 2);
+  Serial.print(F(&quot;,invert_a=&quot;));
+  Serial.print(INVERT_A_DIR ? 1 : 0);
+  Serial.print(F(&quot;,invert_b=&quot;));
+  Serial.print(INVERT_B_DIR ? 1 : 0);
+  Serial.print(F(&quot;,swap_xy=&quot;));
+  Serial.print(SWAP_X_Y ? 1 : 0);
+  Serial.print(F(&quot;,reverse_logical_x=&quot;));
+  Serial.println(REVERSE_LOGICAL_X ? 1 : 0);
+  Serial.print(F(&quot;info:emergency_stop_latched=&quot;));
+  Serial.println(emergencyStopLatched ? 1 : 0);
+  Serial.println(F(&quot;info:knight_planner=temporary-blocker-relocation&quot;));
+  Serial.println(F(&quot;ok:status&quot;));
+}
+
+void processCommand(char *command) {
+  char originalCommand[sizeof(inputLine)];
+  strncpy(originalCommand, command, sizeof(originalCommand));
+  originalCommand[sizeof(originalCommand) - 1] = 0;
+  for (char *p = command; *p; p++) {
+    if (*p &gt;= 'A' &amp;&amp; *p &lt;= 'Z') *p += 'a' - 'A';
+  }
+
+  if (emergencyStopLatched &amp;&amp; strcmp(command, &quot;home&quot;) &amp;&amp; strcmp(command, &quot;status&quot;) &amp;&amp;
+      strcmp(command, &quot;selftest&quot;)) {
+    Serial.println(F(&quot;error:emergency-stop-latched; place carriage at a1 centre and send HOME&quot;));
+    return;
+  }
+
+  if (!strcmp(command, &quot;home&quot;)) {
+    emergencyStopLatched = false;
+    motionAborted = false;
+    releaseMagnet();
+    if (motionAborted) return;
+    motorAPosition = 0;
+    motorBPosition = 0;
+    carriageX = 0.0f;
+    carriageY = 0.0f;
+    manuallyHomed = true;
+    digitalWrite(ENABLE_PIN, LOW);
+    Serial.println(F(&quot;ok:manual-home-set-at-a1-centre; motors-enabled&quot;));
+  } else if (!strcmp(command, &quot;status&quot;)) {
+    printStatus();
+  } else if (!strcmp(command, &quot;selftest&quot;)) {
+    runSelfTest();
+  } else if (!strcmp(command, &quot;actuator_retract&quot;) || !strcmp(command, &quot;magnet0&quot;)) {
+    releaseMagnet();
+    if (motionAborted) return;
+    Serial.println(F(&quot;ok:actuator-retracted; magnet-released&quot;));
+  } else if (!strcmp(command, &quot;actuator_extend&quot;) || !strcmp(command, &quot;magnet90&quot;)) {
+    engageMagnet();
+    if (motionAborted) return;
+    Serial.println(F(&quot;ok:actuator-extended; magnet-engaged&quot;));
+  } else if (!strncmp(command, &quot;goto &quot;, 5)) {
+    gotoSquare(command + 5);
+  } else if (!strncmp(command, &quot;return &quot;, 7)) {
+    returnPiece(command + 7);
+  } else if (!strcmp(command, &quot;jogx+10&quot;) || !strcmp(command, &quot;jogx-10&quot;) ||
+             !strcmp(command, &quot;jogy+10&quot;) || !strcmp(command, &quot;jogy-10&quot;) ||
+             !strcmp(command, &quot;jogx+1&quot;) || !strcmp(command, &quot;jogx-1&quot;) ||
+             !strcmp(command, &quot;jogy+1&quot;) || !strcmp(command, &quot;jogy-1&quot;)) {
+    if (!manuallyHomed) {
+      Serial.println(F(&quot;error:not-homed; run HOME first&quot;));
+      return;
+    }
+    releaseMagnet();
+    if (motionAborted) return;
+    float targetX = carriageX;
+    float targetY = carriageY;
+    float distance = command[6] == '0' ? 10.0f : 1.0f;
+    if (command[4] == '-') distance = -distance;
+    if (command[3] == 'x') targetX += distance;
+    else targetY += distance;
+    if (moveTo(targetX, targetY)) Serial.println(F(&quot;ok:jog-complete&quot;));
+  } else if (!strcmp(command, &quot;resetboard&quot;)) {
+    resetBoardState();
+    boardTrusted = true;
+    Serial.println(F(&quot;ok:internal-board-reset-to-standard-starting-position&quot;));
+  } else if (!strcmp(command, &quot;disable&quot;)) {
+    digitalWrite(ENABLE_PIN, HIGH);
+    manuallyHomed = false;
+    if (actuatorPulseUs != ACTUATOR_RETRACT_US) boardTrusted = false;
+    releaseMagnet();
+    if (motionAborted) return;
+    announceTrustState();
+    Serial.println(F(&quot;ok:motors-disabled; position-lost; run HOME before moves&quot;));
+  } else {
+    executeChessMove(originalCommand);
+  }
+}
+
+void setup() {
+  digitalWrite(ENABLE_PIN, HIGH); // Set latch before output mode: avoid enable glitch.
+  pinMode(A_STEP_PIN, OUTPUT);
+  pinMode(B_STEP_PIN, OUTPUT);
+  pinMode(A_DIR_PIN, OUTPUT);
+  pinMode(B_DIR_PIN, OUTPUT);
+  pinMode(ENABLE_PIN, OUTPUT);
+
+  digitalWrite(A_STEP_PIN, LOW);
+  digitalWrite(B_STEP_PIN, LOW);
+  digitalWrite(ENABLE_PIN, HIGH); // Safe startup: motors disabled until manual HOME.
+
+  Serial.begin(115200);
+  magnetActuator.writeMicroseconds(ACTUATOR_RETRACT_US);
+  magnetActuator.attach(ACTUATOR_PIN, ACTUATOR_MIN_US, ACTUATOR_MAX_US);
+  settleActuator();
+  resetBoardState();
+
+  Serial.print(F(&quot;OpenMove chess motion controller &quot;));
+  Serial.println(FIRMWARE_VERSION);
+  Serial.println(F(&quot;mapping:home=a1,+x=a-to-h,+y=1-to-8,white=ranks-1-2&quot;));
+  Serial.println(F(&quot;mode:white-and-black automation; captures disabled&quot;));
+  Serial.println(F(&quot;ready:place carriage at a1 centre, then send HOME&quot;));
+}
+
+void loop() {
+  while (Serial.available()) {
+    char incoming = Serial.read();
+    if (incoming == '\r' || incoming == '\n') {
+      if (discardLine) { discardLine = false; inputLength = 0; continue; }
+      if (inputLength) {
+        inputLine[inputLength] = 0;
+        emergencyDuringCommand = false;
+        processCommand(inputLine);
+        if (emergencyDuringCommand) {
+          Serial.println(F(&quot;error:emergency-stop; position-and-board-uncertain&quot;));
+        }
+        inputLength = 0;
+      }
+    } else if (incoming == '!' || incoming == 0x18) {
+      stopController();
+      Serial.println(F(&quot;error:emergency-stop; position-lost; run HOME&quot;));
+    } else if (discardLine) {
+      continue;
+    } else if (inputLength &lt; sizeof(inputLine) - 1) {
+      inputLine[inputLength++] = incoming;
+    } else {
+      inputLength = 0;
+      discardLine = true;
+      Serial.println(F(&quot;error:command-too-long&quot;));
+    }
+  }
+}</code></pre></details>
+<details class="codefile"><summary><span class="path">code/hardware_smoke_test/hardware_smoke_test.ino</span><span class="count">60 lines</span></summary><pre class="code"><code class="language-cpp">#include &lt;Servo.h&gt;
+
+const byte X_STEP_PIN = 2;
+const byte Y_STEP_PIN = 3;
+const byte X_DIR_PIN = 5;
+const byte Y_DIR_PIN = 6;
+const byte ENABLE_PIN = 8;
+const byte SERVO_PIN = 11;
+
+Servo testServo;
+
+const int STEPS_PER_MOVE = 100;
+const unsigned int STEP_LOW_TIME_US = 19990;  // 20 ms period: 50 steps/second
+
+void stepMotorsTogether(int numberOfSteps) {
+  for (int step = 0; step &lt; numberOfSteps; step++) {
+    digitalWrite(X_STEP_PIN, HIGH);
+    digitalWrite(Y_STEP_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(X_STEP_PIN, LOW);
+    digitalWrite(Y_STEP_PIN, LOW);
+    delayMicroseconds(STEP_LOW_TIME_US);
+  }
+}
+
+void setup() {
+  pinMode(ENABLE_PIN, OUTPUT);
+  pinMode(X_STEP_PIN, OUTPUT);
+  pinMode(Y_STEP_PIN, OUTPUT);
+  pinMode(X_DIR_PIN, OUTPUT);
+  pinMode(Y_DIR_PIN, OUTPUT);
+
+  digitalWrite(X_STEP_PIN, LOW);
+  digitalWrite(Y_STEP_PIN, LOW);
+  digitalWrite(X_DIR_PIN, LOW);
+  digitalWrite(Y_DIR_PIN, LOW);
+  digitalWrite(ENABLE_PIN, LOW);  // CNC Shield V3/DRV8825 enable is active LOW
+
+  testServo.attach(SERVO_PIN);
+  testServo.write(30);
+  delay(1000);
+}
+
+void loop() {
+  testServo.write(30);
+  digitalWrite(X_DIR_PIN, LOW);
+  digitalWrite(Y_DIR_PIN, LOW);
+  delay(10);  // Direction setup time before stepping
+  stepMotorsTogether(STEPS_PER_MOVE);
+
+  delay(2000);
+
+  testServo.write(120);
+  digitalWrite(X_DIR_PIN, HIGH);
+  digitalWrite(Y_DIR_PIN, HIGH);
+  delay(10);
+  stepMotorsTogether(STEPS_PER_MOVE);
+
+  delay(2000);
+}</code></pre></details>
+<details class="codefile"><summary><span class="path">stockfiash/app/main.py</span><span class="count">73 lines</span></summary><pre class="code"><code class="language-python">import hmac
+import os
+from contextlib import asynccontextmanager
+
+import chess
+from fastapi import Depends, FastAPI, Header, HTTPException, status
+from pydantic import BaseModel, Field
+
+from app.engine import StockfishService
+
+
+engine = StockfishService()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    yield
+    await engine.close()
+
+
+app = FastAPI(title=&quot;OpenMove Stockfish API&quot;, version=&quot;0.1.0&quot;, lifespan=lifespan)
+
+
+class MoveRequest(BaseModel):
+    fen: str = Field(description=&quot;A complete six-field Forsyth-Edwards Notation position&quot;)
+    time_ms: int = Field(default=500, ge=50, le=5_000)
+
+
+class MoveResponse(BaseModel):
+    best_move: str
+    ponder: str | None
+
+
+def require_api_key(x_api_key: str | None = Header(default=None)) -&gt; None:
+    expected = os.getenv(&quot;OPENMOVE_API_KEY&quot;)
+    if not expected:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=&quot;server API key is not configured&quot;,
+        )
+    if x_api_key is None or not hmac.compare_digest(x_api_key, expected):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=&quot;invalid API key&quot;,
+        )
+
+
+@app.get(&quot;/health&quot;)
+def health() -&gt; dict[str, str]:
+    return {&quot;status&quot;: &quot;ok&quot;}
+
+
+@app.post(
+    &quot;/v1/best-move&quot;,
+    response_model=MoveResponse,
+    dependencies=[Depends(require_api_key)],
+)
+async def best_move(request: MoveRequest) -&gt; MoveResponse:
+    try:
+        board = chess.Board(request.fen)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=&quot;invalid FEN&quot;) from exc
+
+    if not board.is_valid():
+        raise HTTPException(status_code=422, detail=&quot;illegal chess position&quot;)
+    if board.is_game_over():
+        raise HTTPException(status_code=409, detail=&quot;the game is already over&quot;)
+
+    try:
+        result = await engine.play(board, request.time_ms)
+    except (ValueError, OSError, TimeoutError) as exc:
+        raise HTTPException(status_code=503, detail=&quot;engine unavailable&quot;) from exc
+    return MoveResponse(best_move=result.best_move, ponder=result.ponder)</code></pre></details>
+<details class="codefile"><summary><span class="path">stockfiash/app/engine.py</span><span class="count">64 lines</span></summary><pre class="code"><code class="language-python">import asyncio
+import os
+from dataclasses import dataclass
+
+import chess
+import chess.engine
+
+
+@dataclass(frozen=True)
+class MoveResult:
+    best_move: str
+    ponder: str | None
+
+
+class StockfishService:
+    &quot;&quot;&quot;Own one Stockfish process and allow one search at a time.&quot;&quot;&quot;
+
+    def __init__(self) -&gt; None:
+        self._path = os.getenv(&quot;STOCKFISH_PATH&quot;, &quot;/usr/local/bin/stockfish&quot;)
+        self._engine: chess.engine.SimpleEngine | None = None
+        self._lock = asyncio.Lock()
+
+    def _start(self) -&gt; chess.engine.SimpleEngine:
+        engine = chess.engine.SimpleEngine.popen_uci(self._path, timeout=5.0)
+        engine.configure(
+            {
+                &quot;Threads&quot;: int(os.getenv(&quot;STOCKFISH_THREADS&quot;, &quot;1&quot;)),
+                &quot;Hash&quot;: int(os.getenv(&quot;STOCKFISH_HASH_MB&quot;, &quot;64&quot;)),
+            }
+        )
+        return engine
+
+    def _play_blocking(self, board: chess.Board, time_ms: int) -&gt; MoveResult:
+        if self._engine is None:
+            self._engine = self._start()
+        try:
+            result = self._engine.play(
+                board,
+                chess.engine.Limit(time=time_ms / 1000),
+                game=object(),
+            )
+        except (chess.engine.EngineError, chess.engine.EngineTerminatedError):
+            self._engine = self._start()
+            result = self._engine.play(
+                board,
+                chess.engine.Limit(time=time_ms / 1000),
+                game=object(),
+            )
+        if result.move is None:
+            raise ValueError(&quot;the position has no legal move&quot;)
+        return MoveResult(
+            best_move=result.move.uci(),
+            ponder=result.ponder.uci() if result.ponder else None,
+        )
+
+    async def play(self, board: chess.Board, time_ms: int) -&gt; MoveResult:
+        async with self._lock:
+            return await asyncio.to_thread(self._play_blocking, board, time_ms)
+
+    async def close(self) -&gt; None:
+        async with self._lock:
+            if self._engine is not None:
+                await asyncio.to_thread(self._engine.quit)
+                self._engine = None</code></pre></details>
+  </article>
+</div>
+</body>
+</html>

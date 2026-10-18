@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="1040" viewBox="0 0 750 1040">
+  <!--
+    Program workflow: ARGUS vision pipeline, src/main.py (digestdocs, CircuitDigest style)
+    Endless loop: every branch ends in "Print JSON Line", which loops back to "Read Camera Frame".
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="1040"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <!-- Initialisation -->
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Load Config and Model</text>
+  <text class="t" x="375" y="130">config.yaml, yolov8n.onnx,</text>
+  <text class="t" x="375" y="147">camera at 640 x 480</text>
+
+  <!-- Loop target -->
+  <rect class="proc" x="215" y="180" width="320" height="56"/>
+  <text class="t tb" x="375" y="198">Read Camera Frame</text>
+  <text class="t" x="375" y="219">Picamera2 or OpenCV source</text>
+
+  <!-- D1: inference stride -->
+  <polygon class="dec" points="375,252 467,304 375,356 283,304"/>
+  <text class="t tb" x="375" y="294">Every 2nd</text>
+  <text class="t tb" x="375" y="315">Frame ?</text>
+
+  <!-- Detect + track + gestures -->
+  <rect class="proc" x="215" y="380" width="320" height="78"/>
+  <text class="t tb" x="375" y="399">Detect, Track, Read Gestures</text>
+  <text class="t" x="375" y="420">YOLOv8n ONNX + NMS, IoU tracker,</text>
+  <text class="t" x="375" y="439">gesture held for 4 frames</text>
+
+  <!-- D2: land gesture -->
+  <polygon class="dec" points="375,476 467,530 375,584 283,530"/>
+  <text class="t tb" x="375" y="520">Land Gesture</text>
+  <text class="t tb" x="375" y="541">from Target ?</text>
+  <rect class="out" x="505" y="498" width="215" height="64"/>
+  <text class="t tb" x="612" y="519">Intent: land</text>
+  <text class="t" x="612" y="541">follow mode switched off</text>
+
+  <!-- D3: target selected -->
+  <polygon class="dec" points="375,606 467,660 375,714 283,660"/>
+  <text class="t tb" x="375" y="650">Target</text>
+  <text class="t tb" x="375" y="671">Selected ?</text>
+  <rect class="out" x="505" y="628" width="215" height="64"/>
+  <text class="t tb" x="612" y="649">Intent: hover</text>
+  <text class="t" x="612" y="671">follow mode disabled</text>
+
+  <!-- D4: target visible -->
+  <polygon class="dec" points="375,736 467,790 375,844 283,790"/>
+  <text class="t tb" x="375" y="780">Target Visible</text>
+  <text class="t tb" x="375" y="801">in Frame ?</text>
+  <rect class="out" x="505" y="758" width="215" height="64"/>
+  <text class="t tb" x="612" y="779">Intent: hover</text>
+  <text class="t" x="612" y="801">target occluded or lost</text>
+
+  <!-- Follow -->
+  <rect class="out" x="250" y="866" width="250" height="62"/>
+  <text class="t tb" x="375" y="886">Intent: follow</text>
+  <text class="t" x="375" y="908">bounded yaw, forward, vertical</text>
+
+  <!-- Output -->
+  <rect class="proc" x="215" y="956" width="320" height="56"/>
+  <text class="t tb" x="375" y="974">Print JSON Line</text>
+  <text class="t" x="375" y="995">frame, fps, track IDs, intent</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,176" marker-end="url(#head)"/>
+  <path class="wire" d="M375,236 L375,248" marker-end="url(#head)"/>
+  <path class="wire" d="M375,356 L375,376" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="368">Yes</text>
+  <path class="wire" d="M375,458 L375,472" marker-end="url(#head)"/>
+  <path class="wire" d="M375,584 L375,602" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="596">No</text>
+  <path class="wire" d="M375,714 L375,732" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="726">Yes</text>
+  <path class="wire" d="M375,844 L375,862" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="856">Yes</text>
+  <path class="wire" d="M375,928 L375,952" marker-end="url(#head)"/>
+
+  <!-- Side exits -->
+  <path class="wire" d="M467,530 L501,530" marker-end="url(#head)"/>
+  <text class="yn" x="471" y="517">Yes</text>
+  <path class="wire" d="M467,660 L501,660" marker-end="url(#head)"/>
+  <text class="yn" x="473" y="647">No</text>
+  <path class="wire" d="M467,790 L501,790" marker-end="url(#head)"/>
+  <text class="yn" x="473" y="777">No</text>
+
+  <!-- Right-hand join into Print JSON Line -->
+  <path class="wire" d="M720,530 L736,530 L736,984 L539,984" marker-end="url(#head)"/>
+  <path class="wire" d="M720,660 L736,660"/>
+  <path class="wire" d="M720,790 L736,790"/>
+
+  <!-- D1 "No": skip inference, read the next frame -->
+  <path class="wire" d="M283,304 L60,304 L60,208"/>
+  <text class="yn" x="248" y="291">No</text>
+
+  <!-- Main loop back to Read Camera Frame -->
+  <path class="wire" d="M215,984 L30,984 L30,208 L211,208" marker-end="url(#head)"/>
+</svg>

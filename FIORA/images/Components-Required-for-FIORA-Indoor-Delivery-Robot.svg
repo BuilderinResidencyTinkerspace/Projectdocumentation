@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!-- Components grid: FIORA indoor delivery robot. Black line drawings on white, 5 x 2 grid, bold label under each. -->
+  <defs>
+    <style>
+      .bg  { fill: #ffffff; }
+      .o   { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .t   { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f   { fill: #000000; }
+      .lbl { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 0.4px; }
+      .in  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+             fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- 1. Raspberry Pi 5 (centre x 75) -->
+  <rect class="o" x="16" y="68" width="112" height="76" rx="7"/>
+  <rect class="t" x="24" y="73" width="84" height="9"/>
+  <path class="t" d="M28,77.5 L104,77.5" stroke-dasharray="2 4"/>
+  <circle class="o" cx="56" cy="112" r="17"/>
+  <circle class="t" cx="56" cy="112" r="7"/>
+  <rect class="o" x="120" y="80" width="22" height="18" rx="2"/>
+  <rect class="o" x="120" y="102" width="22" height="18" rx="2"/>
+  <rect class="o" x="118" y="124" width="24" height="16" rx="2"/>
+  <circle class="t" cx="22" cy="138" r="3"/><circle class="t" cx="104" cy="138" r="3"/>
+  <text class="lbl" x="75" y="205">RASPBERRY PI 5</text>
+
+  <!-- 2. RPLIDAR A1M8 (centre x 225) -->
+  <path class="o" d="M172,130 L232,118 L282,128 L222,140 Z"/>
+  <path class="t" d="M196,128 L196,112 M256,124 L256,108 M226,132 L226,116" stroke-width="2.2"/>
+  <path class="o" d="M184,78 L184,106 A41,12 0 0 0 266,106 L266,78"/>
+  <ellipse class="o" cx="225" cy="78" rx="41" ry="12"/>
+  <text class="in" x="225" y="98">A1M8</text>
+  <text class="lbl" x="225" y="205">RPLIDAR A1M8</text>
+
+  <!-- 3. Arduino Uno (centre x 375) -->
+  <rect class="o" x="318" y="70" width="114" height="76" rx="6"/>
+  <rect class="o" x="306" y="78" width="22" height="20" rx="2"/>
+  <rect class="o" x="308" y="116" width="18" height="18" rx="3"/>
+  <rect class="t" x="346" y="74" width="80" height="7"/>
+  <rect class="t" x="356" y="135" width="70" height="7"/>
+  <rect class="o" x="360" y="100" width="40" height="16" rx="2"/>
+  <text class="in" x="380" y="108">UNO</text>
+  <text class="lbl" x="375" y="205">ARDUINO UNO</text>
+
+  <!-- 4. L293D motor driver shield (centre x 525) -->
+  <rect class="o" x="466" y="66" width="118" height="84" rx="5"/>
+  <rect class="o" x="484" y="86" width="34" height="16" rx="2"/>
+  <text class="in" x="501" y="94">L293D</text>
+  <rect class="o" x="530" y="86" width="34" height="16" rx="2"/>
+  <text class="in" x="547" y="94">L293D</text>
+  <rect class="o" x="458" y="72" width="14" height="22" rx="2"/>
+  <rect class="o" x="458" y="118" width="14" height="22" rx="2"/>
+  <rect class="o" x="578" y="72" width="14" height="22" rx="2"/>
+  <rect class="o" x="578" y="118" width="14" height="22" rx="2"/>
+  <rect class="o" x="508" y="140" width="34" height="14" rx="2"/>
+  <text class="in" x="480" y="129" font-size="9">M1</text>
+  <text class="in" x="570" y="129" font-size="9">M4</text>
+  <text class="lbl" x="525" y="198">L293D MOTOR</text>
+  <text class="lbl" x="525" y="215">DRIVER SHIELD</text>
+
+  <!-- 5. HC-05 Bluetooth (centre x 675) -->
+  <rect class="o" x="634" y="78" width="82" height="52" rx="4"/>
+  <path class="t" d="M642,86 L642,96 L650,96 L650,86 L658,86 L658,96 L666,96 L666,86"/>
+  <rect class="o" x="676" y="96" width="30" height="24" rx="2"/>
+  <text class="in" x="691" y="108" font-size="9">HC-05</text>
+  <path class="t" d="M646,130 L646,146 M656,130 L656,146 M666,130 L666,146 M676,130 L676,146 M686,130 L686,146 M696,130 L696,146" stroke-width="2"/>
+  <text class="lbl" x="675" y="198">HC-05</text>
+  <text class="lbl" x="675" y="215">BLUETOOTH</text>
+
+  <!-- 6. GB37 geared motor (centre x 75) -->
+  <rect class="o" x="12" y="292" width="20" height="44" rx="3"/>
+  <rect class="o" x="30" y="286" width="58" height="56" rx="6"/>
+  <rect class="o" x="86" y="294" width="34" height="40" rx="4"/>
+  <rect class="o" x="118" y="308" width="20" height="12" rx="2"/>
+  <path class="t" d="M14,336 C10,350 22,356 30,360 M20,336 C18,350 30,356 40,360"/>
+  <text class="in" x="59" y="314">GB37</text>
+  <text class="lbl" x="75" y="398">GB37 12V</text>
+  <text class="lbl" x="75" y="415">MOTOR ×4</text>
+
+  <!-- 7. Mecanum wheel (centre x 225) -->
+  <circle class="o" cx="225" cy="314" r="44"/>
+  <circle class="o" cx="225" cy="314" r="13"/>
+  <path class="t" d="M190,288 L206,346 M204,276 L222,352 M222,272 L240,356 M240,276 L256,342" stroke-width="2.2"/>
+  <circle class="o" cx="225" cy="314" r="13"/>
+  <path class="f" d="M219,309 L231,309 L234,314 L231,319 L219,319 L216,314 Z"/>
+  <text class="lbl" x="225" y="398">MECANUM</text>
+  <text class="lbl" x="225" y="415">WHEEL ×4</text>
+
+  <!-- 8. LiPo battery (centre x 375) -->
+  <rect class="o" x="318" y="290" width="104" height="48" rx="6"/>
+  <text class="in" x="370" y="314">LiPo</text>
+  <path class="t" d="M422,302 C440,300 444,290 452,286 M422,326 C440,328 444,338 452,342" stroke-width="2.2"/>
+  <rect class="o" x="448" y="278" width="14" height="16" rx="2"/>
+  <rect class="o" x="448" y="334" width="14" height="16" rx="2"/>
+  <text class="lbl" x="375" y="398">LIPO BATTERY</text>
+
+  <!-- 9. Power bank (centre x 525) -->
+  <rect class="o" x="480" y="282" width="90" height="62" rx="12"/>
+  <rect class="o" x="566" y="304" width="10" height="18" rx="2"/>
+  <circle class="f" cx="500" cy="332" r="3"/><circle class="f" cx="512" cy="332" r="3"/><circle class="f" cx="524" cy="332" r="3"/><circle class="t" cx="536" cy="332" r="3"/>
+  <text class="in" x="523" y="306">5V</text>
+  <text class="lbl" x="525" y="398">POWER BANK</text>
+  <text class="lbl" x="525" y="415">(PI SUPPLY)</text>
+
+  <!-- 10. 3D-printed coupler and triangular motor mount (centre x 675) -->
+  <path class="o" d="M634,350 L634,286 L700,350 Z"/>
+  <circle class="t" cx="652" cy="330" r="8"/>
+  <rect class="o" x="668" y="284" width="30" height="36" rx="4"/>
+  <path class="o" d="M676,284 L676,272 L690,272 L690,284"/>
+  <path class="f" d="M679,302 L687,302 L690,307 L687,312 L679,312 L676,307 Z"/>
+  <text class="lbl" x="672" y="398">3D-PRINTED</text>
+  <text class="lbl" x="672" y="415" font-size="12">COUPLER + MOUNT</text>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="520" viewBox="0 0 750 520">
+  <!--
+    Wiring diagram: CuBaffle deployable optical baffle. Black on white.
+    Stated in the Week 8 log and README: both MG90S signals share Pi pin 32 (GPIO12, hardware PWM0);
+    servo power from a 4xAA (6V) pack only; pack ground tied to Pi pin 39; Pi 5 on its own official
+    supply; everything joined on a perf board. The code also drives GPIO13 (pin 33, PWM1), which the
+    log does not list as wired. Pi Camera Module 3 on the CSI ribbon.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bus  { fill: none; stroke: #000000; stroke-width: 4; stroke-linecap: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .dot  { fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="520"/>
+
+  <!-- Pi camera and ribbon -->
+  <rect class="box" x="40" y="30" width="160" height="56" rx="4"/>
+  <text class="lbl" x="120" y="50">PI CAMERA</text>
+  <text class="sm" x="120" y="70" text-anchor="middle">MODULE 3</text>
+  <path class="thin" d="M110,86 L110,140 M130,86 L130,140"/>
+  <text class="sm" x="138" y="113">CSI ribbon</text>
+
+  <!-- Raspberry Pi 5 -->
+  <rect class="box" x="30" y="140" width="220" height="190" rx="6"/>
+  <text class="sm" x="120" y="154" text-anchor="middle">CAM</text>
+  <text class="lbl" x="86" y="178" style="font-size:14.5px">RASPBERRY</text>
+  <text class="lbl" x="86" y="197" style="font-size:14.5px">PI 5</text>
+  <rect class="thin" x="226" y="160" width="16" height="150"/>
+  <text class="sm" x="218" y="190" text-anchor="end">PIN 32  GPIO12</text>
+  <text class="sm" x="218" y="220" text-anchor="end">PIN 33  GPIO13</text>
+  <text class="sm" x="218" y="280" text-anchor="end">PIN 39  GND</text>
+  <circle class="dot" cx="250" cy="190" r="4"/>
+  <circle class="box" cx="250" cy="220" r="4"/>
+  <circle class="dot" cx="250" cy="280" r="4"/>
+  <text class="sm" x="140" y="318" text-anchor="middle">USB-C</text>
+
+  <!-- Pi power supply -->
+  <path class="w" d="M140,330 L140,410"/>
+  <rect class="box" x="55" y="410" width="170" height="50" rx="4"/>
+  <text class="lbl" x="140" y="430">PI 5 POWER</text>
+  <text class="sm" x="140" y="448" text-anchor="middle">SUPPLY (OFFICIAL)</text>
+
+  <!-- Servo A (top) -->
+  <rect class="box" x="320" y="34" width="140" height="56" rx="4"/>
+  <text class="lbl" x="390" y="54">MG90S SERVO A</text>
+  <text class="sm" x="390" y="74" text-anchor="middle">SIG   GND   6V</text>
+  <path class="w" d="M360,90 L360,180 M390,90 L390,180 M420,90 L420,180"/>
+
+  <!-- Perf board with three strips -->
+  <rect class="box" x="296" y="150" width="184" height="170" rx="4"/>
+  <path class="bus" d="M360,180 L360,300"/>
+  <path class="bus" d="M390,180 L390,300"/>
+  <path class="bus" d="M420,180 L420,300"/>
+  <text class="sm" x="316" y="235" text-anchor="middle" transform="rotate(-90 316 235)">PERF BOARD</text>
+  <circle class="dot" cx="360" cy="180" r="4"/><circle class="dot" cx="390" cy="180" r="4"/><circle class="dot" cx="420" cy="180" r="4"/>
+  <circle class="dot" cx="360" cy="300" r="4"/><circle class="dot" cx="390" cy="300" r="4"/><circle class="dot" cx="420" cy="300" r="4"/>
+
+  <!-- Servo B (bottom) -->
+  <path class="w" d="M360,300 L360,390 M390,300 L390,390 M420,300 L420,390"/>
+  <rect class="box" x="320" y="390" width="140" height="56" rx="4"/>
+  <text class="sm" x="390" y="408" text-anchor="middle">SIG   GND   6V</text>
+  <text class="lbl" x="390" y="428">MG90S SERVO B</text>
+
+  <!-- Pi pin 32 to SIG strip -->
+  <path class="w" d="M250,190 L360,190"/>
+  <circle class="dot" cx="360" cy="190" r="4"/>
+  <text class="sm" x="272" y="180">PWM signal</text>
+
+  <!-- Pi pin 39 to GND strip, hopping over SIG -->
+  <path class="w" d="M250,280 L353,280 A7,7 0 0 1 367,280 L390,280"/>
+  <circle class="dot" cx="390" cy="280" r="4"/>
+  <text class="sm" x="262" y="294">common ground</text>
+
+  <!-- Battery pack -->
+  <rect class="box" x="560" y="190" width="160" height="80" rx="4"/>
+  <text class="lbl" x="640" y="218">4×AA PACK</text>
+  <text class="sm" x="640" y="240" text-anchor="middle">6V, SERVOS ONLY</text>
+  <text class="sm" x="566" y="203">+</text>
+  <text class="sm" x="566" y="256">−</text>
+  <path class="w" d="M560,210 L420,210"/>
+  <circle class="dot" cx="420" cy="210" r="4"/>
+  <path class="w" d="M560,256 L427,256 A7,7 0 0 0 413,256 L390,256"/>
+  <circle class="dot" cx="390" cy="256" r="4"/>
+
+  <!-- Notes -->
+  <text class="note" x="375" y="482">Both servos share the PWM signal on pin 32. The code also drives pin 33 (GPIO13), which is not wired here.</text>
+  <text class="note" x="375" y="502">The servos take power only from the 4×AA pack; its ground is tied to the Pi at pin 39.</text>
+</svg>

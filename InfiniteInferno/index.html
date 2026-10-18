@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>ARGUS Drone Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">8 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>We Built ARGUS, a Person-Tracking Drone Using Arduino UNO Q and YOLOv8n</h1>
+    <p class="byline">Draft article · ARGUS, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>argus-person-tracking-drone-arduino-uno-q-yolov8n</code></dd>
+        <dt>Meta description</dt><dd>Build a person-tracking drone with Arduino UNO Q, Raspberry Pi 5, Pixhawk and YOLOv8n. Covers parts, wiring, PX4 setup, vision code, tests and full code. <span style="color:var(--muted)">(153 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Arduino UNO Q</li><li>Raspberry Pi 5</li><li>YOLOv8n</li><li>ONNX Runtime</li><li>Pixhawk</li><li>PX4</li><li>QGroundControl</li><li>Person Tracking</li><li>Gesture Control</li><li>Drone Project</li><li>Matek PDB-XT60</li><li>Python</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/ARGUS-Person-Tracking-Drone.jpg" alt="ARGUS Person-Tracking Drone" decoding="async"></figure>
+<p>A camera drone that follows a person usually carries a companion computer such as a Raspberry Pi for the vision model, plus a microcontroller for the time-critical jobs. Both add weight and heat, and both run off the battery that keeps the drone in the air. So, can one board do both jobs? The Arduino UNO Q has a Qualcomm processor running Linux and an STM32 microcontroller on the same PCB, and ARGUS is our attempt to find out.</p>
+<p>In this project, we built ARGUS, a quadcopter that carries an Arduino UNO Q and a USB webcam. The UNO Q finds people with a YOLOv8n model, gives each one a tracking ID and works out how the drone should move to follow the selected person, and the same code can read hand gestures once a pose model is loaded. The flight side is a standard Pixhawk quadcopter running PX4. The person-tracking drone flies under RC control with the camera on board, but its follow commands are only printed as JSON for now, as the link from the UNO Q to the Pixhawk is not built yet. You can also check out similar <a href="https://circuitdigest.com/simple-raspberry-pi-projects-for-beginners" target="_blank" rel="noopener">Raspberry Pi projects</a> and <a href="https://circuitdigest.com/drone-projects" target="_blank" rel="noopener">drone projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is ARGUS?</p><p><strong>ARGUS</strong> is a person-tracking drone built on an Arduino UNO Q and a Pixhawk running PX4. A YOLOv8n model finds people in the camera feed, a small tracker keeps their IDs, and a follow controller turns the target's position into limited yaw, forward and vertical commands, printed as JSON until the Pixhawk link is built.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-argus">What Is ARGUS?</a></li><li class="sub"><a href="#arduino-uno-q-or-raspberry-pi-5-for-the-vision-code">Arduino UNO Q or Raspberry Pi 5</a></li><li class="top"><a href="#how-does-the-argus-person-tracking-drone-work">How the Drone Works</a></li><li class="sub"><a href="#gesture-to-action-mapping">Gesture-to-Action Mapping</a></li><li class="top"><a href="#components-required-for-the-argus-drone">Components Required</a></li><li class="top"><a href="#wiring-diagram-of-the-argus-drone">Wiring Diagram</a></li><li class="sub"><a href="#argus-connection-table">Connection Table</a></li><li class="top"><a href="#building-the-argus-frame">Building the Frame</a></li><li class="top"><a href="#hardware-assembly-of-the-argus-drone">Hardware Assembly</a></li><li class="top"><a href="#pixhawk-setup-with-px4-and-qgroundcontrol">Pixhawk Setup</a></li><li class="top"><a href="#setting-up-the-argus-vision-code">Vision Code Setup</a></li><li class="sub"><a href="#command-line-options">Command-Line Options</a></li><li class="top"><a href="#testing-argus-before-flight">Testing Before Flight</a></li><li class="top"><a href="#argus-vision-code-explanation">Code Explanation</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-of-the-argus-person-tracking-drone">Output</a></li><li class="top"><a href="#troubleshooting-the-argus-drone">Troubleshooting</a></li><li class="top"><a href="#argus-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-argus">What Is ARGUS?</h2>
+<p>ARGUS is a proof of concept for a drone that does its own computer vision on board. The work is split into separate features: person detection, tracking, following a selected person, gesture-mapped actions and Pixhawk-based flight control. The vision code is kept apart from the flight control, so it can be tested on the bench before it ever touches a drone, and any autonomous flight test should start tethered or caged. If you are new to YOLO, do check out our <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-object-detection-using-circuitdigest-cloud" target="_blank" rel="noopener">object detection on Raspberry Pi tutorial</a> as well.</p>
+<h3 id="arduino-uno-q-or-raspberry-pi-5-for-the-vision-code">Arduino UNO Q or Raspberry Pi 5 for the Vision Code</h3>
+<p>The same Python code runs on both boards. We developed it on a Raspberry Pi 5 first and then moved it to the UNO Q, and the table below compares the two, with the frame rates we saw on each.</p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Arduino UNO Q</th><th>Raspberry Pi 5</th></tr></thead><tbody><tr><td>Processor</td><td>Qualcomm Dragonwing QRB2210, quad-core Cortex-A53</td><td>Broadcom BCM2712, quad-core Cortex-A76</td></tr><tr><td>Real-time MCU</td><td>STM32U585 on the same board</td><td>None, needs a separate MCU</td></tr><tr><td>Pipeline speed we saw</td><td>About 0.9 FPS</td><td>About 3.0 to 3.5 FPS</td></tr></tbody></table></div>
+<p>The Pi 5 was three to four times faster in our screenshots, though the two setups differ and this was not a controlled benchmark. If you are building this, get the code running on a Pi 5 first, as it is faster and easier to debug.</p>
+<h2 id="how-does-the-argus-person-tracking-drone-work">How Does the ARGUS Person-Tracking Drone Work?</h2>
+<p>The working is split into two halves. The flight half is a normal quadcopter: the LiPo feeds the Matek PDB-XT60, the PDB powers four ESCs, and the Pixhawk running PX4 drives them from the RC receiver input. On top of that, the UNO Q reads webcam frames, runs YOLOv8n on every second frame, tracks the people it finds, checks them for gestures and prints one JSON line with the flight intent. Below is the block diagram of the ARGUS person-tracking drone.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-ARGUS-Person-Tracking-Drone.jpg" alt="Block diagram of ARGUS person-tracking drone showing USB webcam, Arduino UNO Q, flight intent output, Pixhawk, PDB, ESCs and motors" decoding="async"></figure>
+<p>The dashed line is the link that is not built yet; once it is in place, the intent will go to the Pixhawk over MAVLink. Until then, the drone is flown by hand, and the intent output is tested on the bench with the motors off. Here is another tutorial on <a href="https://circuitdigest.com/tutorial/how-to-connect-the-litewing-esp32-drone-betaflight" target="_blank" rel="noopener">connecting the LiteWing ESP32 drone to Betaflight</a>, where a drone's flight controller is configured step by step.</p>
+<h3 id="gesture-to-action-mapping">Gesture-to-Action Mapping</h3>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Gesture</th><th>Action</th></tr></thead><tbody><tr><td>1.</td><td>Right hand up</td><td>start_follow</td></tr><tr><td>2.</td><td>Left hand up</td><td>stop_follow</td></tr><tr><td>3.</td><td>Both hands up</td><td>land</td></tr></tbody></table></div>
+<p>A gesture counts only after the same person holds it for 4 processed frames, and it is then ignored from that person for 2 seconds. Gestures also need a pose model, which the troubleshooting section explains.</p>
+<h2 id="components-required-for-the-argus-drone">Components Required for the ARGUS Drone</h2>
+<p>Below is the list of components required to build this project.</p>
+<figure class="shot"><img src="images/Components-Required-for-ARGUS-Person-Tracking-Drone.jpg" alt="Components used for ARGUS person-tracking drone including Arduino UNO Q, Raspberry Pi 5, Pixhawk, Matek PDB-XT60, ESCs, brushless motors and USB webcam" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Arduino UNO Q</td><td>Onboard vision computer</td><td>1</td></tr><tr><td>2.</td><td>Raspberry Pi 5</td><td>For developing the vision code</td><td>1</td></tr><tr><td>3.</td><td>Raspberry Pi Camera Module <mark class="todo">TODO: version</mark></td><td>Camera for the Pi stage</td><td>1</td></tr><tr><td>4.</td><td>USB 2.0 PC Webcam (generic)</td><td>Onboard camera</td><td>1</td></tr><tr><td>5.</td><td>Powered USB Hub and Power Bank</td><td>Connect and power the webcam</td><td>1 each</td></tr><tr><td>6.</td><td>Pixhawk 2.4.8</td><td>Flight controller running PX4</td><td>1</td></tr><tr><td>7.</td><td>M10 GPS Module</td><td>GPS for the Pixhawk</td><td>1</td></tr><tr><td>8.</td><td>Matek PDB-XT60</td><td>Power distribution, 3S to 4S LiPo</td><td>1</td></tr><tr><td>9.</td><td>Electrolytic Capacitor <mark class="todo">TODO: value</mark></td><td>On the PDB battery leads</td><td>2</td></tr><tr><td>10.</td><td>ESC <mark class="todo">TODO: current rating</mark></td><td>Motor driver</td><td>4</td></tr><tr><td>11.</td><td>A2212/13T 1000KV Brushless Motor</td><td>Thrust</td><td>4</td></tr><tr><td>12.</td><td>Propeller <mark class="todo">TODO: size</mark></td><td>One per motor</td><td>4</td></tr><tr><td>13.</td><td>F450-Style Quadcopter Frame</td><td>Ready-made frame</td><td>1</td></tr><tr><td>14.</td><td>LiPo Battery <mark class="todo">TODO: cells and capacity</mark></td><td>Flight power</td><td>1</td></tr><tr><td>15.</td><td>RC Transmitter and Receiver <mark class="todo">TODO: model</mark></td><td>Manual control</td><td>1 set</td></tr></tbody></table></div>
+<p>The UNO Q is the board that flies. The Pi 5 and its camera are only needed if you want to develop and test the vision code on a faster board first. The webcam goes through a powered USB hub with its own power bank, because that was the quickest way to get a camera on the drone with the parts we had. If you like to see more builds like this, check out our collection of <a href="https://circuitdigest.com/arduino-projects" target="_blank" rel="noopener">Arduino projects</a>.</p>
+<h2 id="wiring-diagram-of-the-argus-drone">Wiring Diagram of the ARGUS Drone</h2>
+<p>Below is the wiring diagram for the ARGUS drone.</p>
+<figure class="shot"><img src="images/Wiring-Diagram-of-ARGUS-Person-Tracking-Drone.jpg" alt="Wiring Diagram of ARGUS Person-Tracking Drone" title="Wiring Diagram of ARGUS Person-Tracking Drone" decoding="async"></figure>
+<p>The flight side follows the standard Pixhawk quadcopter layout. The LiPo plugs into the XT60 input of the PDB, and the four ESCs take their power from it. Each ESC drives one brushless motor, and the ESC signal leads go to MAIN OUT 1 to 4 on the Pixhawk in the PX4 Quadrotor X order. On the vision side, the webcam plugs into the powered USB hub and the hub into the UNO Q. There is no data link between the UNO Q and the Pixhawk yet. That is all about the wiring.</p>
+<h3 id="argus-connection-table">ARGUS Connection Table</h3>
+<div class="table-wrap"><table><thead><tr><th>From</th><th>To</th><th>Note</th></tr></thead><tbody><tr><td>LiPo battery</td><td>XT60 input of the Matek PDB-XT60</td><td>Two electrolytic capacitors on the PDB battery leads</td></tr><tr><td>PDB battery pads</td><td>Power leads of ESC 1 to 4</td><td>Standard wiring, not confirmed in the logs</td></tr><tr><td>ESC 1 to 4</td><td>Brushless motors 1 to 4</td><td>Three wires each</td></tr><tr><td>ESC 1 to 4 signal leads</td><td>Pixhawk MAIN OUT 1 to 4</td><td>PX4 Quadrotor X order, check with the motor test</td></tr><tr><td>RC receiver</td><td>Pixhawk RC input</td><td>Standard wiring, receiver model not recorded</td></tr><tr><td>M10 GPS module</td><td>Pixhawk GPS port</td><td>Standard wiring for the Pixhawk 2.4.8</td></tr><tr><td>Pixhawk power input</td><td><mark class="todo">TODO: power module or PDB 5V output</mark></td><td>Not recorded</td></tr><tr><td>USB webcam</td><td>Powered USB hub, then the UNO Q USB port</td><td>Power bank feeds the hub</td></tr><tr><td>Arduino UNO Q power</td><td><mark class="todo">TODO: UNO Q power source during flight</mark></td><td>Not recorded</td></tr></tbody></table></div>
+<h2 id="building-the-argus-frame">Building the ARGUS Frame</h2>
+<p>The ARGUS that flies uses a ready-made F450-style quadcopter frame, and that is the frame we suggest. We first designed and printed our own frame, but we did not trust PLA arms with the loads and vibration of flight, the carbon-fibre-infused PETG we wanted was not available, and screws and fasteners were hard to find as well. So, we moved to a strong ready-made frame and strength-tested the parts we had replaced.</p>
+<h3 id="optional-the-3d-printed-frame">Optional: The 3D-Printed Frame</h3>
+<p>If you want to try a printed frame, below is the CAD model of ours from Fusion 360. The CAD files are not in the repository.</p>
+<figure class="shot"><img src="images/ARGUS-Drone-Frame-CAD-Design.jpg" alt="ARGUS drone frame CAD design in Fusion 360 showing the 182 mm bottom plate and four arms" decoding="async"></figure>
+<p>It has a 96 mm centre plate and a 182 mm bottom plate with four arms between them. Print one landing leg first and test its strength before printing the plates and arms. Below is the centre plate printing on a Bambu Lab printer.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="images/3D-Printing-the-ARGUS-Centre-Plate.jpg" width="640"><source src="videos/ARGUS-Printing-the-Centre-Plate.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/8d8be39d-6964-490f-861d-9866ee75ea14" type="video/mp4"><a href="https://github.com/user-attachments/assets/8d8be39d-6964-490f-861d-9866ee75ea14">Printing the centre plate (MP4)</a></video></figure>
+<p>The printed frame did come together with all four motors on it, as shown below.</p>
+<figure class="shot"><img src="images/3D-Printed-Drone-Frame-with-Motors.jpg" alt="3D-printed ARGUS drone frame with lattice arms and four brushless motors mounted" decoding="async"></figure>
+<p>Check your filament stock before you start. PLA went out of stock for us, and the alternative filament we tried gave extrusion problems and had to be cleaned out of the printer by hand. The image below shows one of the failed prints.</p>
+<figure class="shot"><img src="images/Failed-3D-Print-of-Drone-Arms.jpg" alt="Failed 3D print of ARGUS drone arms with uneven layers" decoding="async"></figure>
+<p>You can also check out our <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> for more mechanical builds.</p>
+<h2 id="hardware-assembly-of-the-argus-drone">Hardware Assembly of the ARGUS Drone</h2>
+<p>Below is the drone during assembly, with the Pixhawk, the ESC wiring and the motors on the frame.</p>
+<figure class="shot"><img src="images/ARGUS-Drone-Hardware-Assembly.jpg" alt="ARGUS drone hardware assembly on the quad frame with Pixhawk, ESC wiring and brushless motors" decoding="async"></figure>
+<p class="step"><strong>Step 1⇒ Mount the Motors and ESCs</strong></p>
+<p>Fix the four A2212 motors to the arms and the ESCs alongside them, then connect each ESC to its motor with the three motor wires.</p>
+<p class="step"><strong>Step 2⇒ Wire the PDB with Its Capacitors</strong></p>
+<p>Solder the ESC power leads and the battery lead to the Matek PDB-XT60, and fit the electrolytic capacitors on the battery leads before connecting a battery. Below is our PDB, with two capacitors on its battery leads.</p>
+<figure class="shot"><img src="images/Matek-PDB-XT60-Power-Distribution-Board.jpg" alt="Matek PDB-XT60 power distribution board with soldered ESC and battery leads on the ARGUS drone" decoding="async"></figure>
+<p class="step"><strong>Step 3⇒ Mount the Pixhawk, GPS and Receiver</strong></p>
+<p>Fix the Pixhawk 2.4.8 on the frame, plug the ESC signal leads into MAIN OUT 1 to 4, and connect the M10 GPS and the RC receiver as per the connection table.</p>
+<p class="step"><strong>Step 4⇒ Mount the Camera and the UNO Q</strong></p>
+<p>Fix the USB webcam to the front of the frame and connect it to the UNO Q through the powered USB hub, as shown below.</p>
+<figure class="shot"><img src="images/USB-Webcam-Mounted-on-ARGUS-Drone.jpg" alt="USB webcam mounted on the front of the ARGUS drone and connected to the Arduino UNO Q through a USB hub" decoding="async"></figure>
+<h2 id="pixhawk-setup-with-px4-and-qgroundcontrol">Pixhawk Setup with PX4 and QGroundControl</h2>
+<p>Below are the flight controller setup steps that worked for us. We also tried ArduPilot with Mission Planner, but its calibration failed, so stay with PX4 and QGroundControl for this build.</p>
+<p class="step"><strong>Step 1⇒ Flash the PX4 Firmware</strong></p>
+<p>Connect the Pixhawk over USB, open QGroundControl and flash PX4 from <strong>Vehicle Setup</strong> &gt; <strong>Firmware</strong>.</p>
+<p class="step"><strong>Step 2⇒ Calibrate the Sensors</strong></p>
+<p>Run the compass and accelerometer calibrations under <strong>Sensors</strong>. The accelerometer step asks for six orientations, one after another, and each box turns green once it is done. Below is our calibration run.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="images/QGroundControl-Accelerometer-Calibration-for-ARGUS-Drone.jpg" width="640"><source src="videos/ARGUS-QGroundControl-Calibration.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/80f877c4-87bd-496a-a729-3533ae22f998" type="video/mp4"><a href="https://github.com/user-attachments/assets/80f877c4-87bd-496a-a729-3533ae22f998">QGroundControl calibration (MP4)</a></video></figure>
+<p class="step"><strong>Step 3⇒ Calibrate the ESCs and Test Each Motor</strong></p>
+<p>Calibrate the ESCs, then take the propellers off and spin one motor at a time with the motor test. If the wrong motor spins, the ESC signal leads are on the wrong MAIN OUT pins; this is how we found ours in the wrong order. Below is the motor test after ESC calibration.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="images/ARGUS-Drone-Motor-Test-After-ESC-Calibration.jpg" width="360"><source src="videos/ARGUS-ESC-Calibration-and-Motor-Test.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/969b4cbf-2a42-4c6a-8200-fe3666946242" type="video/mp4"><a href="https://github.com/user-attachments/assets/969b4cbf-2a42-4c6a-8200-fe3666946242">ESC calibration and motor test (MP4)</a></video></figure>
+<p class="step"><strong>Step 4⇒ Run the Pre-Flight Checks</strong></p>
+<p>QGroundControl showed three warnings for our setup: low battery, no GPS and no safety switch. Do not ignore them to get airborne. Sort out the battery, GPS and safety-switch settings for your flight mode before arming.</p>
+<h2 id="setting-up-the-argus-vision-code">Setting Up the ARGUS Vision Code</h2>
+<p>The Python code needs Python 3.11 or newer with NumPy, ONNX Runtime and PyYAML. On Raspberry Pi OS, Picamera2 and OpenCV come from apt, so create the virtual environment with --system-site-packages, or it will not see them.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">sudo apt install python3-picamera2 python3-opencv
+git clone https://github.com/BuilderinResidencyTinkerspace/InfiniteInferno.git
+cd InfiniteInferno/code
+python3 -m venv --system-site-packages .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt</code></pre></div>
+<p>Then start the pipeline. The settings for the model, camera, tracker, gestures and controller all live in configs/config.yaml.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">python -m src.main --auto-follow --display</code></pre></div>
+<p>On the UNO Q, use the OpenCV camera path with the webcam's device, for example <code>--camera opencv --source /dev/video2</code>. Our UNO Q needed a reset before it responded, and the Pi code was adapted for it with AI-assisted conversion and then fixed by hand. We ran it there with a small web dashboard (dashboard.py) on port 8080, which is not in the repository yet. For another Raspberry Pi build with a USB camera, refer to our <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-helmet-detection-using-circuitdigest-cloud" target="_blank" rel="noopener">Raspberry Pi helmet detection</a> project.</p>
+<h3 id="command-line-options">Command-Line Options</h3>
+<div class="table-wrap"><table><thead><tr><th>Option</th><th>What It Does</th></tr></thead><tbody><tr><td>--camera opencv --source 0</td><td>Uses a USB webcam or a video file in place of Picamera2</td></tr><tr><td>--target-id 1</td><td>Follows one specific track ID</td></tr><tr><td>--auto-follow</td><td>Locks on to the largest person in the first frame with a confirmed track</td></tr><tr><td>--display</td><td>Shows the annotated preview window (needs a desktop)</td></tr><tr><td>--max-frames 100</td><td>Stops after 100 frames</td></tr></tbody></table></div>
+<p>--target-id and --auto-follow cannot be used together.</p>
+<h2 id="testing-argus-before-flight">Testing ARGUS Before Flight</h2>
+<p>Test the vision side on its own before anything flies. First, run the smoke test from the code folder. It runs one blank frame through the model and prints the shapes; an output of [1, 84, 8400] means a detection model.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">python scripts/pi_smoke_test.py</code></pre></div>
+<p>Next, run the unit tests. They cover the camera, detector, pre and post-processing, tracker, gestures, controller and configuration. pytest is not in requirements.txt, so install it first.</p>
+<div class="code-wrap"><pre class="code"><code class="language-bash">python -m pip install pytest
+python -m pytest</code></pre></div>
+<p>Then run the pipeline on the bench with --auto-follow --display --max-frames 100, step in front of the camera and check that the JSON lines switch from hover to follow. Keep the propellers off for every bench test, and fly the first flights by RC only, as the intents do not reach the Pixhawk yet.</p>
+<h2 id="argus-vision-code-explanation">ARGUS Vision Code Explanation</h2>
+<p>The vision code is split into small Python modules under code/src, one per stage, with the settings in configs/config.yaml. Below is the program workflow of src/main.py.</p>
+<figure class="shot"><img src="images/ARGUS-Vision-Pipeline-Flowchart.jpg" alt="Program workflow flowchart of the ARGUS vision pipeline showing frame reading, YOLOv8n detection, tracking, gesture checks and land, hover or follow intents" decoding="async"></figure>
+<p class="step"><strong>Letterbox Preprocessing</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">scale = min(input_width / width, input_height / height)
+resized_width, resized_height = max(1, round(width * scale)), max(1, round(height * scale))
+...
+canvas = np.full((input_height, input_width, 3), 114, dtype=np.uint8)
+pad_x = (input_width - resized_width) // 2
+pad_y = (input_height - resized_height) // 2
+canvas[pad_y:pad_y + resized_height, pad_x:pad_x + resized_width] = resized
+tensor = np.ascontiguousarray(canvas.transpose(2, 0, 1)[None], dtype=np.float32) / 255.0
+return tensor, ImageTransform(scale, pad_x, pad_y, input_width, input_height, width, height)</code></pre></div>
+<p>The camera gives 640 x 480 frames, and the model wants 640 x 640. This function scales the frame without changing its aspect ratio and pads the rest with grey (114), which leaves an 80-pixel band at the top and bottom.</p>
+<p class="step"><strong>ONNX Runtime Session</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">options = ort.SessionOptions()
+options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+options.intra_op_num_threads = max(1, threads)
+options.inter_op_num_threads = 1
+session = ort.InferenceSession(str(path), sess_options=options, providers=[&quot;CPUExecutionProvider&quot;])</code></pre></div>
+<p>This sets up ONNX Runtime on the CPU with all graph optimisations on and 4 threads, one per core on both boards. Inference runs on every second frame only (inference_stride: 2).</p>
+<p class="step"><strong>Decoding the YOLOv8 Output</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">for row in _rows(output):
+    if row.size == 56:  # YOLOv8 pose: xywh, person score, 17*(x,y,confidence)
+        score = float(row[4])
+        keypoint_values = row[5:56]
+    elif row.size &gt;= 6:  # YOLOv8 detect: xywh followed by class scores
+        class_scores = row[4:]
+        class_id = int(np.argmax(class_scores))
+        if class_id != 0:
+            continue
+        score = float(class_scores[class_id])
+        keypoint_values = None</code></pre></div>
+<p>A detection model gives 84 values per candidate, four for the box and 80 class scores, and only class 0, person, is kept. A pose model gives 56: the box, a person score and 17 keypoints. Candidates under 0.45 confidence are dropped, and a greedy NMS at an IoU of 0.45 removes duplicates.</p>
+<p class="step"><strong>Matching Detections to Tracks</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">for track_id, track in self._tracks.items():
+    for detection_index, detection in enumerate(detections):
+        overlap = box_iou(track.box, detection.box)
+        dcx = (detection.box[0] + detection.box[2]) / 2 - track.center[0]
+        dcy = (detection.box[1] + detection.box[3]) / 2 - track.center[1]
+        distance = hypot(dcx, dcy) / max(diagonal, 1.0)
+        if overlap &gt;= self.iou_threshold or distance &lt;= self.max_center_distance:
+            candidates.append((overlap - distance * 0.25, track_id, detection_index))</code></pre></div>
+<p>Every track is compared with every detection, and a pair counts as a candidate if the boxes overlap by 0.20 IoU or more, or the centres are within 0.18 of the frame diagonal. A track is confirmed after 2 hits and survives 12 missed frames, so a person hidden for a moment keeps the same ID.</p>
+<p class="step"><strong>Reading Hand Gestures from Keypoints</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">nose, left_shoulder, right_shoulder, left_wrist, right_wrist = points[[0, 5, 6, 9, 10]]
+if min(nose[2], left_shoulder[2], right_shoulder[2]) &lt; self.keypoint_threshold:
+    return None
+left_up = left_wrist[2] &gt;= self.keypoint_threshold and left_wrist[1] &lt; left_shoulder[1]
+right_up = right_wrist[2] &gt;= self.keypoint_threshold and right_wrist[1] &lt; right_shoulder[1]
+if left_up and right_up:
+    return &quot;both_hands_up&quot;
+if right_up:
+    return &quot;right_hand_up&quot;
+if left_up:
+    return &quot;left_hand_up&quot;
+return None</code></pre></div>
+<p>The gesture check uses five COCO keypoints: the nose, both shoulders and both wrists, each needing at least 0.35 confidence. A hand counts as raised when its wrist is higher in the image than the shoulder on that side, and both hands up wins over one.</p>
+<p class="step"><strong>Turning the Target Position into a Flight Intent</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">frame_width, frame_height = frame_size
+cx, cy = target.center
+error_x = (cx - frame_width / 2) / (frame_width / 2)
+error_y = (frame_height / 2 - cy) / (frame_height / 2)
+area = (target.box[2] - target.box[0]) * (target.box[3] - target.box[1])
+area_ratio = area / max(1, frame_width * frame_height)
+distance_error = (self.target_area_ratio - area_ratio) / self.target_area_ratio
+
+yaw = 0.0 if abs(error_x) &lt;= self.deadband_x else _clamp(error_x * self.max_yaw, self.max_yaw)
+vertical = 0.0 if abs(error_y) &lt;= self.deadband_y else _clamp(error_y * self.max_vertical, self.max_vertical)
+forward = 0.0 if abs(distance_error) &lt;= 0.1 else _clamp(distance_error * self.max_forward, self.max_forward)
+return FlightIntent(yaw, forward, vertical, &quot;follow&quot;, target.track_id, &quot;target locked&quot;)</code></pre></div>
+<p>The controller measures how far the target's centre is from the middle of the frame, from -1 to 1, and uses the box area as a rough distance, aiming for the person to fill 18% of the frame. Errors inside the deadbands (0.08 yaw, 0.10 vertical) are ignored, and the outputs are clamped to ±0.35 yaw, ±0.30 forward and ±0.25 vertical. If the target drops out, the intent becomes a hover, marked target temporarily occluded for the first 0.75 seconds and target lost after that. Once a target is locked, nobody else's gestures count.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the full ARGUS project demo that the team published on YouTube.</p>
+<a class="video-card" href="https://www.youtube.com/watch?v=kJqCdu2nPVA" target="_blank" rel="noopener"><span class="play" aria-hidden="true"></span><span><strong>Watch the ARGUS project demo</strong><span class="sub">YouTube · youtu.be/kJqCdu2nPVA</span></span></a>
+<p>Below is the first flight, flown manually with the RC transmitter.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="images/ARGUS-Drone-First-Flight.jpg" width="360"><source src="videos/ARGUS-First-Flight.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/0514c2cd-242b-4a89-914a-78b446a4d80c" type="video/mp4"><a href="https://github.com/user-attachments/assets/0514c2cd-242b-4a89-914a-78b446a4d80c">First flight (MP4)</a></video></figure>
+<p>The drone also flew with the webcam on board while the UNO Q streamed its dashboard to a laptop, as shown below.</p>
+<figure class="shot video"><video controls preload="metadata" playsinline poster="images/ARGUS-Week-10-Flight-with-Live-UNO-Q-Dashboard.jpg" width="360"><source src="videos/ARGUS-Flight-with-Onboard-Camera.mp4" type="video/mp4"><source src="https://github.com/user-attachments/assets/bfe29632-8ef9-4f3b-9863-a19614c59a34" type="video/mp4"><a href="https://github.com/user-attachments/assets/bfe29632-8ef9-4f3b-9863-a19614c59a34">Flight with the onboard camera (MP4)</a></video></figure>
+<p>The dashboard shows the onboard camera feed live at 0.9 FPS, with the action set to hover.</p>
+<h2 id="output-of-the-argus-person-tracking-drone">Output of the ARGUS Person-Tracking Drone</h2>
+<p>Below is the person-detection test on the Raspberry Pi 5.</p>
+<figure class="shot"><img src="images/Raspberry-Pi-5-Person-Detection-Test.jpg" alt="Raspberry Pi 5 person detection test showing YOLOv8n bounding boxes with track IDs and JSON intent output in the terminal" decoding="async"></figure>
+<p>Each person gets a green box and a track ID, and the terminal prints one JSON line per processed frame. The fps field reads 3.0 to 3.5. No target was selected, so every line says hover.</p>
+<p>Below is the UNO Q version with its web dashboard.</p>
+<figure class="shot"><img src="images/Arduino-UNO-Q-Drone-Vision-Dashboard.jpg" alt="Arduino UNO Q drone vision dashboard showing a tracked person with ID 2, follow action and yaw, forward and vertical intent values" decoding="async"></figure>
+<p>Track ID 2 is locked at 0.82 confidence, and the panel shows that frame's intent: yaw -0.112, forward 0.174 and vertical -0.09. YOLO runs at 0.89 FPS on the UNO Q here, which is the number to improve before these intents can steer a drone in flight. In addition to this drone, here is a collection of <a href="https://circuitdigest.com/ai-projects-and-tutorials" target="_blank" rel="noopener">AI projects</a> for reference.</p>
+<h2 id="troubleshooting-the-argus-drone">Troubleshooting the ARGUS Drone</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>Gestures never trigger</td><td>The bundled yolov8n.onnx is a detection model with no keypoints</td><td>Use a YOLOv8 pose model, or pick the target with --auto-follow or --target-id</td></tr><tr><td>"Picamera2 is unavailable"</td><td>Picamera2 missing, or the venv cannot see apt packages</td><td>Install python3-picamera2 and use --system-site-packages, or run with --camera opencv</td></tr><tr><td>"Camera/video stream ended" on the UNO Q</td><td>Wrong /dev/video index, or the USB hub losing power</td><td>Check ls /dev/video* and pass the device with --source (ours was /dev/video2)</td></tr><tr><td>Wrong motor spins in the motor test</td><td>ESC signal leads on the wrong MAIN OUT pins</td><td>Rewire to the PX4 Quadrotor X order and test again</td></tr><tr><td>PDB burns out on the first power-up</td><td>No capacitor on the PDB</td><td>Fit a suitable capacitor before connecting the battery</td></tr><tr><td>Calibration fails in Mission Planner</td><td>ArduPilot calibration did not work on our board</td><td>Flash PX4 and calibrate in QGroundControl</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Arduino UNO Q can run the whole person-detection and tracking pipeline, and the drone has flown with the UNO Q and camera on board. At 0.89 FPS, though, it is too slow to steer the drone, and the intents do not reach the Pixhawk yet, so ARGUS is flown by hand for now. There is still room for improvement, such as a camera module wired straight to the UNO Q, power from the PDB through a regulator into its VIN pin, a MAVLink connection to the Pixhawk and faster inference. Further, one can extend this project to track objects in flight, just like this <a href="https://circuitdigest.com/microcontroller-projects/object-tracking-drone-using-litewing" target="_blank" rel="noopener">ESP32 drone with object tracking using LiteWing</a> on Circuit Digest.</p>
+<h2 id="argus-github-repository">ARGUS GitHub Repository</h2>
+<p>The vision code, configuration, YOLOv8n model files, unit tests and build logs for ARGUS are all in the InfiniteInferno repository. ARGUS was built at Tinkerspace as part of Builder in Residence, the logs credit the work to Agnivesh, Amrutha and Abhinand, and the code is released under the MIT licence.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/InfiniteInferno" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/InfiniteInferno/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-argus-drone">Frequently Asked Questions About the ARGUS Drone</h2>
+<p class="step"><strong>⇥ 1. Does ARGUS follow a person on its own right now?</strong></p>
+<p>No. The vision code works out the follow commands and prints them as JSON, but nothing sends them to the Pixhawk yet, and the flights so far were flown with the RC transmitter.</p>
+<p class="step"><strong>⇥ 2. Why do the hand gestures not work with the default model?</strong></p>
+<p>The yolov8n.onnx in the repository is a detection model, so it gives boxes but no body keypoints. Export a pose model with <code>yolo export model=yolov8n-pose.pt format=onnx imgsz=640</code> from the Ultralytics package and point model.path at it; the post-processing already reads the 56-value pose output.</p>
+<p class="step"><strong>⇥ 3. Why use the UNO Q when the Pi 5 is faster?</strong></p>
+<p>Its STM32 microcontroller is on the same board as the Qualcomm processor, so one board could cover both the vision work and the real-time jobs that a Pi needs a second microcontroller for. That should make the drone lighter and cooler, but we have not measured it yet.</p>
+<h2 id="drone-and-computer-vision-projects">Drone and Computer Vision Projects</h2>
+<p>Explore more drone and computer vision builds, with step-by-step guides, wiring diagrams and code.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/object-tracking-drone-using-litewing" target="_blank" rel="noopener">How to Build an ESP32 Drone with Object Tracking Using LiteWing</a></strong>: <em>We built this project to see if we could make a simple LiteWing drone behave intelligently using just a laptop and a basic camera.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/diy-gesture-controlled-drone-using-esp32-and-python-with-litewing" target="_blank" rel="noopener">DIY Gesture Control Drone using Python with LiteWing and ESP32</a></strong>: <em>Create a DIY gesture-controlled drone using ESP32, Python, and LiteWing for hands-free flight with real-time motion tracking and wireless control.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/esp32-voice-controlled-drone-using-litewing" target="_blank" rel="noopener">Build an ESP32 Voice-Controlled Drone with LiteWing using Python</a></strong>: <em>We built a voice-controlled drone using ESP32 for the LiteWing drone using Python and speech recognition tools.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>The complete code is split across the files below, all inside the code folder of the repository.</p>
+<details class="codefile"><summary><span class="path">code/configs/config.yaml</span><span class="count">36 lines</span></summary><pre class="code"><code class="language-yaml">model:
+  path: models/yolov8n.onnx
+  confidence: 0.45
+  iou_threshold: 0.45
+  threads: 4
+  inference_stride: 2
+
+camera:
+  backend: picamera2
+  source: 0
+  width: 640
+  height: 480
+
+tracking:
+  max_missed: 12
+  min_hits: 2
+  iou_threshold: 0.20
+  max_center_distance: 0.18
+
+gestures:
+  hold_frames: 4
+  cooldown_seconds: 2.0
+  keypoint_threshold: 0.35
+  actions:
+    right_hand_up: start_follow
+    left_hand_up: stop_follow
+    both_hands_up: land
+
+controller:
+  target_area_ratio: 0.18
+  deadband_x: 0.08
+  deadband_y: 0.10
+  max_yaw: 0.35
+  max_forward: 0.30
+  max_vertical: 0.25
+  target_timeout_seconds: 0.75</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/main.py</span><span class="count">108 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Agni command-line vision loop. Output is safe JSON intent, not motor control.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import json
+import time
+from dataclasses import asdict
+from pathlib import Path
+
+from .camera import Camera
+from .config import load_config
+from .controller import FollowController
+from .detector import Detector
+from .gestures import GestureRecognizer
+from .postprocess import postprocess
+from .preprocess import preprocess
+from .tracker import PersonTracker
+
+
+def build_parser() -&gt; argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=&quot;Agni person following vision prototype&quot;)
+    parser.add_argument(&quot;--config&quot;, default=&quot;configs/config.yaml&quot;)
+    parser.add_argument(&quot;--camera&quot;, choices=(&quot;picamera2&quot;, &quot;opencv&quot;))
+    parser.add_argument(&quot;--source&quot;, help=&quot;OpenCV camera index or video path&quot;)
+    parser.add_argument(&quot;--display&quot;, action=&quot;store_true&quot;, help=&quot;Show an annotated local preview&quot;)
+    target = parser.add_mutually_exclusive_group()
+    target.add_argument(&quot;--target-id&quot;, type=int, help=&quot;Explicit session track ID to follow&quot;)
+    target.add_argument(&quot;--auto-follow&quot;, action=&quot;store_true&quot;, help=&quot;Lock the largest first visible person&quot;)
+    parser.add_argument(&quot;--max-frames&quot;, type=int, default=0, help=&quot;Stop after N frames (0 means run forever)&quot;)
+    return parser
+
+
+def run(args: argparse.Namespace) -&gt; int:
+    config = load_config(args.config)
+    backend = args.camera or config.camera.backend
+    source = args.source if args.source is not None else config.camera.source
+    model_path = Path(args.config).resolve().parent.parent / config.model.path
+    if not model_path.exists():
+        model_path = Path(config.model.path)
+    detector = Detector(model_path, config.model.threads)
+    tracker = PersonTracker(**asdict(config.tracking))
+    gestures = GestureRecognizer(
+        config.gestures.hold_frames,
+        config.gestures.cooldown_seconds,
+        config.gestures.keypoint_threshold,
+    )
+    controller = FollowController(**asdict(config.controller), gesture_actions=config.gestures.actions)
+    previous = time.monotonic()
+
+    with Camera(backend, source, config.camera.width, config.camera.height) as camera:
+        for frame_number in range(1, args.max_frames + 1 if args.max_frames else 2**63):
+            try:
+                frame = camera.read()
+            except EOFError:
+                break
+            if frame_number % config.model.inference_stride != 0:
+                continue
+            tensor, transform = preprocess(frame, detector.input_size)
+            output = detector.infer(tensor)
+            detections = postprocess(output, transform, config.model.confidence, config.model.iou_threshold)
+            tracks = tracker.update(detections, (frame.shape[1], frame.shape[0]))
+            if not controller.following and controller.target_id is None:
+                if args.target_id is not None and any(track.track_id == args.target_id for track in tracks):
+                    controller.start_follow(args.target_id)
+                elif args.auto_follow and tracks:
+                    largest = max(tracks, key=lambda track: (track.box[2] - track.box[0]) * (track.box[3] - track.box[1]))
+                    controller.start_follow(largest.track_id)
+            events = gestures.update(tracks)
+            intent = controller.update(tracks, events, (frame.shape[1], frame.shape[0]))
+            now = time.monotonic()
+            fps = 1.0 / max(now - previous, 1e-9)
+            previous = now
+            print(json.dumps({
+                &quot;frame&quot;: frame_number,
+                &quot;fps&quot;: round(fps, 1),
+                &quot;track_ids&quot;: [track.track_id for track in tracks],
+                &quot;gestures&quot;: [{&quot;track_id&quot;: event.track_id, &quot;name&quot;: event.name} for event in events],
+                &quot;intent&quot;: json.loads(intent.to_json()),
+            }), flush=True)
+
+            if args.display:
+                try:
+                    import cv2
+                except ImportError as exc:
+                    raise RuntimeError(&quot;--display requires OpenCV&quot;) from exc
+                for track in tracks:
+                    x1, y1, x2, y2 = map(int, track.box)
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 220, 120), 2)
+                    cv2.putText(frame, f&quot;person {track.track_id}&quot;, (x1, max(18, y1 - 6)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 120), 2)
+                cv2.imshow(&quot;Agni dry-run&quot;, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                if cv2.waitKey(1) &amp; 0xFF == ord(&quot;q&quot;):
+                    break
+    if args.display:
+        import cv2
+        cv2.destroyAllWindows()
+    return 0
+
+
+def main() -&gt; int:
+    try:
+        return run(build_parser().parse_args())
+    except KeyboardInterrupt:
+        return 130
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/camera.py</span><span class="count">57 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Lazy camera backends so tests do not require Raspberry Pi packages.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from typing import Any, Self
+
+import numpy as np
+
+
+class Camera:
+    def __init__(self, backend: str = &quot;picamera2&quot;, source: str | int = 0, width: int = 640, height: int = 480):
+        self.backend = backend
+        self.device: Any
+        if backend == &quot;picamera2&quot;:
+            try:
+                from picamera2 import Picamera2
+            except ImportError as exc:
+                raise RuntimeError(&quot;Picamera2 is unavailable; install python3-picamera2 or use --camera opencv&quot;) from exc
+            self.device = Picamera2()
+            config = self.device.create_video_configuration(main={&quot;size&quot;: (width, height), &quot;format&quot;: &quot;RGB888&quot;})
+            self.device.configure(config)
+            self.device.start()
+        elif backend == &quot;opencv&quot;:
+            try:
+                import cv2
+            except ImportError as exc:
+                raise RuntimeError(&quot;OpenCV is unavailable; install python3-opencv&quot;) from exc
+            parsed_source: str | int = int(source) if str(source).isdigit() else str(source)
+            self.device = cv2.VideoCapture(parsed_source)
+            self.device.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+            self.device.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+            if not self.device.isOpened():
+                raise RuntimeError(f&quot;Could not open camera/video source {source!r}&quot;)
+        else:
+            raise ValueError(f&quot;Unknown camera backend: {backend}&quot;)
+
+    def read(self) -&gt; np.ndarray:
+        if self.backend == &quot;picamera2&quot;:
+            return np.asarray(self.device.capture_array())
+        ok, frame = self.device.read()
+        if not ok or frame is None:
+            raise EOFError(&quot;Camera/video stream ended&quot;)
+        # OpenCV captures BGR; the exported YOLO model expects RGB.
+        import cv2
+        return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    def release(self) -&gt; None:
+        if self.backend == &quot;picamera2&quot;:
+            self.device.stop()
+        else:
+            self.device.release()
+
+    def __enter__(self) -&gt; Self:
+        return self
+
+    def __exit__(self, *_: object) -&gt; None:
+        self.release()</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/preprocess.py</span><span class="count">46 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;YOLO letterbox preprocessing without requiring OpenCV.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+import numpy as np
+
+
+@dataclass(frozen=True)
+class ImageTransform:
+    scale: float
+    pad_x: int
+    pad_y: int
+    input_width: int
+    input_height: int
+    original_width: int
+    original_height: int
+
+
+def _resize_nearest(image: np.ndarray, width: int, height: int) -&gt; np.ndarray:
+    y = np.minimum((np.arange(height) * image.shape[0] / height).astype(int), image.shape[0] - 1)
+    x = np.minimum((np.arange(width) * image.shape[1] / width).astype(int), image.shape[1] - 1)
+    return image[y[:, None], x[None, :]]
+
+
+def preprocess(frame: np.ndarray, input_size: tuple[int, int] = (640, 640)) -&gt; tuple[np.ndarray, ImageTransform]:
+    if frame.ndim != 3 or frame.shape[2] != 3:
+        raise ValueError(&quot;Expected an HxWx3 image&quot;)
+    input_width, input_height = input_size
+    height, width = frame.shape[:2]
+    scale = min(input_width / width, input_height / height)
+    resized_width, resized_height = max(1, round(width * scale)), max(1, round(height * scale))
+
+    try:
+        import cv2
+        resized = cv2.resize(frame, (resized_width, resized_height), interpolation=cv2.INTER_LINEAR)
+    except ImportError:
+        resized = _resize_nearest(frame, resized_width, resized_height)
+
+    canvas = np.full((input_height, input_width, 3), 114, dtype=np.uint8)
+    pad_x = (input_width - resized_width) // 2
+    pad_y = (input_height - resized_height) // 2
+    canvas[pad_y:pad_y + resized_height, pad_x:pad_x + resized_width] = resized
+    tensor = np.ascontiguousarray(canvas.transpose(2, 0, 1)[None], dtype=np.float32) / 255.0
+    return tensor, ImageTransform(scale, pad_x, pad_y, input_width, input_height, width, height)</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/detector.py</span><span class="count">38 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Small ONNX Runtime wrapper tuned for Raspberry Pi CPU inference.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+
+
+class Detector:
+    def __init__(self, model_path: str | Path, threads: int = 4, session: Any | None = None):
+        if session is None:
+            try:
+                import onnxruntime as ort
+            except ImportError as exc:
+                raise RuntimeError(&quot;onnxruntime is required: python -m pip install -r requirements.txt&quot;) from exc
+            path = Path(model_path)
+            if not path.is_file() or path.stat().st_size == 0:
+                raise FileNotFoundError(f&quot;ONNX model not found or empty: {path}&quot;)
+            options = ort.SessionOptions()
+            options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+            options.intra_op_num_threads = max(1, threads)
+            options.inter_op_num_threads = 1
+            session = ort.InferenceSession(str(path), sess_options=options, providers=[&quot;CPUExecutionProvider&quot;])
+
+        self.session = session
+        input_info = session.get_inputs()[0]
+        self.input_name = input_info.name
+        self.output_name = session.get_outputs()[0].name
+        shape = input_info.shape
+        self.input_size = (
+            int(shape[3]) if isinstance(shape[3], int) else 640,
+            int(shape[2]) if isinstance(shape[2], int) else 640,
+        )
+
+    def infer(self, image: np.ndarray) -&gt; np.ndarray:
+        return np.asarray(self.session.run([self.output_name], {self.input_name: image})[0])</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/postprocess.py</span><span class="count">90 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Decode YOLO detection or COCO-pose output into person observations.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+import numpy as np
+
+from .preprocess import ImageTransform
+
+
+@dataclass(frozen=True)
+class Detection:
+    box: tuple[float, float, float, float]  # x1, y1, x2, y2
+    score: float
+    keypoints: np.ndarray | None = None  # COCO shape (17, 3): x, y, confidence
+
+
+def box_iou(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -&gt; float:
+    x1, y1 = max(a[0], b[0]), max(a[1], b[1])
+    x2, y2 = min(a[2], b[2]), min(a[3], b[3])
+    intersection = max(0.0, x2 - x1) * max(0.0, y2 - y1)
+    area_a = max(0.0, a[2] - a[0]) * max(0.0, a[3] - a[1])
+    area_b = max(0.0, b[2] - b[0]) * max(0.0, b[3] - b[1])
+    union = area_a + area_b - intersection
+    return intersection / union if union &gt; 0 else 0.0
+
+
+def _rows(output: np.ndarray) -&gt; np.ndarray:
+    array = np.asarray(output)
+    if array.ndim == 3:
+        array = array[0]
+    if array.ndim != 2:
+        raise ValueError(f&quot;Unexpected YOLO output shape: {np.asarray(output).shape}&quot;)
+    # Ultralytics COCO exports channels-first (84xN detect / 56xN pose).
+    # Explicit channel counts also make one-candidate fixture/video outputs work.
+    if array.shape[0] in (56, 84):
+        array = array.T
+    return array
+
+
+def _unletterbox_xyxy(box: np.ndarray, transform: ImageTransform) -&gt; tuple[float, float, float, float]:
+    box[[0, 2]] = (box[[0, 2]] - transform.pad_x) / transform.scale
+    box[[1, 3]] = (box[[1, 3]] - transform.pad_y) / transform.scale
+    box[[0, 2]] = np.clip(box[[0, 2]], 0, transform.original_width)
+    box[[1, 3]] = np.clip(box[[1, 3]], 0, transform.original_height)
+    return tuple(float(value) for value in box)
+
+
+def postprocess(
+    output: np.ndarray,
+    transform: ImageTransform,
+    confidence_threshold: float = 0.45,
+    nms_threshold: float = 0.45,
+) -&gt; list[Detection]:
+    candidates: list[Detection] = []
+    for row in _rows(output):
+        if row.size == 56:  # YOLOv8 pose: xywh, person score, 17*(x,y,confidence)
+            score = float(row[4])
+            keypoint_values = row[5:56]
+        elif row.size &gt;= 6:  # YOLOv8 detect: xywh followed by class scores
+            class_scores = row[4:]
+            class_id = int(np.argmax(class_scores))
+            if class_id != 0:
+                continue
+            score = float(class_scores[class_id])
+            keypoint_values = None
+        else:
+            continue
+        if score &lt; confidence_threshold:
+            continue
+
+        cx, cy, width, height = (float(value) for value in row[:4])
+        box = np.array([cx - width / 2, cy - height / 2, cx + width / 2, cy + height / 2], dtype=float)
+        mapped_box = _unletterbox_xyxy(box, transform)
+        if mapped_box[2] &lt;= mapped_box[0] or mapped_box[3] &lt;= mapped_box[1]:
+            continue
+
+        keypoints = None
+        if keypoint_values is not None:
+            keypoints = np.asarray(keypoint_values, dtype=float).reshape(17, 3).copy()
+            keypoints[:, 0] = np.clip((keypoints[:, 0] - transform.pad_x) / transform.scale, 0, transform.original_width)
+            keypoints[:, 1] = np.clip((keypoints[:, 1] - transform.pad_y) / transform.scale, 0, transform.original_height)
+        candidates.append(Detection(mapped_box, score, keypoints))
+
+    selected: list[Detection] = []
+    for candidate in sorted(candidates, key=lambda item: item.score, reverse=True):
+        if all(box_iou(candidate.box, kept.box) &lt;= nms_threshold for kept in selected):
+            selected.append(candidate)
+    return selected</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/tracker.py</span><span class="count">79 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Lightweight IoU/centroid person tracker with session-local IDs.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from dataclasses import dataclass, replace
+from math import hypot
+
+import numpy as np
+
+from .postprocess import Detection, box_iou
+
+
+@dataclass(frozen=True)
+class Track:
+    track_id: int
+    box: tuple[float, float, float, float]
+    score: float
+    keypoints: np.ndarray | None
+    hits: int = 1
+    missed: int = 0
+    confirmed: bool = False
+
+    @property
+    def center(self) -&gt; tuple[float, float]:
+        return ((self.box[0] + self.box[2]) / 2, (self.box[1] + self.box[3]) / 2)
+
+
+class PersonTracker:
+    def __init__(self, max_missed: int = 12, min_hits: int = 2, iou_threshold: float = 0.2, max_center_distance: float = 0.18):
+        self.max_missed = max_missed
+        self.min_hits = min_hits
+        self.iou_threshold = iou_threshold
+        self.max_center_distance = max_center_distance
+        self._tracks: dict[int, Track] = {}
+        self._next_id = 1
+
+    def update(self, detections: list[Detection], frame_size: tuple[int, int]) -&gt; list[Track]:
+        diagonal = hypot(*frame_size)
+        candidates: list[tuple[float, int, int]] = []
+        for track_id, track in self._tracks.items():
+            for detection_index, detection in enumerate(detections):
+                overlap = box_iou(track.box, detection.box)
+                dcx = (detection.box[0] + detection.box[2]) / 2 - track.center[0]
+                dcy = (detection.box[1] + detection.box[3]) / 2 - track.center[1]
+                distance = hypot(dcx, dcy) / max(diagonal, 1.0)
+                if overlap &gt;= self.iou_threshold or distance &lt;= self.max_center_distance:
+                    candidates.append((overlap - distance * 0.25, track_id, detection_index))
+
+        matched_tracks: set[int] = set()
+        matched_detections: set[int] = set()
+        for _, track_id, detection_index in sorted(candidates, reverse=True):
+            if track_id in matched_tracks or detection_index in matched_detections:
+                continue
+            old = self._tracks[track_id]
+            detection = detections[detection_index]
+            hits = old.hits + 1
+            self._tracks[track_id] = Track(track_id, detection.box, detection.score, detection.keypoints, hits, 0, hits &gt;= self.min_hits)
+            matched_tracks.add(track_id)
+            matched_detections.add(detection_index)
+
+        for track_id, track in list(self._tracks.items()):
+            if track_id not in matched_tracks:
+                missed = track.missed + 1
+                if missed &gt; self.max_missed:
+                    del self._tracks[track_id]
+                else:
+                    self._tracks[track_id] = replace(track, missed=missed)
+
+        for index, detection in enumerate(detections):
+            if index in matched_detections:
+                continue
+            track_id = self._next_id
+            self._next_id += 1
+            self._tracks[track_id] = Track(
+                track_id, detection.box, detection.score, detection.keypoints,
+                confirmed=self.min_hits &lt;= 1,
+            )
+
+        return sorted((track for track in self._tracks.values() if track.confirmed and track.missed == 0), key=lambda item: item.track_id)</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/gestures.py</span><span class="count">60 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Debounced gestures from standard 17-point COCO pose keypoints.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import time
+from dataclasses import dataclass
+
+from .tracker import Track
+
+
+@dataclass(frozen=True)
+class GestureEvent:
+    track_id: int
+    name: str
+    timestamp: float
+
+
+class GestureRecognizer:
+    # COCO: nose=0, shoulders=5/6, wrists=9/10.
+    def __init__(self, hold_frames: int = 4, cooldown_seconds: float = 2.0, keypoint_threshold: float = 0.35):
+        self.hold_frames = hold_frames
+        self.cooldown_seconds = cooldown_seconds
+        self.keypoint_threshold = keypoint_threshold
+        self._state: dict[int, tuple[str | None, int]] = {}
+        self._last_emitted: dict[tuple[int, str], float] = {}
+
+    def classify(self, track: Track) -&gt; str | None:
+        points = track.keypoints
+        if points is None or points.shape != (17, 3):
+            return None
+        nose, left_shoulder, right_shoulder, left_wrist, right_wrist = points[[0, 5, 6, 9, 10]]
+        if min(nose[2], left_shoulder[2], right_shoulder[2]) &lt; self.keypoint_threshold:
+            return None
+        left_up = left_wrist[2] &gt;= self.keypoint_threshold and left_wrist[1] &lt; left_shoulder[1]
+        right_up = right_wrist[2] &gt;= self.keypoint_threshold and right_wrist[1] &lt; right_shoulder[1]
+        if left_up and right_up:
+            return &quot;both_hands_up&quot;
+        if right_up:
+            return &quot;right_hand_up&quot;
+        if left_up:
+            return &quot;left_hand_up&quot;
+        return None
+
+    def update(self, tracks: list[Track], now: float | None = None) -&gt; list[GestureEvent]:
+        now = time.monotonic() if now is None else now
+        events: list[GestureEvent] = []
+        visible_ids = {track.track_id for track in tracks}
+        for stale_id in set(self._state) - visible_ids:
+            del self._state[stale_id]
+        for track in tracks:
+            gesture = self.classify(track)
+            previous, count = self._state.get(track.track_id, (None, 0))
+            count = count + 1 if gesture is not None and gesture == previous else (1 if gesture else 0)
+            self._state[track.track_id] = (gesture, count)
+            if gesture and count == self.hold_frames:
+                key = (track.track_id, gesture)
+                if now - self._last_emitted.get(key, float(&quot;-inf&quot;)) &gt;= self.cooldown_seconds:
+                    self._last_emitted[key] = now
+                    events.append(GestureEvent(track.track_id, gesture, now))
+        return events</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/controller.py</span><span class="count">102 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Convert target geometry and gestures into bounded, autopilot-agnostic intents.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import json
+import time
+from dataclasses import asdict, dataclass
+
+from .gestures import GestureEvent
+from .tracker import Track
+
+
+def _clamp(value: float, limit: float) -&gt; float:
+    return max(-limit, min(limit, value))
+
+
+@dataclass(frozen=True)
+class FlightIntent:
+    yaw: float = 0.0
+    forward: float = 0.0
+    vertical: float = 0.0
+    action: str = &quot;hover&quot;
+    target_id: int | None = None
+    reason: str = &quot;safe default&quot;
+
+    def to_json(self) -&gt; str:
+        return json.dumps(asdict(self), separators=(&quot;,&quot;, &quot;:&quot;))
+
+
+class FollowController:
+    def __init__(
+        self,
+        target_area_ratio: float = 0.18,
+        deadband_x: float = 0.08,
+        deadband_y: float = 0.10,
+        max_yaw: float = 0.35,
+        max_forward: float = 0.30,
+        max_vertical: float = 0.25,
+        target_timeout_seconds: float = 0.75,
+        gesture_actions: dict[str, str] | None = None,
+    ):
+        self.target_area_ratio = target_area_ratio
+        self.deadband_x = deadband_x
+        self.deadband_y = deadband_y
+        self.max_yaw = max_yaw
+        self.max_forward = max_forward
+        self.max_vertical = max_vertical
+        self.target_timeout_seconds = target_timeout_seconds
+        self.gesture_actions = gesture_actions or {}
+        self.target_id: int | None = None
+        self.following = False
+        self._last_seen: float | None = None
+
+    def _apply_gestures(self, gestures: list[GestureEvent]) -&gt; str | None:
+        for event in gestures:
+            action = self.gesture_actions.get(event.name)
+            if action == &quot;start_follow&quot;:
+                # Once locked, another bystander cannot silently steal control.
+                if self.target_id is None or self.target_id == event.track_id:
+                    self.target_id, self.following = event.track_id, True
+                    self._last_seen = None
+            elif action in {&quot;stop_follow&quot;, &quot;hover&quot;}:
+                if self.target_id is None or self.target_id == event.track_id:
+                    self.following = False
+            elif action == &quot;land&quot; and (self.target_id is None or self.target_id == event.track_id):
+                self.following = False
+                return &quot;land&quot;
+        return None
+
+    def start_follow(self, track_id: int) -&gt; None:
+        &quot;&quot;&quot;Explicit operator selection for detection-only models.&quot;&quot;&quot;
+        self.target_id = track_id
+        self.following = True
+        self._last_seen = None
+
+    def update(self, tracks: list[Track], gestures: list[GestureEvent], frame_size: tuple[int, int], now: float | None = None) -&gt; FlightIntent:
+        now = time.monotonic() if now is None else now
+        immediate = self._apply_gestures(gestures)
+        if immediate == &quot;land&quot;:
+            return FlightIntent(action=&quot;land&quot;, target_id=self.target_id, reason=&quot;confirmed gesture&quot;)
+        if not self.following or self.target_id is None:
+            return FlightIntent(target_id=self.target_id, reason=&quot;follow mode disabled&quot;)
+
+        target = next((track for track in tracks if track.track_id == self.target_id), None)
+        if target is None:
+            elapsed = float(&quot;inf&quot;) if self._last_seen is None else now - self._last_seen
+            reason = &quot;target lost&quot; if elapsed &gt;= self.target_timeout_seconds else &quot;target temporarily occluded&quot;
+            return FlightIntent(target_id=self.target_id, reason=reason)
+        self._last_seen = now
+
+        frame_width, frame_height = frame_size
+        cx, cy = target.center
+        error_x = (cx - frame_width / 2) / (frame_width / 2)
+        error_y = (frame_height / 2 - cy) / (frame_height / 2)
+        area = (target.box[2] - target.box[0]) * (target.box[3] - target.box[1])
+        area_ratio = area / max(1, frame_width * frame_height)
+        distance_error = (self.target_area_ratio - area_ratio) / self.target_area_ratio
+
+        yaw = 0.0 if abs(error_x) &lt;= self.deadband_x else _clamp(error_x * self.max_yaw, self.max_yaw)
+        vertical = 0.0 if abs(error_y) &lt;= self.deadband_y else _clamp(error_y * self.max_vertical, self.max_vertical)
+        forward = 0.0 if abs(distance_error) &lt;= 0.1 else _clamp(distance_error * self.max_forward, self.max_forward)
+        return FlightIntent(yaw, forward, vertical, &quot;follow&quot;, target.track_id, &quot;target locked&quot;)</code></pre></details>
+<details class="codefile"><summary><span class="path">code/src/config.py</span><span class="count">110 lines</span></summary><pre class="code"><code class="language-python">&quot;&quot;&quot;Typed configuration with conservative defaults.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field, fields, is_dataclass
+from pathlib import Path
+from typing import Any
+
+
+@dataclass
+class ModelConfig:
+    path: str = &quot;models/yolov8n.onnx&quot;
+    confidence: float = 0.45
+    iou_threshold: float = 0.45
+    threads: int = 4
+    inference_stride: int = 2
+
+
+@dataclass
+class CameraConfig:
+    backend: str = &quot;picamera2&quot;
+    source: str | int = 0
+    width: int = 640
+    height: int = 480
+
+
+@dataclass
+class TrackingConfig:
+    max_missed: int = 12
+    min_hits: int = 2
+    iou_threshold: float = 0.20
+    max_center_distance: float = 0.18
+
+
+@dataclass
+class GestureConfig:
+    hold_frames: int = 4
+    cooldown_seconds: float = 2.0
+    keypoint_threshold: float = 0.35
+    actions: dict[str, str] = field(default_factory=lambda: {
+        &quot;right_hand_up&quot;: &quot;start_follow&quot;,
+        &quot;left_hand_up&quot;: &quot;stop_follow&quot;,
+        &quot;both_hands_up&quot;: &quot;land&quot;,
+    })
+
+
+@dataclass
+class ControllerConfig:
+    target_area_ratio: float = 0.18
+    deadband_x: float = 0.08
+    deadband_y: float = 0.10
+    max_yaw: float = 0.35
+    max_forward: float = 0.30
+    max_vertical: float = 0.25
+    target_timeout_seconds: float = 0.75
+
+
+@dataclass
+class AppConfig:
+    model: ModelConfig = field(default_factory=ModelConfig)
+    camera: CameraConfig = field(default_factory=CameraConfig)
+    tracking: TrackingConfig = field(default_factory=TrackingConfig)
+    gestures: GestureConfig = field(default_factory=GestureConfig)
+    controller: ControllerConfig = field(default_factory=ControllerConfig)
+
+
+def _update_dataclass(instance: Any, values: dict[str, Any]) -&gt; None:
+    valid = {item.name: item for item in fields(instance)}
+    unknown = set(values) - set(valid)
+    if unknown:
+        raise ValueError(f&quot;Unknown configuration keys: {sorted(unknown)}&quot;)
+    for name, value in values.items():
+        current = getattr(instance, name)
+        if is_dataclass(current):
+            if not isinstance(value, dict):
+                raise ValueError(f&quot;Configuration section {name!r} must be a mapping&quot;)
+            _update_dataclass(current, value)
+        else:
+            setattr(instance, name, value)
+
+
+def load_config(path: str | Path) -&gt; AppConfig:
+    try:
+        import yaml
+    except ImportError as exc:  # pragma: no cover - dependency error is actionable
+        raise RuntimeError(&quot;PyYAML is required: python -m pip install -r requirements.txt&quot;) from exc
+
+    config = AppConfig()
+    config_path = Path(path)
+    data = yaml.safe_load(config_path.read_text(encoding=&quot;utf-8&quot;)) or {}
+    if not isinstance(data, dict):
+        raise TypeError(&quot;Configuration root must be a mapping&quot;)
+    _update_dataclass(config, data)
+    _validate(config)
+    return config
+
+
+def _validate(config: AppConfig) -&gt; None:
+    if not 0.0 &lt; config.model.confidence &lt;= 1.0:
+        raise ValueError(&quot;model.confidence must be in (0, 1]&quot;)
+    if config.model.inference_stride &lt; 1:
+        raise ValueError(&quot;model.inference_stride must be at least 1&quot;)
+    if config.camera.width &lt;= 0 or config.camera.height &lt;= 0:
+        raise ValueError(&quot;camera dimensions must be positive&quot;)
+    if config.tracking.max_missed &lt; 0 or config.tracking.min_hits &lt; 1:
+        raise ValueError(&quot;tracking max_missed/min_hits are invalid&quot;)
+    allowed = {&quot;start_follow&quot;, &quot;stop_follow&quot;, &quot;hover&quot;, &quot;land&quot;}
+    invalid = set(config.gestures.actions.values()) - allowed
+    if invalid:
+        raise ValueError(f&quot;Unsafe/unknown gesture actions: {sorted(invalid)}&quot;)</code></pre></details>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>CuBaffle Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">3 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>How to Build a Deployable CubeSat Optical Baffle Using Raspberry Pi 5</h1>
+    <p class="byline">Draft article · CuBaffle, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>deployable-cubesat-optical-baffle-raspberry-pi-5</code></dd>
+        <dt>Meta description</dt><dd>Build a deployable optical baffle for a 1U CubeSat with a Raspberry Pi 5, two MG90S servos and a Pi Camera. Covers parts, wiring, printing, assembly and code. <span style="color:var(--muted)">(158 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Raspberry Pi 5</li><li>CubeSat</li><li>Deployable Optical Baffle</li><li>Star Tracker</li><li>MG90S Servo</li><li>Raspberry Pi Camera Module 3</li><li>Hardware PWM</li><li>Flask</li><li>Picamera2</li><li>OpenCV</li><li>3D Printing</li><li>Laser Cutting</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/CuBaffle-Deployable-CubeSat-Optical-Baffle.jpg" alt="CuBaffle Deployable CubeSat Optical Baffle" decoding="async"></figure>
+<p>Star trackers on small satellites have an awkward problem. A long baffle in front of the camera keeps stray sunlight out and makes the sensor more accurate, but a CubeSat has almost no spare room for a long tube. So, how do you fit one into a satellite that is a 10 cm cube? The usual answer is to keep the baffle packed down during launch and extend it once the satellite is in orbit.</p>
+<p>In this project, I build CuBaffle, a ground demonstrator of a deployable optical baffle. Its three telescoping stages stow at 35 mm and extend to 80 mm, two MG90S servos push them open and pull them closed, and everything sits inside a laser-cut acrylic 1U CubeSat chassis. A Raspberry Pi 5 drives the servos, and its Flask dashboard lets any phone on the same Wi-Fi deploy the baffle and compare the camera view through it in both states. This guide covers everything needed to build it. The baffle deploys and stows smoothly but twists slightly as it rises, and the optical glare test and the CAD files are still to come. You can also check out similar <a href="https://circuitdigest.com/simple-raspberry-pi-projects-for-beginners" target="_blank" rel="noopener">Raspberry Pi projects</a> and <a href="https://circuitdigest.com/3d-printing-projects" target="_blank" rel="noopener">3D printing projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is CuBaffle?</p><p><strong>CuBaffle</strong> is a ground demonstrator of a <strong>deployable optical baffle</strong> for a <strong>1U CubeSat</strong>. Three 3D-printed telescoping stages stow at 35 mm and extend to 80 mm, pushed by <strong>two MG90S servos</strong> that a <strong>Raspberry Pi 5</strong> drives with hardware PWM. A Pi Camera and a Wi-Fi dashboard compare the view through the baffle in both states.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-a-deployable-optical-baffle">What Is a Deployable Optical Baffle?</a></li><li class="top"><a href="#choosing-the-deployment-mechanism">Choosing the Deployment Mechanism</a></li><li class="top"><a href="#how-does-the-deployable-cubesat-optical-baffle-work">How the Baffle Works</a></li><li class="top"><a href="#components-required-for-the-deployable-cubesat-optical-baffle">Components Required</a></li><li class="top"><a href="#circuit-diagram-of-the-deployable-cubesat-optical-baffle">Circuit Diagram</a></li><li class="sub"><a href="#raspberry-pi-5-pin-connections">Raspberry Pi 5 Pin Connections</a></li><li class="top"><a href="#designing-the-telescoping-baffle">Designing the Telescoping Baffle</a></li><li class="top"><a href="#building-the-1u-cubesat-chassis">Building the 1U Chassis</a></li><li class="top"><a href="#3d-printing-and-assembly-of-the-baffle">3D Printing and Assembly</a></li><li class="top"><a href="#setting-up-hardware-pwm-and-the-dashboard-on-the-raspberry-pi-5">Raspberry Pi Setup</a></li><li class="top"><a href="#code-explanation">Code Explanation</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-testing-the-deployable-cubesat-baffle">Output</a></li><li class="top"><a href="#troubleshooting-the-deployable-cubesat-baffle">Troubleshooting</a></li><li class="top"><a href="#cubaffle-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-a-deployable-optical-baffle">What Is a Deployable Optical Baffle?</h2>
+<p>An optical baffle is a tube, usually with vanes inside, mounted in front of a camera or a telescope. Light from inside the field of view reaches the lens, while light from outside it, especially from the Sun, hits the walls and vanes and loses most of its energy before it gets close. A longer baffle rejects more stray light, and in a CubeSat every millimetre of that length comes out of the payload volume, so a deployable baffle stows short for launch and extends in orbit. CubeSats rarely use deployables for optics, as the alignment tolerances are tight. This build is a ground model of the mechanism, not flight hardware. For a look at a 1U satellite built for classrooms, do check out the <a href="https://circuitdigest.com/news/e-cube-nano-satellite-kit-empowering-learners-to-build-and-operate-their-own-satellite-prototype" target="_blank" rel="noopener">E-Cube nano-satellite kit</a> on Circuit Digest.</p>
+<h2 id="choosing-the-deployment-mechanism">Choosing the Deployment Mechanism</h2>
+<p>Six mechanisms were scored from 1 to 5 on ten weighted parameters, with buildability, repeatability and stowed volume weighted highest at 5, for a maximum of 185 points. The table below gives the result.</p>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Mechanism</th><th>Weighted Score</th><th>Normalised Score</th></tr></thead><tbody><tr><td>1.</td><td>Torsion spring + burn-wire release</td><td>124 / 185</td><td>3.35</td></tr><tr><td>2.</td><td>Torsion spring + servo pin-puller</td><td>152 / 185</td><td>4.11</td></tr><tr><td>3.</td><td>Torsion spring + solenoid latch</td><td>141 / 185</td><td>3.81</td></tr><tr><td>4.</td><td>Torsion spring + servo string release</td><td>133 / 185</td><td>3.59</td></tr><tr><td>5.</td><td>Three-stage screw side deployment</td><td>119 / 185</td><td>3.22</td></tr><tr><td>6.</td><td>Direct servo arm</td><td>177 / 185</td><td>4.78</td></tr></tbody></table></div>
+<p>The direct servo arm scored 5 on every parameter except energy use, where it got 3, and it can deploy and stow as many times as you like with no consumable parts. The design that came out of it is a dual-servo slotted lever, a Scotch yoke, with a servo on each side. A flight model would use a spring with a pin-puller or a burn wire, as both use very little power, but a burn wire has to be replaced after every test, which makes it a poor choice for a ground model.</p>
+<h2 id="how-does-the-deployable-cubesat-optical-baffle-work">How Does the Deployable CubeSat Optical Baffle Work?</h2>
+<p>The working is easy. The baffle has three nested stages: the lower stage is glued to the base plate, the middle stage floats, and the upper stage is part of the top plate. Two MG90S servos sit on the base plate on opposite sides. When they turn, their arms push the top plate up and the stages slide out to 80 mm, and turning back brings them down to 35 mm. Both servos get the same PWM signal from pin 32 of the Raspberry Pi 5, so they move as one. Below is the block diagram of the deployable CubeSat optical baffle.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-Deployable-CubeSat-Optical-Baffle.jpg" alt="Block diagram of the deployable CubeSat optical baffle showing Raspberry Pi 5, Pi Camera Module 3, MG90S servos, 3-stage baffle, 4xAA servo battery and Wi-Fi dashboard" decoding="async"></figure>
+<p>The servos run from a separate 4×AA pack at 6V, and the camera sits under the baffle, looking up through it. If you are new to driving servos from a Pi, here is the <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-servo-motor-control" target="_blank" rel="noopener">Servo Motor Control with Raspberry Pi</a> tutorial on Circuit Digest.</p>
+<p>Below is the flowchart of the dashboard program, baffle_phase3.py.</p>
+<figure class="shot"><img src="images/CuBaffle-Dashboard-Program-Flowchart.jpg" alt="Flowchart of the CuBaffle dashboard program showing startup stow, button commands, busy and state checks, smoothstep servo ramp, frame capture and glare comparison" decoding="async"></figure>
+<p>The program first snaps the servos to the stowed pulse of 2300 µs, since it cannot know where they are, and then waits for a button press. Each accepted press ramps the pulse to the target over 2.5 seconds and saves a camera frame for that state. Once both states have a frame, the Analysis tab is updated.</p>
+<h2 id="components-required-for-the-deployable-cubesat-optical-baffle">Components Required for the Deployable CubeSat Optical Baffle</h2>
+<p>Below is the list of components required to build this project.</p>
+<figure class="shot"><img src="images/Components-Required-for-Deployable-CubeSat-Optical-Baffle.jpg" alt="Components required for the deployable CubeSat optical baffle including Raspberry Pi 5, Pi Camera Module 3, MG90S servos, 4xAA battery holder, acrylic sheet and 3D printer filament" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th></tr></thead><tbody><tr><td>1.</td><td>Raspberry Pi 5</td><td>Controller and dashboard</td><td>1</td></tr><tr><td>2.</td><td>Raspberry Pi Camera Module 3</td><td>Looks up through the baffle</td><td>1</td></tr><tr><td>3.</td><td>MG90S Micro Servo</td><td>Moves the baffle</td><td>2</td></tr><tr><td>4.</td><td>4×AA Battery Holder with Cells</td><td>Separate 6V supply for the servos</td><td>1</td></tr><tr><td>5.</td><td>Official Raspberry Pi 5 Power Supply</td><td>Powers the Pi</td><td>1</td></tr><tr><td>6.</td><td>Transparent Acrylic Sheet, 2.88mm</td><td>Laser-cut 1U chassis</td><td>As required</td></tr><tr><td>7.</td><td>3D Printer Filament (PLA or PETG)</td><td>Stages, plates and arms</td><td>As required</td></tr><tr><td>8.</td><td>Perf Board and Jumper Wires</td><td>Wiring</td><td>1 set</td></tr><tr><td>9.</td><td>M2.5/M3 Screws, Super Glue, Dish Soap</td><td>Assembly and lubrication</td><td>As required</td></tr></tbody></table></div>
+<p>The MG90S servos are small enough to sit in pockets in the 94 mm base plate. Use a 4×AA pack for them in place of a LiPo shared with the Pi, as servo current spikes can brown out the Pi. Print the stages in matte black if you want to run the optical test, as white plastic reflects stray light. Mine are white because that was the only spool I had. For how the pulse width sets a servo's angle, refer to our <a href="https://circuitdigest.com/microcontroller-projects/interface-servo-motor-with-arduino" target="_blank" rel="noopener">servo motor with Arduino</a> guide.</p>
+<h2 id="circuit-diagram-of-the-deployable-cubesat-optical-baffle">Circuit Diagram of the Deployable CubeSat Optical Baffle</h2>
+<p>Below is the circuit diagram for the deployable CubeSat optical baffle.</p>
+<figure class="shot"><img src="images/Circuit-Diagram-of-Deployable-CubeSat-Optical-Baffle.jpg" alt="Circuit Diagram of Deployable CubeSat Optical Baffle" title="Circuit Diagram of Deployable CubeSat Optical Baffle" decoding="async"></figure>
+<p>Wire everything on a small perf board. Both servos mirror the same motion, so their signal wires join on the perf board and go to pin 32 of the Raspberry Pi 5, which is GPIO12 on hardware PWM channel 0. The servo power comes only from the 4×AA pack at 6V, and the pack's ground is tied to pin 39 of the Pi so that the PWM signal has a common reference. The scripts also enable GPIO13 (pin 33) as a second PWM channel and send it the same pulses, so the second servo can move to its own pin later without any code change. There is no power switch, so the servos power up as soon as the batteries go in. That is all about the circuit.</p>
+<h3 id="raspberry-pi-5-pin-connections">Raspberry Pi 5 Pin Connections</h3>
+<div class="table-wrap"><table><thead><tr><th>Device</th><th>Device Pin</th><th>Connects To</th></tr></thead><tbody><tr><td>MG90S servos A and B</td><td>Signal</td><td>Pi pin 32 (GPIO12, PWM0)</td></tr><tr><td>MG90S servos A and B</td><td>V+</td><td>4×AA pack + (6V)</td></tr><tr><td>MG90S servos A and B</td><td>GND</td><td>4×AA pack − and Pi pin 39 (GND)</td></tr><tr><td>Pi Camera Module 3</td><td>Ribbon cable</td><td>Pi camera connector</td></tr><tr><td>Raspberry Pi 5</td><td>USB-C</td><td>Official power supply</td></tr></tbody></table></div>
+<h2 id="designing-the-telescoping-baffle">Designing the Telescoping Baffle</h2>
+<p>Placing the vanes first, from the field-of-view geometry, gets difficult for a nested baffle because of the wall thickness and the stop tabs between stages. So, I designed the mechanical structure first, around what a hobby 3D printer can do reliably, and left the vanes for later. Below are two of the design sketches.</p>
+<figure class="shot"><img src="images/CuBaffle-Baffle-and-Servo-Arm-Sketches.jpg" alt="CuBaffle baffle and servo arm sketches showing the stowed side view, the lower and upper plates with servos and arm grooves, and the deployed side view" decoding="async"></figure>
+<p>The left sheet shows the stowed baffle and the two plates, with the servos on opposite corners and grooves for the arms, and the right sheet shows the arms pushing the baffle up. The table below gives the stage sizes for a 2mm wall and a 0.4mm sliding clearance between stages, which suits FDM printing. An 8 cm servo arm gives the 4.5 cm stroke, and the torque study found that two MG90S servos can lift the stack at that arm length.</p>
+<div class="table-wrap"><table><thead><tr><th>Stage</th><th>Inner Radius</th><th>Outer Radius</th></tr></thead><tbody><tr><td>Innermost</td><td>7.78mm</td><td>9.78mm</td></tr><tr><td>Middle</td><td>10.18mm</td><td>12.18mm</td></tr><tr><td>Outermost</td><td>12.58mm</td><td>14.58mm</td></tr></tbody></table></div>
+<p>The CAD was generated as parametric KCL scripts by the Zoo Design Studio AI agent from these dimensions, then checked as an assembly in Fusion. There are four parts. main.kcl is a 94 × 94 mm base plate, 8mm thick, with 35 × 35 mm recessed pockets that clamp the servos without glue. middle.kcl is the floating middle stage, topart.kcl is the top plate and upper stage with two 90mm slotted rails, and arm.kcl is an 80mm servo arm with a built-in 4mm pin. These files are listed in the README but are not in the CAD folder yet <mark class="todo">TODO: publish the KCL, STEP and STL files</mark>, so for now, model the parts from these dimensions. If you want to add vanes later, the repository's docs folder has a plain-language guide to the deployable-baffle vane equations.</p>
+<h2 id="building-the-1u-cubesat-chassis">Building the 1U CubeSat Chassis</h2>
+<p>Below is the 1U chassis, laser cut from 2.88mm transparent acrylic.</p>
+<figure class="shot"><img src="images/Laser-Cut-Acrylic-1U-CubeSat-Chassis.jpg" alt="Laser-cut transparent acrylic 1U CubeSat chassis with finger joints for the deployable optical baffle" decoding="async"></figure>
+<p>Generate a 10 × 10 × 10 cm finger-joint box with the open-source box generator from Hackerspace Bamberg, edit the SVG in Inkscape as needed and laser cut it. After allowing for the walls, the usable space inside is 94.4 × 94.4 mm, which is the hard limit for the stowed baffle and the base plate. The 8.5mm edge rails that the CubeSat Design Specification asks for are left out, as they only add work on a flat laser-cut ground model, and the clear acrylic lets you watch the mechanism. For another laser-cut acrylic build, refer to this <a href="https://circuitdigest.com/electronic-circuits/how-to-make-amazing-wireless-bluetooth-speakers" target="_blank" rel="noopener">DIY wireless Bluetooth speaker</a> project.</p>
+<h2 id="3d-printing-and-assembly-of-the-baffle">3D Printing and Assembly of the Baffle</h2>
+<p>Print the top plate with its upper stage, the middle stage, the base plate and the lower stage. Below are the printed parts.</p>
+<figure class="shot"><img src="images/3D-Printed-Telescoping-Baffle-Stages.jpg" alt="3D-printed telescoping baffle stages with the top plate and slotted rails for the deployable CubeSat optical baffle" decoding="async"></figure>
+<p class="step"><strong>Step 1⇒ Print the Lower Stage Separately</strong></p>
+<p>Print the lower stage as its own piece, apart from the base plate. My first print had them fused, and because of the overlapping lips on the tubes, there was no way to slide the middle stage over the lower one.</p>
+<p class="step"><strong>Step 2⇒ Smooth the Sliding Surfaces</strong></p>
+<p>Sand every sliding surface smooth. With only 0.4mm of clearance, printed layer lines catch and jam, especially when the stack twists. Then put a single drop of dish soap between the stages. Do not use Vaseline.</p>
+<p class="step"><strong>Step 3⇒ Nest the Stages, Then Glue</strong></p>
+<p>Slide the middle stage over the lower stage, nest the tubes, and only then super-glue the lower stage to the base plate. Below is the nested baffle in the chassis, and the stages pulled out by lifting the top.</p>
+<figure class="shot"><img src="images/CuBaffle-Baffle-Nested-and-Extended-in-1U-Chassis.jpg" alt="CuBaffle telescoping baffle nested inside the acrylic 1U CubeSat chassis, and the three stages extended by lifting the top" decoding="async"></figure>
+<p class="step"><strong>Step 4⇒ Fit the Servos and Arms</strong></p>
+<p>Press the two MG90S servos into the base plate pockets and fit the arms. In the design, each arm's pin rides in a slotted rail on the top plate, but my 80mm arms jammed halfway up the rails and stalled both servos, even when shortened to 7.5 cm. So, the arms now push directly on the flat underside of the top plate. This deploys and stows smoothly, but with nothing guiding it, the baffle twists a little as it rises. If you want the rail version, redesign the rails before you print the top plate.</p>
+<p class="step"><strong>Step 5⇒ Wire and Close Up</strong></p>
+<p>Wire the servos and the camera as per the circuit diagram, and fit everything except the battery pack and the Pi's adapter inside the chassis. In addition to this build, here is a collection of <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> for reference.</p>
+<h2 id="setting-up-hardware-pwm-and-the-dashboard-on-the-raspberry-pi-5">Setting Up Hardware PWM and the Dashboard on the Raspberry Pi 5</h2>
+<p>The steps below get the baffle running on the Raspberry Pi 5.</p>
+<p class="step"><strong>Step 1⇒ Enable Hardware PWM</strong></p>
+<p>Add the line below to /boot/firmware/config.txt and reboot. It puts GPIO12 and GPIO13 on the hardware PWM channels. With software PWM, the servos jitter whenever the CPU is busy.</p>
+<div class="code-wrap"><pre class="code"><code>dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4</code></pre></div>
+<p class="step"><strong>Step 2⇒ Install the Packages</strong></p>
+<p>The dashboard needs Flask, OpenCV and Picamera2, all available from apt.</p>
+<div class="code-wrap"><pre class="code"><code>sudo apt update
+sudo apt install python3-flask python3-opencv python3-picamera2</code></pre></div>
+<p class="step"><strong>Step 3⇒ Find the Pulse Widths</strong></p>
+<p>Copy the three scripts from the code folder to the Pi. Run <code>sudo python3 servo_hwpwm_tuner.py</code>, move each servo with the arrow keys in 50 µs or 5 µs steps, and note the pulse widths it prints when you quit. I got about 2300 µs for stowed and 1600 µs for deployed. Put your own values into <code>STOWED_US</code> and <code>DEPLOYED_US</code> in baffle_phase3.py.</p>
+<p class="step"><strong>Step 4⇒ Run the Dashboard</strong></p>
+<p>Run <code>sudo python3 baffle_phase3.py</code> and open <code>http://&lt;pi-ip&gt;:5000</code> from a phone or laptop on the same Wi-Fi. The scripts need sudo, as they write to /sys/class/pwm.</p>
+<h2 id="code-explanation">Code Explanation</h2>
+<p>The code is written in Python for the Raspberry Pi 5. baffle_control.py is a simple command-line state machine that toggles between stowed and deployed, and baffle_phase3.py is the three-tab Flask dashboard. Below is the code explanation of the dashboard version.</p>
+<p class="step"><strong>Pulse Widths and Motion Settings</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">STOWED_US = 2300
+DEPLOYED_US = 1600
+
+# ---- Smooth motion settings ----
+MOVE_TIME_S = 2.5    # how long a deploy/stow takes (bigger = slower/smoother)
+STEP_S = 0.02         # update interval; matches the 20ms PWM period (50Hz)
+SETTLE_S = 0.3        # extra wait after the ramp so the servos finish arriving
+STARTUP_WAIT_S = 3    # wait after the startup snap (position is unknown then)</code></pre></div>
+<p>These are the values from the tuning step. Stowed is the larger pulse, so the servos turn backwards to deploy, and <code>STEP_S</code> updates the pulse every 20 ms, one PWM period at 50 Hz. Further down, the <code>HWPWM</code> class writes each pulse in nanoseconds to the duty_cycle file under /sys/class/pwm, which needs root. <code>GLARE_ROI</code>, the region of the 640 × 480 frame used for the glare comparison, is still the placeholder (200, 150, 440, 330), so set it to the bright area in your own camera view.</p>
+<p class="step"><strong>Smoothstep Motion</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">def ease(t):
+    &quot;&quot;&quot;Smoothstep: 0 -&gt; 1 with zero velocity at both ends (S-curve).&quot;&quot;&quot;
+    return t * t * (3 - 2 * t)
+
+
+def move_smooth(target_us, duration_s):
+    &quot;&quot;&quot;Ramp every servo from its current pulse to target_us with easing.&quot;&quot;&quot;
+    starts = [sv.current_us for sv in servos]
+    if any(s is None for s in starts):
+        # Position unknown (nothing commanded yet) -&gt; can't ramp, just snap.
+        for sv in servos:
+            sv.set_pulse(target_us)
+        return
+
+    t0 = time.monotonic()
+    while True:
+        frac = min((time.monotonic() - t0) / duration_s, 1.0)
+        e = ease(frac)
+        for sv, start in zip(servos, starts):
+            sv.set_pulse(start + (target_us - start) * e)
+        if frac &gt;= 1.0:
+            break
+        time.sleep(STEP_S)</code></pre></div>
+<p>This is the heart of the motion. <code>ease()</code> is the smoothstep curve, 3t² − 2t³, which starts and ends at zero speed. <code>move_smooth()</code> works out how far into the 2.5 seconds it is, eases that fraction, and sets each servo to the matching point between its start and target pulse every 20 ms. The servos speed up gently, cruise and slow down at the end, which is easier on the printed parts than a sudden snap.</p>
+<p class="step"><strong>Camera Thread and the 15-Second Buffer</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">def camera_loop():
+    global latest_frame_jpeg
+    interval = 1.0 / STREAM_FPS
+    while True:
+        try:
+            frame_rgb = picam2.capture_array()
+            frame_bgr = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
+            frame_bgr = cv2.resize(frame_bgr, (FRAME_W, FRAME_H))
+            ok, jpeg = cv2.imencode(&quot;.jpg&quot;, frame_bgr, [cv2.IMWRITE_JPEG_QUALITY, 80])
+            if ok:
+                jpeg_bytes = jpeg.tobytes()
+                with frame_lock:
+                    latest_frame_jpeg = jpeg_bytes
+                    ring_buffer.append(jpeg_bytes)
+        except Exception as e:
+            log(f&quot;camera loop error: {e}&quot;)
+        time.sleep(interval)</code></pre></div>
+<p>A background thread grabs frames from the Pi Camera, converts them to OpenCV's BGR order and encodes each one as a JPEG. The latest JPEG feeds the MJPEG stream in the Live Feed tab, and every frame also goes into a deque that holds 24 × 15 = 360 frames, which /download_clip writes into an MP4 when you press <strong>Download last 15s</strong>. For the Pi Camera basics, check out our tutorial on <a href="https://circuitdigest.com/microcontroller-projects/interfacing-pi-camera-module-with-raspberry-pi-zero-w" target="_blank" rel="noopener">interfacing the Pi Camera module</a>.</p>
+<p class="step"><strong>Glare Comparison</strong></p>
+<div class="code-wrap"><pre class="code"><code class="language-python">    stow_roi_gray = cv2.cvtColor(stow_img[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY)
+    dep_roi_gray = cv2.cvtColor(dep_img[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY)
+    stow_mean = float(stow_roi_gray.mean())
+    dep_mean = float(dep_roi_gray.mean())
+    pct_change = ((stow_mean - dep_mean) / stow_mean * 100) if stow_mean &gt; 0.01 else 0.0
+
+    diff = cv2.absdiff(stow_img, dep_img)
+    diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+    diff_heat = cv2.applyColorMap(diff_gray, cv2.COLORMAP_JET)</code></pre></div>
+<p><code>update_comparison()</code> cuts the glare region out of the stowed and deployed frames, converts it to greyscale and compares the mean brightness. <code>pct_change</code> is how much darker the deployed frame is, in percent, so a positive value means the baffle blocked stray light. The function also writes a one-line verdict and a JET colour heatmap of the difference between the frames. When the program exits, <code>cleanup()</code> stows the baffle, the same habit as the command-line script.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the video demonstration of the deployable CubeSat optical baffle.</p>
+<a class="video-card" href="#todo-link"><span class="play" aria-hidden="true"></span><span><strong>Watch the CuBaffle deployable cubesat optical baffle</strong><span class="sub">YouTube · video not published yet (VIDEO_ID)</span></span></a>
+<p><mark class="todo">TODO: video of the baffle deploying and stowing from the dashboard, with the Live Feed and Analysis tabs open</mark></p>
+<h2 id="output-testing-the-deployable-cubesat-baffle">Output: Testing the Deployable CubeSat Baffle</h2>
+<p>To test the build, deploy and stow the baffle a few times from the Control tab and watch the log. Below is the Control tab of the dashboard after one of my test sessions.</p>
+<figure class="shot"><img src="images/CuBaffle-Web-Dashboard-Control-Tab.png" alt="CuBaffle web dashboard Control tab showing STOW and DEPLOY buttons, state STOWED and the live system log" decoding="async"></figure>
+<p>The log under the buttons covers the whole session. It starts at 01:20:16 with "Using /sys/class/pwm/pwmchip0" and the startup snap to 2300 µs. Between 01:20 and 01:46, there are nine deploy and stow cycles, each logged as complete two to three seconds after the command, and one "already deployed" from a repeated press. The Analysis tab result is <mark class="todo">TODO: stowed and deployed glare values and the verdict line from an Analysis tab run</mark>. That optical measurement still needs a matte black print and a real glare region. If you like camera projects on the Pi, check out our <a href="https://circuitdigest.com/microcontroller-projects/visitor-monitoring-with-raspberry-pi-and-pi-camera" target="_blank" rel="noopener">visitor monitoring system with the Pi Camera</a> as well.</p>
+<h2 id="troubleshooting-the-deployable-cubesat-baffle">Troubleshooting the Deployable CubeSat Baffle</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>The middle stage will not slide over the lower stage</td><td>Lower stage printed fused to the base plate</td><td>Print the lower stage separately, nest the tubes, then glue it to the base plate</td></tr><tr><td>Stages bind or stop mid-travel</td><td>Layer lines catching in the 0.4mm clearance</td><td>Sand the sliding surfaces and add a single drop of dish soap; do not use Vaseline</td></tr><tr><td>Arms jam halfway up the rails and stall the servos</td><td>Slotted rail design</td><td>Push on the flat underside of the top plate, or redesign the rails and reprint the top plate</td></tr><tr><td>Servos jitter</td><td>Software PWM in use</td><td>Add the pwm-2chan overlay to /boot/firmware/config.txt and reboot</td></tr><tr><td>Pi resets when the servos move</td><td>Servos drawing power from the Pi</td><td>Run them from the separate 6V pack, with the ground shared on pin 39</td></tr><tr><td>Baffle sits at an angle when deployed</td><td>Nothing guides the top plate without the rails</td><td>Known limitation of the workaround; the rail redesign fixes it</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>CuBaffle deploys and stows a three-stage optical baffle inside a 1U chassis, nine times in a row in one test session, and the dashboard shows the camera view in both states. There is still room for improvement, such as redesigned rails to remove the twist, a matte black print for the optical test, vanes inside the stages and a power switch on the servo pack. A flight-style version would move to a torsion spring with a pin-puller or a burn-wire release and add the CubeSat rails. Further, one can stream the camera to a phone in the same way as this <a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">web controlled Raspberry Pi surveillance robot</a> on Circuit Digest.</p>
+<h2 id="cubaffle-github-repository">CuBaffle GitHub Repository</h2>
+<p>The CuBaffle repository has the three Python scripts (the hardware PWM tuner, the command-line controller and the dashboard), the build logs, the mechanism trade study and the research notes. CuBaffle was built by Vaishnav D Prabhath at Tinkerspace as part of the Builder in Residence programme.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/CuBaffle" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/CuBaffle/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-deployable-cubesat-optical-baffle">Frequently Asked Questions About the Deployable CubeSat Optical Baffle</h2>
+<p class="step"><strong>⇥ 1. Can two MG90S servos lift a three-stage baffle?</strong></p>
+<p>Yes. The torque study showed that two MG90S servos can lift the stack with an 8 cm arm, and in the final build they deploy and stow it smoothly. The only stall came when the arms jammed in the slotted rails.</p>
+<p class="step"><strong>⇥ 2. Why does the baffle twist when it deploys?</strong></p>
+<p>The arms push directly on the flat underside of the top plate, with no rails to guide it. A top plate with redesigned rails holds it straight.</p>
+<p class="step"><strong>⇥ 3. Why use a separate battery pack for the servos?</strong></p>
+<p>Servo current spikes, especially at stall, can brown out or damage the Raspberry Pi 5. So, the servos get their own 6V from the 4×AA pack, and only the ground is shared.</p>
+<h2 id="raspberry-pi-and-servo-projects">Raspberry Pi and Servo Projects</h2>
+<p>Explore more Raspberry Pi and servo builds, with circuit diagrams and code.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-servo-motor-control" target="_blank" rel="noopener">Servo Motor Control with Raspberry Pi</a></strong>: <em>Raspberry Pi is an ARM architecture processor based board designed for electronic engineers and hobbyists, and this tutorial drives a servo from its PWM output.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/web-controlled-raspberry-pi-surveillance-robot" target="_blank" rel="noopener">DIY Web Controlled Raspberry Pi Surveillance Robotic Car</a></strong>: <em>In this DIY session we are building a web controlled surveillance robotic car using raspberry pi and a webcam.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/dual-axis-solar-tracker-system-using-arduino" target="_blank" rel="noopener">Build an Arduino Dual Axis Solar Tracker System</a></strong>: <em>Two micro servos and 3D-printed parts turn a solar panel on two axes to follow the light.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>The complete code is in the code folder of the repository, in three files.</p>
+<details class="codefile"><summary><span class="path">code/baffle_phase3.py</span><span class="count">560 lines</span></summary><pre class="code"><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+CubeSat Baffle Controller — Phase 3 (3-tab GUI) + Smooth Motion
+------------------------------------------------------------------
+Tab 1: Control        — Stow / Deploy buttons + live log
+Tab 2: Live Feed       — Pi Cam 3 MJPEG stream, auto-opens on deploy/stow,
+                         &quot;download last 15s&quot; button (640x480 @24fps clip)
+Tab 3: Analysis        — last-stowed vs last-deployed comparison: mean
+                         brightness in a hardcoded glare ROI, diff heatmap,
+                         one-line plain-English takeaway. Shows &quot;no data
+                         yet&quot; until both states have been captured once.
+
+Deploy/stow no longer snap instantly — the pulse width is ramped from the
+current position to the target over MOVE_TIME_S using an eased
+(smoothstep) curve, so the servos accelerate gently, cruise, and
+decelerate gently. The comparison photo is captured right after the move
+finishes settling, same as before.
+
+PREREQUISITES:
+    - pwm-2chan overlay already set up
+    - Pi Cam 3 connected and enabled
+
+INSTALL:
+    sudo apt install python3-flask python3-opencv python3-picamera2
+
+RUN:
+    sudo python3 baffle_phase3.py
+
+Then from a browser on the same WiFi:
+    http://&lt;pi-ip&gt;:5000
+&quot;&quot;&quot;
+
+import atexit
+import base64
+import glob
+import os
+import sys
+import threading
+import time
+from collections import deque
+from datetime import datetime
+
+import cv2
+import numpy as np
+from flask import Flask, Response, jsonify, render_template_string, request, send_file
+from picamera2 import Picamera2
+
+# ============================================================
+# HARDCODED PWM VALUES — from your tuning session
+# ============================================================
+STOWED_US = 2300
+DEPLOYED_US = 1600
+
+# ---- Smooth motion settings ----
+MOVE_TIME_S = 2.5    # how long a deploy/stow takes (bigger = slower/smoother)
+STEP_S = 0.02         # update interval; matches the 20ms PWM period (50Hz)
+SETTLE_S = 0.3        # extra wait after the ramp so the servos finish arriving
+STARTUP_WAIT_S = 3    # wait after the startup snap (position is unknown then)
+# ============================================================
+
+FRAME_W, FRAME_H = 640, 480
+STREAM_FPS = 24
+CLIP_SECONDS = 15
+RING_BUFFER_LEN = STREAM_FPS * CLIP_SECONDS
+
+# Glare ROI in pixel coordinates (x1, y1, x2, y2) within a 640x480 frame.
+# &lt;&lt;&lt; REPLACE after you find where the stray light actually lands &gt;&gt;&gt;
+GLARE_ROI = (200, 150, 440, 330)
+
+PERIOD_NS = 20_000_000
+SYSFS_PWM_ROOT = &quot;/sys/class/pwm&quot;
+
+
+def ease(t):
+    &quot;&quot;&quot;Smoothstep: 0 -&gt; 1 with zero velocity at both ends (S-curve).&quot;&quot;&quot;
+    return t * t * (3 - 2 * t)
+
+
+# ---------------------------------------------------------------------
+# Hardware PWM plumbing
+# ---------------------------------------------------------------------
+def find_pwmchip():
+    candidates = sorted(glob.glob(f&quot;{SYSFS_PWM_ROOT}/pwmchip*&quot;))
+    if not candidates:
+        sys.exit(&quot;No pwmchip found. Check the pwm-2chan overlay and reboot.&quot;)
+    for chip in candidates:
+        try:
+            with open(f&quot;{chip}/npwm&quot;) as f:
+                if int(f.read().strip()) &gt;= 2:
+                    return chip
+        except (FileNotFoundError, ValueError):
+            continue
+    return candidates[0]
+
+
+def write_sysfs(path, value):
+    with open(path, &quot;w&quot;) as f:
+        f.write(str(value))
+
+
+class HWPWM:
+    def __init__(self, chip_path, channel, label):
+        self.chip_path = chip_path
+        self.channel = channel
+        self.chan_path = f&quot;{chip_path}/pwm{channel}&quot;
+        self.label = label
+        self.current_us = None  # last commanded pulse; None = unknown yet
+        self._export()
+        write_sysfs(f&quot;{self.chan_path}/period&quot;, PERIOD_NS)
+        write_sysfs(f&quot;{self.chan_path}/enable&quot;, 1)
+
+    def _export(self):
+        if not os.path.isdir(self.chan_path):
+            write_sysfs(f&quot;{self.chip_path}/export&quot;, self.channel)
+            for _ in range(20):
+                if os.path.isdir(self.chan_path):
+                    break
+                time.sleep(0.05)
+            else:
+                sys.exit(f&quot;pwm{self.channel} did not appear after export.&quot;)
+
+    def set_pulse(self, us):
+        write_sysfs(f&quot;{self.chan_path}/duty_cycle&quot;, int(us * 1000))
+        self.current_us = us
+
+    def close(self):
+        try:
+            write_sysfs(f&quot;{self.chan_path}/enable&quot;, 0)
+            write_sysfs(f&quot;{self.chip_path}/unexport&quot;, self.channel)
+        except OSError:
+            pass
+
+
+# ---------------------------------------------------------------------
+# Shared state
+# ---------------------------------------------------------------------
+state_lock = threading.Lock()
+state = &quot;DEPLOYED&quot;  # placeholder; forced STOWED at startup
+busy = False
+log_lines = []
+
+frame_lock = threading.Lock()
+latest_frame_jpeg = None
+ring_buffer = deque(maxlen=RING_BUFFER_LEN)
+
+comparison_lock = threading.Lock()
+last_stowed_jpeg = None
+last_deployed_jpeg = None
+comparison_data = {&quot;available&quot;: False}
+
+servos = []
+picam2 = None
+
+
+def log(msg):
+    ts = datetime.now().strftime(&quot;%H:%M:%S&quot;)
+    log_lines.append(f&quot;[{ts}] {msg}&quot;)
+    print(f&quot;[{ts}] {msg}&quot;)
+
+
+# ---------------------------------------------------------------------
+# Smooth motion
+# ---------------------------------------------------------------------
+def move_smooth(target_us, duration_s):
+    &quot;&quot;&quot;Ramp every servo from its current pulse to target_us with easing.&quot;&quot;&quot;
+    starts = [sv.current_us for sv in servos]
+    if any(s is None for s in starts):
+        # Position unknown (nothing commanded yet) -&gt; can't ramp, just snap.
+        for sv in servos:
+            sv.set_pulse(target_us)
+        return
+
+    t0 = time.monotonic()
+    while True:
+        frac = min((time.monotonic() - t0) / duration_s, 1.0)
+        e = ease(frac)
+        for sv, start in zip(servos, starts):
+            sv.set_pulse(start + (target_us - start) * e)
+        if frac &gt;= 1.0:
+            break
+        time.sleep(STEP_S)
+
+
+# ---------------------------------------------------------------------
+# Camera background thread
+# ---------------------------------------------------------------------
+def camera_loop():
+    global latest_frame_jpeg
+    interval = 1.0 / STREAM_FPS
+    while True:
+        try:
+            frame_rgb = picam2.capture_array()
+            frame_bgr = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
+            frame_bgr = cv2.resize(frame_bgr, (FRAME_W, FRAME_H))
+            ok, jpeg = cv2.imencode(&quot;.jpg&quot;, frame_bgr, [cv2.IMWRITE_JPEG_QUALITY, 80])
+            if ok:
+                jpeg_bytes = jpeg.tobytes()
+                with frame_lock:
+                    latest_frame_jpeg = jpeg_bytes
+                    ring_buffer.append(jpeg_bytes)
+        except Exception as e:
+            log(f&quot;camera loop error: {e}&quot;)
+        time.sleep(interval)
+
+
+# ---------------------------------------------------------------------
+# Comparison analysis (Tab 3)
+# ---------------------------------------------------------------------
+def decode_jpeg(jpeg_bytes):
+    arr = np.frombuffer(jpeg_bytes, dtype=np.uint8)
+    return cv2.imdecode(arr, cv2.IMREAD_COLOR)
+
+
+def update_comparison():
+    global comparison_data
+    with comparison_lock:
+        stow_bytes, dep_bytes = last_stowed_jpeg, last_deployed_jpeg
+
+    if stow_bytes is None or dep_bytes is None:
+        comparison_data = {&quot;available&quot;: False}
+        return
+
+    stow_img = decode_jpeg(stow_bytes)
+    dep_img = decode_jpeg(dep_bytes)
+    x1, y1, x2, y2 = GLARE_ROI
+
+    stow_roi_gray = cv2.cvtColor(stow_img[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY)
+    dep_roi_gray = cv2.cvtColor(dep_img[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY)
+    stow_mean = float(stow_roi_gray.mean())
+    dep_mean = float(dep_roi_gray.mean())
+    pct_change = ((stow_mean - dep_mean) / stow_mean * 100) if stow_mean &gt; 0.01 else 0.0
+
+    diff = cv2.absdiff(stow_img, dep_img)
+    diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+    diff_heat = cv2.applyColorMap(diff_gray, cv2.COLORMAP_JET)
+    _, diff_jpeg = cv2.imencode(&quot;.jpg&quot;, diff_heat)
+
+    direction = &quot;dropped&quot; if pct_change &gt; 0 else &quot;increased&quot;
+    sentence = (
+        f&quot;Stray light in the glare region {direction} by {abs(pct_change):.0f}% &quot;
+        f&quot;when deployed compared to stowed.&quot;
+    )
+
+    comparison_data = {
+        &quot;available&quot;: True,
+        &quot;stow_mean&quot;: round(stow_mean, 1),
+        &quot;dep_mean&quot;: round(dep_mean, 1),
+        &quot;pct_change&quot;: round(pct_change, 1),
+        &quot;sentence&quot;: sentence,
+        &quot;stow_jpeg_b64&quot;: base64.b64encode(stow_bytes).decode(),
+        &quot;dep_jpeg_b64&quot;: base64.b64encode(dep_bytes).decode(),
+        &quot;diff_jpeg_b64&quot;: base64.b64encode(diff_jpeg.tobytes()).decode(),
+        &quot;roi&quot;: list(GLARE_ROI),
+    }
+
+
+def capture_state_photo(new_state):
+    global last_stowed_jpeg, last_deployed_jpeg
+    with frame_lock:
+        frame_bytes = latest_frame_jpeg
+    if frame_bytes is None:
+        log(&quot;No camera frame available yet — skipping comparison capture.&quot;)
+        return
+    with comparison_lock:
+        if new_state == &quot;STOWED&quot;:
+            last_stowed_jpeg = frame_bytes
+        else:
+            last_deployed_jpeg = frame_bytes
+    update_comparison()
+
+
+# ---------------------------------------------------------------------
+# Servo move logic
+# ---------------------------------------------------------------------
+def drive_all(pulse_us, label, new_state, smooth=True):
+    global busy, state
+    busy = True
+    try:
+        if smooth:
+            log(f&quot;Moving to {label} ({pulse_us}us) over {MOVE_TIME_S}s...&quot;)
+            move_smooth(pulse_us, MOVE_TIME_S)
+            time.sleep(SETTLE_S)
+        else:
+            log(f&quot;Moving to {label} ({pulse_us}us)... please wait {STARTUP_WAIT_S}s&quot;)
+            for sv in servos:
+                sv.set_pulse(pulse_us)
+            time.sleep(STARTUP_WAIT_S)
+        log(f&quot;{label} complete.&quot;)
+        with state_lock:
+            state = new_state
+        capture_state_photo(new_state)
+    finally:
+        busy = False
+
+
+# ---------------------------------------------------------------------
+# Flask app
+# ---------------------------------------------------------------------
+app = Flask(__name__)
+
+PAGE = &quot;&quot;&quot;
+&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;title&gt;Baffle Control&lt;/title&gt;
+&lt;style&gt;
+  body { font-family: sans-serif; background: #111; color: #eee; text-align: center; padding: 10px; }
+  h1 { font-size: 1.2em; }
+  .tabs { display: flex; justify-content: center; margin-bottom: 10px; }
+  .tab-btn {
+    padding: 10px 18px; margin: 4px; border: none; border-radius: 6px;
+    background: #333; color: #eee; cursor: pointer; font-size: 1em;
+  }
+  .tab-btn.active { background: #2d6cdf; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  button.action {
+    font-size: 1.1em; padding: 16px 28px; margin: 8px; border: none;
+    border-radius: 8px; cursor: pointer; min-width: 120px;
+  }
+  #stow-btn { background: #2d6cdf; color: white; }
+  #deploy-btn { background: #d94a3d; color: white; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  #log {
+    background: black; color: #0f0; text-align: left; padding: 10px;
+    height: 220px; overflow-y: auto; border-radius: 6px; font-family: monospace;
+    font-size: 0.8em; white-space: pre-wrap; margin-top: 10px;
+  }
+  img.feed { max-width: 100%; border-radius: 6px; }
+  .cmp-imgs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
+  .cmp-imgs div { text-align: center; }
+  .cmp-imgs img { width: 260px; border-radius: 6px; }
+  #sentence { font-size: 1.15em; margin: 14px 0; padding: 10px; background: #222; border-radius: 6px; }
+  #download-btn { padding: 10px 16px; margin-top: 10px; border-radius: 6px; border: none; background: #2d6cdf; color: white; cursor: pointer; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;CubeSat Baffle Control&lt;/h1&gt;
+  &lt;div class=&quot;tabs&quot;&gt;
+    &lt;button class=&quot;tab-btn active&quot; onclick=&quot;showTab(1)&quot;&gt;Control&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;showTab(2)&quot;&gt;Live Feed&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;showTab(3)&quot;&gt;Analysis&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;tab1&quot; class=&quot;tab-content active&quot;&gt;
+    &lt;div id=&quot;state&quot;&gt;state: ...&lt;/div&gt;
+    &lt;div&gt;
+      &lt;button class=&quot;action&quot; id=&quot;stow-btn&quot; onclick=&quot;sendCmd('stow')&quot;&gt;STOW&lt;/button&gt;
+      &lt;button class=&quot;action&quot; id=&quot;deploy-btn&quot; onclick=&quot;sendCmd('deploy')&quot;&gt;DEPLOY&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;log&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;tab2&quot; class=&quot;tab-content&quot;&gt;
+    &lt;img class=&quot;feed&quot; src=&quot;/video_feed&quot;&gt;
+    &lt;div&gt;&lt;button id=&quot;download-btn&quot; onclick=&quot;downloadClip()&quot;&gt;Download last 15s&lt;/button&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;tab3&quot; class=&quot;tab-content&quot;&gt;
+    &lt;div id=&quot;cmp-placeholder&quot;&gt;No data yet — deploy and stow at least once.&lt;/div&gt;
+    &lt;div id=&quot;cmp-body&quot; style=&quot;display:none;&quot;&gt;
+      &lt;div id=&quot;sentence&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;cmp-imgs&quot;&gt;
+        &lt;div&gt;&lt;div&gt;Stowed&lt;/div&gt;&lt;img id=&quot;stow-img&quot;&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;div&gt;Deployed&lt;/div&gt;&lt;img id=&quot;dep-img&quot;&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;div&gt;Difference&lt;/div&gt;&lt;img id=&quot;diff-img&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;script&gt;
+let lastCount = 0;
+
+function showTab(n) {
+  for (let i = 1; i &lt;= 3; i++) {
+    document.getElementById('tab' + i).classList.toggle('active', i === n);
+  }
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach((b, i) =&gt; b.classList.toggle('active', i === n - 1));
+}
+
+async function sendCmd(cmd) {
+  showTab(2);  // auto-switch to live feed on any move
+  document.getElementById('stow-btn').disabled = true;
+  document.getElementById('deploy-btn').disabled = true;
+  await fetch('/' + cmd, { method: 'POST' });
+}
+
+function downloadClip() {
+  window.location = '/download_clip';
+}
+
+async function pollStatus() {
+  const res = await fetch('/status?since=' + lastCount);
+  const data = await res.json();
+  document.getElementById('state').innerText = 'state: ' + data.state +
+      (data.busy ? '  (moving...)' : '');
+  const logDiv = document.getElementById('log');
+  for (const line of data.new_logs) {
+    logDiv.innerText += line + '\\n';
+  }
+  logDiv.scrollTop = logDiv.scrollHeight;
+  lastCount = data.count;
+  document.getElementById('stow-btn').disabled = data.busy;
+  document.getElementById('deploy-btn').disabled = data.busy;
+}
+
+async function pollComparison() {
+  const res = await fetch('/comparison_data');
+  const data = await res.json();
+  if (!data.available) {
+    document.getElementById('cmp-placeholder').style.display = 'block';
+    document.getElementById('cmp-body').style.display = 'none';
+    return;
+  }
+  document.getElementById('cmp-placeholder').style.display = 'none';
+  document.getElementById('cmp-body').style.display = 'block';
+  document.getElementById('sentence').innerText = data.sentence +
+      '  (stowed=' + data.stow_mean + ', deployed=' + data.dep_mean + ')';
+  document.getElementById('stow-img').src = 'data:image/jpeg;base64,' + data.stow_jpeg_b64;
+  document.getElementById('dep-img').src = 'data:image/jpeg;base64,' + data.dep_jpeg_b64;
+  document.getElementById('diff-img').src = 'data:image/jpeg;base64,' + data.diff_jpeg_b64;
+}
+
+setInterval(pollStatus, 600);
+setInterval(pollComparison, 2000);
+pollStatus();
+pollComparison();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&quot;&quot;&quot;
+
+
+@app.route(&quot;/&quot;)
+def index():
+    return render_template_string(PAGE)
+
+
+@app.route(&quot;/status&quot;)
+def status():
+    since = int(request.args.get(&quot;since&quot;, 0))
+    with state_lock:
+        new_logs = log_lines[since:]
+        return jsonify(state=state, busy=busy, new_logs=new_logs, count=len(log_lines))
+
+
+@app.route(&quot;/deploy&quot;, methods=[&quot;POST&quot;])
+def deploy():
+    with state_lock:
+        if busy:
+            log(&quot;Command ignored — a move is already in progress.&quot;)
+            return jsonify(ok=False), 409
+        if state == &quot;DEPLOYED&quot;:
+            log(&quot;already deployed&quot;)
+            return jsonify(ok=True)
+    drive_all(DEPLOYED_US, &quot;DEPLOYED&quot;, &quot;DEPLOYED&quot;)
+    return jsonify(ok=True)
+
+
+@app.route(&quot;/stow&quot;, methods=[&quot;POST&quot;])
+def stow():
+    with state_lock:
+        if busy:
+            log(&quot;Command ignored — a move is already in progress.&quot;)
+            return jsonify(ok=False), 409
+        if state == &quot;STOWED&quot;:
+            log(&quot;already stowed&quot;)
+            return jsonify(ok=True)
+    drive_all(STOWED_US, &quot;STOWED&quot;, &quot;STOWED&quot;)
+    return jsonify(ok=True)
+
+
+def gen_mjpeg():
+    interval = 1.0 / STREAM_FPS
+    while True:
+        with frame_lock:
+            frame = latest_frame_jpeg
+        if frame is not None:
+            yield (b&quot;--frame\r\nContent-Type: image/jpeg\r\n\r\n&quot; + frame + b&quot;\r\n&quot;)
+        time.sleep(interval)
+
+
+@app.route(&quot;/video_feed&quot;)
+def video_feed():
+    return Response(gen_mjpeg(), mimetype=&quot;multipart/x-mixed-replace; boundary=frame&quot;)
+
+
+@app.route(&quot;/download_clip&quot;)
+def download_clip():
+    with frame_lock:
+        frames_copy = list(ring_buffer)
+    if not frames_copy:
+        return &quot;No frames captured yet&quot;, 404
+
+    tmp_path = f&quot;/tmp/baffle_clip_{int(time.time())}.mp4&quot;
+    fourcc = cv2.VideoWriter_fourcc(*&quot;mp4v&quot;)
+    writer = cv2.VideoWriter(tmp_path, fourcc, STREAM_FPS, (FRAME_W, FRAME_H))
+    for jpeg_bytes in frames_copy:
+        img = decode_jpeg(jpeg_bytes)
+        if img is not None:
+            writer.write(img)
+    writer.release()
+
+    return send_file(tmp_path, as_attachment=True, download_name=&quot;last_15s.mp4&quot;)
+
+
+@app.route(&quot;/comparison_data&quot;)
+def comparison_data_endpoint():
+    return jsonify(comparison_data)
+
+
+def cleanup():
+    log(&quot;Shutting down: driving to STOWED before exit...&quot;)
+    with state_lock:
+        cur_state = state
+    if cur_state != &quot;STOWED&quot;:
+        drive_all(STOWED_US, &quot;STOWED (shutdown)&quot;, &quot;STOWED&quot;)
+    else:
+        log(&quot;Already stowed — no move needed before shutdown.&quot;)
+    for sv in servos:
+        sv.close()
+    if picam2 is not None:
+        picam2.stop()
+    log(&quot;Shut down cleanly.&quot;)
+
+
+def main():
+    global servos, state, picam2
+
+    if os.geteuid() != 0:
+        sys.exit(&quot;This needs root to write to /sys/class/pwm. Run with: sudo python3 baffle_phase3.py&quot;)
+
+    chip = find_pwmchip()
+    log(f&quot;Using {chip}&quot;)
+    servos = [HWPWM(chip, 0, &quot;servo A&quot;), HWPWM(chip, 1, &quot;servo B&quot;)]
+
+    log(&quot;Starting camera...&quot;)
+    picam2 = Picamera2()
+    config = picam2.create_video_configuration(main={&quot;size&quot;: (FRAME_W, FRAME_H), &quot;format&quot;: &quot;RGB888&quot;})
+    picam2.configure(config)
+    picam2.start()
+    time.sleep(1)  # let auto-exposure settle
+    threading.Thread(target=camera_loop, daemon=True).start()
+
+    # Startup: actively drive to STOWED, don't just assume it.
+    # Position is unknown at this point, so this one move is a direct snap.
+    drive_all(STOWED_US, &quot;STOWED (startup)&quot;, &quot;STOWED&quot;, smooth=False)
+
+    atexit.register(cleanup)
+
+    try:
+        app.run(host=&quot;0.0.0.0&quot;, port=5000, threaded=True)
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre></details>
+<details class="codefile"><summary><span class="path">code/servo_hwpwm_tuner.py</span><span class="count">295 lines</span></summary><pre class="code"><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+MG90S Manual PWM Tuner — Raspberry Pi 5, TRUE HARDWARE PWM
+------------------------------------------------------------
+Same idea as the earlier tuner, but drives the servos through the RP1's
+dedicated PWM hardware blocks via the Linux sysfs pwm interface, instead
+of gpiozero's software-timed PWM. This removes the CPU-load jitter you
+saw with the lgpio-backed version.
+
+PREREQUISITE — you must have already added this to /boot/firmware/config.txt
+and rebooted:
+    dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4
+
+That puts GPIO12 on hardware PWM channel 0, and GPIO13 on channel 1,
+both under the same pwmchip (usually pwmchip0 or pwmchip2 depending on
+firmware version — the script auto-detects it).
+
+WIRING:
+    Servo 1 signal -&gt; GPIO12 (physical pin 32)  -&gt; pwm channel 0
+    Servo 2 signal -&gt; GPIO13 (physical pin 33)  -&gt; pwm channel 1
+    Servo V+       -&gt; external 5-6V supply, NOT the Pi's 5V rail
+    Servo GND      -&gt; common ground with the Pi AND the external supply
+
+PERMISSIONS: writing to /sys/class/pwm requires root (or a udev rule).
+Simplest for now:
+    sudo python3 servo_hwpwm_tuner.py
+
+RUN (live jog UI, default):
+    sudo python3 servo_hwpwm_tuner.py
+
+RUN (plain text input):
+    sudo python3 servo_hwpwm_tuner.py --manual
+
+Live-jog controls:
+    1 / 2       select servo 1 or 2
+    Up / Down   +/- coarse step (default 50us)
+    Left/Right  +/- fine step (default 5us)
+    [ / ]       decrease / increase the coarse step size
+    c           center both (1500us)
+    d           disable PWM on selected servo (no holding torque)
+    r           re-enable PWM on selected servo
+    s           print current values on screen as a snippet
+    q           quit (prints final values, cleans up sysfs exports)
+&quot;&quot;&quot;
+
+import argparse
+import curses
+import glob
+import os
+import sys
+import time
+
+PERIOD_NS = 20_000_000  # 20ms = 50Hz, fixed for standard hobby servos
+SYSFS_PWM_ROOT = &quot;/sys/class/pwm&quot;
+
+
+def find_pwmchip():
+    &quot;&quot;&quot;Find the pwmchip exposing at least 2 channels (from pwm-2chan overlay).&quot;&quot;&quot;
+    candidates = sorted(glob.glob(f&quot;{SYSFS_PWM_ROOT}/pwmchip*&quot;))
+    if not candidates:
+        sys.exit(
+            &quot;No pwmchip found under /sys/class/pwm.\n&quot;
+            &quot;Did you add 'dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4'\n&quot;
+            &quot;to /boot/firmware/config.txt and reboot?&quot;
+        )
+    for chip in candidates:
+        try:
+            with open(f&quot;{chip}/npwm&quot;) as f:
+                npwm = int(f.read().strip())
+            if npwm &gt;= 2:
+                return chip
+        except (FileNotFoundError, ValueError):
+            continue
+    # fall back to the first chip found even if npwm looked odd
+    return candidates[0]
+
+
+def write_sysfs(path, value):
+    with open(path, &quot;w&quot;) as f:
+        f.write(str(value))
+
+
+def read_sysfs(path):
+    with open(path) as f:
+        return f.read().strip()
+
+
+class HWPWM:
+    &quot;&quot;&quot;Thin wrapper around one /sys/class/pwm/&lt;chip&gt;/pwm&lt;N&gt; channel.&quot;&quot;&quot;
+
+    def __init__(self, chip_path, channel, label, min_us, max_us, start_us):
+        self.chip_path = chip_path
+        self.channel = channel
+        self.chan_path = f&quot;{chip_path}/pwm{channel}&quot;
+        self.label = label
+        self.min_us = min_us
+        self.max_us = max_us
+        self.pulse_us = start_us
+        self.enabled = True
+
+        self._export()
+        write_sysfs(f&quot;{self.chan_path}/period&quot;, PERIOD_NS)
+        self.apply()
+        write_sysfs(f&quot;{self.chan_path}/enable&quot;, 1)
+
+    def _export(self):
+        if not os.path.isdir(self.chan_path):
+            try:
+                write_sysfs(f&quot;{self.chip_path}/export&quot;, self.channel)
+            except OSError as e:
+                sys.exit(f&quot;Failed exporting pwm channel {self.channel}: {e}&quot;)
+            for _ in range(20):
+                if os.path.isdir(self.chan_path):
+                    break
+                time.sleep(0.05)
+            else:
+                sys.exit(f&quot;pwm{self.channel} did not appear after export.&quot;)
+
+    def clamp(self, us):
+        return max(self.min_us, min(self.max_us, us))
+
+    def set_pulse(self, us):
+        self.pulse_us = self.clamp(us)
+        if self.enabled:
+            self.apply()
+
+    def apply(self):
+        duty_ns = int(self.pulse_us * 1000)
+        write_sysfs(f&quot;{self.chan_path}/duty_cycle&quot;, duty_ns)
+
+    def disable(self):
+        self.enabled = False
+        write_sysfs(f&quot;{self.chan_path}/enable&quot;, 0)
+
+    def enable(self):
+        self.enabled = True
+        write_sysfs(f&quot;{self.chan_path}/enable&quot;, 1)
+        self.apply()
+
+    def close(self):
+        try:
+            write_sysfs(f&quot;{self.chan_path}/enable&quot;, 0)
+            write_sysfs(f&quot;{self.chip_path}/unexport&quot;, self.channel)
+        except OSError:
+            pass
+
+
+def run_curses(servos, coarse_step, fine_step):
+    def main(stdscr):
+        curses.curs_set(0)
+        selected = 0
+        step = coarse_step
+        message = &quot;&quot;
+
+        def draw():
+            stdscr.clear()
+            stdscr.addstr(0, 0, &quot;MG90S Manual PWM Tuner (hardware PWM)  (q to quit)&quot;)
+            stdscr.addstr(1, 0, &quot;-&quot; * 60)
+            for i, sv in enumerate(servos):
+                marker = &quot;&gt;&quot; if i == selected else &quot; &quot;
+                state = &quot;ON &quot; if sv.enabled else &quot;OFF&quot;
+                stdscr.addstr(
+                    3 + i, 0,
+                    f&quot;{marker} Servo {i+1} [{sv.label}] pwm{sv.channel}: &quot;
+                    f&quot;{sv.pulse_us:7.1f} us  ({state})  &quot;
+                    f&quot;range [{sv.min_us:.0f}-{sv.max_us:.0f}]&quot;
+                )
+            row = 3 + len(servos)
+            stdscr.addstr(row + 1, 0, f&quot;Step size: {step:.0f} us   ( [ / ] to change )&quot;)
+            stdscr.addstr(row + 3, 0,
+                          &quot;1/2 select | Up/Down +/- step | Left/Right +/- 5us fine&quot;)
+            stdscr.addstr(row + 4, 0,
+                          &quot;c center-both | d disable | r enable | s snippet | q quit&quot;)
+            if message:
+                stdscr.addstr(row + 6, 0, message)
+            stdscr.refresh()
+
+        draw()
+        while True:
+            key = stdscr.getch()
+            sv = servos[selected]
+            message = &quot;&quot;
+            if key in (ord('1'), ord('2')):
+                idx = key - ord('1')
+                if idx &lt; len(servos):
+                    selected = idx
+            elif key == curses.KEY_UP:
+                sv.set_pulse(sv.pulse_us + step)
+            elif key == curses.KEY_DOWN:
+                sv.set_pulse(sv.pulse_us - step)
+            elif key == curses.KEY_RIGHT:
+                sv.set_pulse(sv.pulse_us + fine_step)
+            elif key == curses.KEY_LEFT:
+                sv.set_pulse(sv.pulse_us - fine_step)
+            elif key == ord('['):
+                step = max(1, step - 5)
+            elif key == ord(']'):
+                step += 5
+            elif key == ord('c'):
+                for s in servos:
+                    s.set_pulse(1500)
+            elif key == ord('d'):
+                sv.disable()
+            elif key == ord('r'):
+                sv.enable()
+            elif key == ord('s'):
+                message = &quot;CURRENT: &quot; + &quot;  &quot;.join(
+                    f&quot;S{i+1}={s.pulse_us:.0f}us&quot; for i, s in enumerate(servos)
+                )
+            elif key == ord('q'):
+                break
+            draw()
+
+    curses.wrapper(main)
+
+
+def run_manual(servos):
+    print(&quot;Manual mode. Commands:&quot;)
+    print(&quot;  s1 &lt;us&gt;   set servo 1 pulse width, e.g.  s1 1230&quot;)
+    print(&quot;  s2 &lt;us&gt;   set servo 2 pulse width&quot;)
+    print(&quot;  center    set both to 1500us&quot;)
+    print(&quot;  show      print current values&quot;)
+    print(&quot;  d1 / d2   disable servo 1/2 (no holding torque)&quot;)
+    print(&quot;  r1 / r2   re-enable servo 1/2&quot;)
+    print(&quot;  q         quit&quot;)
+    while True:
+        try:
+            cmd = input(&quot;&gt; &quot;).strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            break
+        if cmd in (&quot;q&quot;, &quot;quit&quot;, &quot;exit&quot;):
+            break
+        elif cmd == &quot;center&quot;:
+            for sv in servos:
+                sv.set_pulse(1500)
+        elif cmd == &quot;show&quot;:
+            for i, sv in enumerate(servos):
+                print(f&quot;  Servo {i+1}: {sv.pulse_us:.1f} us (enabled={sv.enabled})&quot;)
+        elif cmd in (&quot;d1&quot;, &quot;d2&quot;):
+            servos[int(cmd[1]) - 1].disable()
+        elif cmd in (&quot;r1&quot;, &quot;r2&quot;):
+            servos[int(cmd[1]) - 1].enable()
+        elif cmd.startswith(&quot;s1 &quot;) or cmd.startswith(&quot;s2 &quot;):
+            idx = int(cmd[1]) - 1
+            try:
+                us = float(cmd.split()[1])
+            except (IndexError, ValueError):
+                print(&quot;  usage: s1 1500&quot;)
+                continue
+            servos[idx].set_pulse(us)
+            print(f&quot;  Servo {idx+1} -&gt; {servos[idx].pulse_us:.1f} us&quot;)
+        else:
+            print(&quot;  unknown command&quot;)
+
+
+def main():
+    if os.geteuid() != 0:
+        sys.exit(&quot;This needs root to write to /sys/class/pwm. Run with: sudo python3 servo_hwpwm_tuner.py&quot;)
+
+    parser = argparse.ArgumentParser(
+        description=&quot;Manual HARDWARE PWM tuner for 2x MG90S servos on Raspberry Pi 5&quot;
+    )
+    parser.add_argument(&quot;--chan1&quot;, type=int, default=0, help=&quot;pwm channel for servo 1 (default 0 = GPIO12)&quot;)
+    parser.add_argument(&quot;--chan2&quot;, type=int, default=1, help=&quot;pwm channel for servo 2 (default 1 = GPIO13)&quot;)
+    parser.add_argument(&quot;--min-us&quot;, type=float, default=500, help=&quot;minimum allowed pulse width (default 500)&quot;)
+    parser.add_argument(&quot;--max-us&quot;, type=float, default=2500, help=&quot;maximum allowed pulse width (default 2500)&quot;)
+    parser.add_argument(&quot;--start-us&quot;, type=float, default=1500, help=&quot;starting pulse width (default 1500)&quot;)
+    parser.add_argument(&quot;--coarse-step&quot;, type=float, default=50, help=&quot;live-jog coarse step in us (default 50)&quot;)
+    parser.add_argument(&quot;--fine-step&quot;, type=float, default=5, help=&quot;live-jog fine step in us (default 5)&quot;)
+    parser.add_argument(&quot;--manual&quot;, action=&quot;store_true&quot;, help=&quot;plain text input instead of the live-jog UI&quot;)
+    args = parser.parse_args()
+
+    chip = find_pwmchip()
+    print(f&quot;Using {chip}&quot;)
+
+    servos = [
+        HWPWM(chip, args.chan1, &quot;servo A&quot;, args.min_us, args.max_us, args.start_us),
+        HWPWM(chip, args.chan2, &quot;servo B&quot;, args.min_us, args.max_us, args.start_us),
+    ]
+
+    try:
+        if args.manual:
+            run_manual(servos)
+        else:
+            run_curses(servos, args.coarse_step, args.fine_step)
+    finally:
+        print(&quot;\nFinal pulse widths (write these down):&quot;)
+        for i, sv in enumerate(servos):
+            print(f&quot;  Servo {i+1} (pwm{sv.channel}): {sv.pulse_us:.1f} us&quot;)
+        for sv in servos:
+            sv.close()
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre></details>
+<details class="codefile"><summary><span class="path">code/baffle_control.py</span><span class="count">167 lines</span></summary><pre class="code"><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+CubeSat Baffle Deploy/Stow Controller — Iteration 1
+------------------------------------------------------
+State machine with two states: STOWED and DEPLOYED.
+Both servos always move together to the same hardcoded pulse width
+for a given state. Uses hardware PWM (RP1 pwm0/pwm1) for jitter-free
+timing — same base as servo_hwpwm_tuner.py.
+
+PREREQUISITE (already done):
+    /boot/firmware/config.txt contains:
+        dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4
+    and the Pi has been rebooted since.
+
+&gt;&gt;&gt; REPLACE THESE TWO VALUES with what you found using the tuner &lt;&lt;&lt;
+&quot;&quot;&quot;
+
+import glob
+import os
+import sys
+import time
+
+PERIOD_NS = 20_000_000  # 20ms period = 50Hz, standard for hobby servos
+SYSFS_PWM_ROOT = &quot;/sys/class/pwm&quot;
+
+# ============================================================
+# HARDCODED PWM VALUES — set these from your tuning session
+# ============================================================
+STOWED_US = 1500      # &lt;- pulse width (us) that holds the baffle stowed
+DEPLOYED_US = 2000    # &lt;- pulse width (us) that holds the baffle deployed
+MOVE_WAIT_S = 3        # seconds to block while the servos physically travel
+# ============================================================
+
+
+def find_pwmchip():
+    &quot;&quot;&quot;Find the pwmchip exposing at least 2 channels (from the pwm-2chan overlay).&quot;&quot;&quot;
+    candidates = sorted(glob.glob(f&quot;{SYSFS_PWM_ROOT}/pwmchip*&quot;))
+    if not candidates:
+        sys.exit(
+            &quot;No pwmchip found under /sys/class/pwm.\n&quot;
+            &quot;Check that the pwm-2chan overlay is in /boot/firmware/config.txt\n&quot;
+            &quot;and that you've rebooted since adding it.&quot;
+        )
+    for chip in candidates:
+        try:
+            with open(f&quot;{chip}/npwm&quot;) as f:
+                npwm = int(f.read().strip())
+            if npwm &gt;= 2:
+                return chip
+        except (FileNotFoundError, ValueError):
+            continue
+    return candidates[0]
+
+
+def write_sysfs(path, value):
+    with open(path, &quot;w&quot;) as f:
+        f.write(str(value))
+
+
+class HWPWM:
+    &quot;&quot;&quot;One /sys/class/pwm/&lt;chip&gt;/pwm&lt;N&gt; hardware PWM channel, fixed 50Hz.&quot;&quot;&quot;
+
+    def __init__(self, chip_path, channel, label):
+        self.chip_path = chip_path
+        self.channel = channel
+        self.chan_path = f&quot;{chip_path}/pwm{channel}&quot;
+        self.label = label
+        self.pulse_us = None
+
+        self._export()
+        write_sysfs(f&quot;{self.chan_path}/period&quot;, PERIOD_NS)
+        write_sysfs(f&quot;{self.chan_path}/enable&quot;, 1)
+
+    def _export(self):
+        if not os.path.isdir(self.chan_path):
+            try:
+                write_sysfs(f&quot;{self.chip_path}/export&quot;, self.channel)
+            except OSError as e:
+                sys.exit(f&quot;Failed exporting pwm channel {self.channel}: {e}&quot;)
+            for _ in range(20):
+                if os.path.isdir(self.chan_path):
+                    break
+                time.sleep(0.05)
+            else:
+                sys.exit(f&quot;pwm{self.channel} did not appear after export.&quot;)
+
+    def set_pulse(self, us):
+        self.pulse_us = us
+        write_sysfs(f&quot;{self.chan_path}/duty_cycle&quot;, int(us * 1000))
+
+    def close(self):
+        try:
+            write_sysfs(f&quot;{self.chan_path}/enable&quot;, 0)
+            write_sysfs(f&quot;{self.chip_path}/unexport&quot;, self.channel)
+        except OSError:
+            pass
+
+
+def drive_all(servos, pulse_us, label):
+    print(f&quot;Moving to {label} ({pulse_us}us)... please wait {MOVE_WAIT_S}s&quot;)
+    for sv in servos:
+        sv.set_pulse(pulse_us)
+    time.sleep(MOVE_WAIT_S)
+    print(f&quot;{label} complete.&quot;)
+
+
+def main():
+    if os.geteuid() != 0:
+        sys.exit(&quot;This needs root to write to /sys/class/pwm. Run with: sudo python3 baffle_control.py&quot;)
+
+    chip = find_pwmchip()
+    print(f&quot;Using {chip}&quot;)
+
+    servos = [
+        HWPWM(chip, 0, &quot;servo A&quot;),
+        HWPWM(chip, 1, &quot;servo B&quot;),
+    ]
+
+    state = &quot;DEPLOYED&quot;  # force the first drive_all below to actually move to STOWED
+    try:
+        # Startup: actively drive to STOWED, don't just assume it.
+        drive_all(servos, STOWED_US, &quot;STOWED (startup)&quot;)
+        state = &quot;STOWED&quot;
+
+        print(&quot;\nCommands: deploy | stow | status | quit\n&quot;)
+        while True:
+            cmd = input(f&quot;[{state}] &gt; &quot;).strip().lower()
+
+            if cmd in (&quot;q&quot;, &quot;quit&quot;, &quot;exit&quot;):
+                break
+
+            elif cmd == &quot;deploy&quot;:
+                if state == &quot;DEPLOYED&quot;:
+                    print(&quot;already deployed&quot;)
+                else:
+                    drive_all(servos, DEPLOYED_US, &quot;DEPLOYED&quot;)
+                    state = &quot;DEPLOYED&quot;
+
+            elif cmd == &quot;stow&quot;:
+                if state == &quot;STOWED&quot;:
+                    print(&quot;already stowed&quot;)
+                else:
+                    drive_all(servos, STOWED_US, &quot;STOWED&quot;)
+                    state = &quot;STOWED&quot;
+
+            elif cmd == &quot;status&quot;:
+                print(f&quot;current state: {state}&quot;)
+
+            else:
+                print(&quot;commands: deploy | stow | status | quit&quot;)
+
+    except KeyboardInterrupt:
+        print(&quot;\n(Ctrl+C caught)&quot;)
+
+    finally:
+        # Shutdown: always leave the baffle stowed before closing.
+        if state != &quot;STOWED&quot;:
+            drive_all(servos, STOWED_US, &quot;STOWED (shutdown)&quot;)
+        else:
+            print(&quot;Already stowed — no move needed before shutdown.&quot;)
+        for sv in servos:
+            sv.close()
+        print(&quot;Shut down cleanly.&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre></details>
+  </article>
+</div>
+</body>
+</html>

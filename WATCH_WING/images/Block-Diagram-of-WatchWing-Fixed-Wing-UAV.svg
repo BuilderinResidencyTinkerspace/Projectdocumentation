@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="560" viewBox="0 0 750 560">
+  <!--
+    Block diagram: WatchWing fixed-wing patrol UAV (digestdocs, CircuitDigest style)
+    Pilot link (FS-i6 -> FS-iA10B -> PPM) and GPS feed the Pixhawk running ArduPlane.
+    The Pixhawk drives four SG90 servos and the SimonK ESC; the ESC's BEC powers the servo rail.
+    Mission Planner connects over USB for setup only (no telemetry radio).
+    The dashed Pi box and link were bench-tested only and were not on the flown aircraft.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+      .dbox { fill: #ffffff; stroke: #000000; stroke-width: 3; stroke-dasharray: 10 7; }
+      .wire { fill: none; stroke: #000000; stroke-width: 4; stroke-linejoin: miter; }
+      .dash { fill: none; stroke: #000000; stroke-width: 4; stroke-dasharray: 11 8; }
+      .lbl  { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 15px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .note { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 13.5px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="560"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Row A: pilot link and the bench-only camera -->
+  <rect class="box" x="20" y="20" width="180" height="70"/>
+  <text class="lbl" x="110" y="45">Pilot Transmitter</text>
+  <text class="lbl" x="110" y="66">(FlySky FS-i6)</text>
+
+  <rect class="box" x="265" y="20" width="220" height="70"/>
+  <text class="lbl" x="375" y="45">RC Receiver</text>
+  <text class="lbl" x="375" y="66">(FS-iA10B)</text>
+
+  <rect class="dbox" x="550" y="20" width="180" height="70"/>
+  <text class="lbl" x="640" y="45">Camera Computer</text>
+  <text class="lbl" x="640" y="66">(Pi Zero 2 W)</text>
+
+  <!-- Row B: sensing, flight controller, servos -->
+  <rect class="box" x="20" y="170" width="180" height="70"/>
+  <text class="lbl" x="110" y="195">GPS + Compass</text>
+  <text class="lbl" x="110" y="216">(M10 Module)</text>
+
+  <rect class="box" x="265" y="170" width="220" height="70"/>
+  <text class="lbl" x="375" y="195">Flight Controller</text>
+  <text class="lbl" x="375" y="216">(Pixhawk 2.4.8 + ArduPlane)</text>
+
+  <rect class="box" x="550" y="170" width="180" height="70"/>
+  <text class="lbl" x="640" y="195">Control Servos</text>
+  <text class="lbl" x="640" y="216">(4 x SG90)</text>
+
+  <!-- Row C: ground station, ESC, motor -->
+  <rect class="box" x="20" y="330" width="180" height="70"/>
+  <text class="lbl" x="110" y="355">Ground Station</text>
+  <text class="lbl" x="110" y="376">(Mission Planner)</text>
+
+  <rect class="box" x="265" y="330" width="220" height="70"/>
+  <text class="lbl" x="375" y="355">ESC</text>
+  <text class="lbl" x="375" y="376">(SimonK 30A with BEC)</text>
+
+  <rect class="box" x="550" y="330" width="180" height="70"/>
+  <text class="lbl" x="640" y="355">Brushless Motor</text>
+  <text class="lbl" x="640" y="376">(A2212 1400KV)</text>
+
+  <!-- Row D: battery -->
+  <rect class="box" x="265" y="470" width="220" height="70"/>
+  <text class="lbl" x="375" y="495">Flight Battery</text>
+  <text class="lbl" x="375" y="516">(3S LiPo 3300mAh)</text>
+
+  <!-- Connectors -->
+  <path class="wire" d="M200,55 L261,55" marker-end="url(#head)"/>
+  <text class="note" x="231" y="40">2.4 GHz</text>
+
+  <path class="wire" d="M375,90 L375,166" marker-end="url(#head)"/>
+  <text class="note" x="347" y="132">PPM</text>
+
+  <path class="dash" d="M640,90 L640,128 L440,128 L440,166" marker-end="url(#head)"/>
+  <text class="note" x="538" y="113">Planned MAVLink (not flown)</text>
+
+  <path class="wire" d="M200,205 L261,205" marker-end="url(#head)"/>
+
+  <path class="wire" d="M485,205 L546,205" marker-end="url(#head)"/>
+  <text class="note" x="516" y="190">PWM</text>
+
+  <path class="wire" d="M200,365 L235,365 L235,228 L261,228" marker-end="url(#head)"/>
+  <text class="note" x="110" y="416">USB, setup only</text>
+
+  <path class="wire" d="M330,240 L330,326" marker-end="url(#head)"/>
+  <text class="note" x="296" y="284">Throttle</text>
+
+  <path class="wire" d="M420,330 L420,244" marker-end="url(#head)"/>
+  <text class="note" x="462" y="284">5V BEC</text>
+
+  <path class="wire" d="M485,365 L546,365" marker-end="url(#head)"/>
+  <text class="note" x="516" y="350">3-phase</text>
+
+  <path class="wire" d="M375,470 L375,404" marker-end="url(#head)"/>
+  <text class="note" x="408" y="437">11.1V</text>
+</svg>

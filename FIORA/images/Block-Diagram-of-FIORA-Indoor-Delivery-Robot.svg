@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="660" viewBox="0 0 750 660">
+  <!--
+    Block diagram: FIORA indoor delivery robot (digestdocs, CircuitDigest style)
+    Top half: sensing and computing (RPLIDAR A1M8 -> Raspberry Pi 5 with ROS 2 -> RViz2 map view, power bank).
+    Bottom half: manual drive (phone app -> HC-05 -> Arduino Uno + L293D shield -> 4 x GB37 -> mecanum wheels, LiPo).
+    Dashed boxes and arrows are planned and not built: the Telegram bot and the Pi-to-Arduino motion link.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+      .dbox { fill: #ffffff; stroke: #000000; stroke-width: 3; stroke-dasharray: 10 7; }
+      .wire { fill: none; stroke: #000000; stroke-width: 4; stroke-linejoin: miter; }
+      .dash { fill: none; stroke: #000000; stroke-width: 4; stroke-dasharray: 11 8; }
+      .lbl  { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 15px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .note { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 13.5px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="660"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Row A: sensing and computing -->
+  <rect class="box" x="20" y="20" width="180" height="70"/>
+  <text class="lbl" x="110" y="45">LiDAR</text>
+  <text class="lbl" x="110" y="66">(RPLIDAR A1M8)</text>
+
+  <rect class="box" x="265" y="20" width="220" height="70"/>
+  <text class="lbl" x="375" y="45">Onboard Computer</text>
+  <text class="lbl" x="375" y="66">(Raspberry Pi 5 + ROS 2)</text>
+
+  <rect class="box" x="550" y="20" width="180" height="70"/>
+  <text class="lbl" x="640" y="45">Map View</text>
+  <text class="lbl" x="640" y="66">(RViz2)</text>
+
+  <!-- Row B -->
+  <rect class="box" x="20" y="160" width="180" height="70"/>
+  <text class="lbl" x="110" y="185">Pi Supply</text>
+  <text class="lbl" x="110" y="206">(Power Bank)</text>
+
+  <rect class="dbox" x="550" y="160" width="180" height="70"/>
+  <text class="lbl" x="640" y="185">Delivery Requests</text>
+  <text class="lbl" x="640" y="206">(Telegram Bot)</text>
+
+  <!-- Row C: manual control -->
+  <rect class="box" x="20" y="320" width="180" height="70"/>
+  <text class="lbl" x="110" y="345">Phone</text>
+  <text class="lbl" x="110" y="366">(Bluetooth Car App)</text>
+
+  <rect class="box" x="285" y="320" width="160" height="70"/>
+  <text class="lbl" x="365" y="345">Bluetooth Module</text>
+  <text class="lbl" x="365" y="366">(HC-05)</text>
+
+  <!-- Row D: drive -->
+  <rect class="box" x="20" y="450" width="180" height="70"/>
+  <text class="lbl" x="110" y="475">Motor Battery</text>
+  <text class="lbl" x="110" y="496">(LiPo)</text>
+
+  <rect class="box" x="265" y="450" width="220" height="70"/>
+  <text class="lbl" x="375" y="475">Motor Controller</text>
+  <text class="lbl" x="375" y="496">(Arduino Uno + L293D Shield)</text>
+
+  <rect class="box" x="550" y="450" width="180" height="70"/>
+  <text class="lbl" x="640" y="475">Drive Motors</text>
+  <text class="lbl" x="640" y="496">(4 x GB37 12V)</text>
+
+  <!-- Row E -->
+  <rect class="box" x="550" y="570" width="180" height="70"/>
+  <text class="lbl" x="640" y="595">Mecanum Wheels</text>
+  <text class="lbl" x="640" y="616">(x4)</text>
+
+  <!-- Legend -->
+  <rect class="box" x="24" y="582" width="30" height="18"/>
+  <text class="note" x="114" y="592">Built and tested</text>
+  <rect class="dbox" x="24" y="612" width="30" height="18"/>
+  <text class="note" x="132" y="622">Planned, not built yet</text>
+
+  <!-- Connectors: sensing -->
+  <path class="wire" d="M200,55 L261,55" marker-end="url(#head)"/>
+  <text class="note" x="231" y="40">USB</text>
+  <path class="wire" d="M485,55 L546,55" marker-end="url(#head)"/>
+  <text class="note" x="516" y="40">Scans</text>
+  <path class="wire" d="M110,160 L110,125 L300,125 L300,94" marker-end="url(#head)"/>
+  <text class="note" x="205" y="112">5V USB-C</text>
+  <path class="dash" d="M640,160 L640,125 L505,125 L505,76 L489,76" marker-end="url(#head)"/>
+
+  <!-- Connectors: manual drive -->
+  <path class="wire" d="M200,355 L281,355" marker-end="url(#head)"/>
+  <text class="note" x="240" y="340">Bluetooth</text>
+  <path class="wire" d="M365,390 L365,446" marker-end="url(#head)"/>
+  <text class="note" x="335" y="418">Serial</text>
+  <path class="wire" d="M200,485 L261,485" marker-end="url(#head)"/>
+  <path class="wire" d="M485,485 L546,485" marker-end="url(#head)"/>
+  <path class="wire" d="M640,520 L640,566" marker-end="url(#head)"/>
+
+  <!-- Planned motion link Pi -> Arduino -->
+  <path class="dash" d="M470,90 L470,446" marker-end="url(#head)"/>
+  <text class="note" x="560" y="300">Planned motion</text>
+  <text class="note" x="560" y="318">commands</text>
+</svg>

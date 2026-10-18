@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="560" viewBox="0 0 750 560">
+  <!--
+    Planned wiring: AURABot pond cleaning robot. Black on white. Nothing here has been wired yet.
+    From the repo: 12V battery (LiPo or SLA, not decided), fuse, power switch, buck converter, ESP32 DevKit V1,
+    2 to 3 motor drivers (BTS7960 or L298N), Orange 12V motors for the conveyor and two paddles,
+    and an emergency stop button read by the ESP32 firmware as an input.
+    Assumed (not stated): fuse then switch order, the buck converter feeding the ESP32's VIN,
+    two driver boards as drawn, and which GPIO pins are used.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .sig  { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 7 5; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .ban  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 14px;
+              fill: #000000; text-anchor: middle; letter-spacing: 1.5px; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="560"/>
+
+  <text class="ban" x="375" y="28">PLANNED WIRING  ·  NOT BUILT  ·  PIN NUMBERS NOT DECIDED</text>
+
+  <!-- Power chain -->
+  <rect class="box" x="30" y="55" width="140" height="70" rx="4"/>
+  <text class="lbl" x="100" y="75">12V BATTERY</text>
+  <text class="sm" x="100" y="95" text-anchor="middle">LIPO OR SLA</text>
+  <text class="sm" x="100" y="111" text-anchor="middle">NOT DECIDED</text>
+
+  <rect class="box" x="200" y="75" width="60" height="30" rx="4"/>
+  <text class="lbl" x="230" y="90">FUSE</text>
+  <rect class="box" x="290" y="75" width="80" height="30" rx="4"/>
+  <text class="lbl" x="330" y="90">SWITCH</text>
+
+  <path class="w" d="M170,90 L200,90 M260,90 L290,90 M370,90 L675,90"/>
+  <text class="sm" x="560" y="78">12V</text>
+  <circle cx="390" cy="90" r="3.5" fill="#000"/><circle cx="525" cy="90" r="3.5" fill="#000"/>
+
+  <!-- Buck converter and ESP32 -->
+  <rect class="box" x="280" y="160" width="130" height="56" rx="4"/>
+  <text class="lbl" x="345" y="181">BUCK</text>
+  <text class="lbl" x="345" y="199">CONVERTER</text>
+  <path class="w" d="M390,90 L390,160"/>
+
+  <rect class="box" x="250" y="290" width="170" height="80" rx="4"/>
+  <text class="lbl" x="335" y="316">ESP32 DEVKIT V1</text>
+  <text class="sm" x="335" y="338" text-anchor="middle">WI-FI HOTSPOT,</text>
+  <text class="sm" x="335" y="354" text-anchor="middle">WEB JOYSTICK PAGE</text>
+  <path class="w" d="M345,216 L345,290"/>
+  <text class="sm" x="352" y="253">5V to VIN</text>
+
+  <!-- Emergency stop -->
+  <rect class="box" x="30" y="300" width="140" height="60" rx="4"/>
+  <text class="lbl" x="100" y="322">EMERGENCY</text>
+  <text class="lbl" x="100" y="340">STOP BUTTON</text>
+  <path class="sig" d="M170,330 L250,330"/>
+  <text class="sm" x="176" y="316">GPIO input</text>
+
+  <!-- Motor drivers -->
+  <rect class="box" x="470" y="160" width="110" height="70" rx="4"/>
+  <text class="lbl" x="525" y="186">DRIVER 1</text>
+  <text class="sm" x="525" y="206" text-anchor="middle">BTS7960 / L298N</text>
+  <rect class="box" x="620" y="160" width="110" height="70" rx="4"/>
+  <text class="lbl" x="675" y="186">DRIVER 2</text>
+  <text class="sm" x="675" y="206" text-anchor="middle">BTS7960 / L298N</text>
+  <path class="w" d="M525,90 L525,160 M675,90 L675,160"/>
+
+  <!-- Control signals from the ESP32 (pins not decided) -->
+  <path class="sig" d="M420,310 L450,310 L450,198 L470,198"/>
+  <path class="sig" d="M420,350 L516,350 A9,9 0 0 1 534,350 L600,350 L600,212 L620,212"/>
+  <text class="sm" x="538" y="368">control pins (TBD)</text>
+
+  <!-- Motors -->
+  <rect class="box" x="470" y="420" width="110" height="64" rx="4"/>
+  <text class="lbl" x="525" y="444">CONVEYOR</text>
+  <text class="sm" x="525" y="466" text-anchor="middle">ORANGE 12V</text>
+  <rect class="box" x="620" y="420" width="110" height="64" rx="4"/>
+  <text class="lbl" x="675" y="444">PADDLES L + R</text>
+  <text class="sm" x="675" y="466" text-anchor="middle">2 x ORANGE 12V</text>
+
+  <path class="thin" d="M521,230 L521,420 M529,230 L529,420"/>
+  <path class="thin" d="M671,230 L671,420 M679,230 L679,420"/>
+  <text class="sm" x="536" y="394">M+ / M−</text>
+  <text class="sm" x="686" y="394">M+ / M−</text>
+
+  <!-- Notes and legend -->
+  <text class="note" x="375" y="508">Assumed: fuse before switch, the buck converter feeding the ESP32's VIN, and two driver boards (the repo lists 2 to 3).</text>
+  <path class="w" d="M70,540 L110,540"/><text class="sm" x="118" y="540">Power</text>
+  <path class="sig" d="M210,540 L250,540"/><text class="sm" x="258" y="540">Control signal</text>
+  <path class="thin" d="M380,536 L420,536"/><path class="thin" d="M380,544 L420,544"/><text class="sm" x="428" y="540">Motor leads</text>
+</svg>

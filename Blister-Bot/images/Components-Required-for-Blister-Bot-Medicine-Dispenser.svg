@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="480" viewBox="0 0 750 480">
+  <!-- Components grid: Blister Bot. Black line drawings on white, 5 x 2 grid, bold label under each. -->
+  <defs>
+    <style>
+      .bg  { fill: #ffffff; }
+      .o   { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .t   { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f   { fill: #000000; }
+      .lbl { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 0.4px; }
+      .in  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+             fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="480"/>
+
+  <!-- 1. Arduino UNO Q (centre 75) -->
+  <rect class="o" x="22" y="72" width="106" height="74" rx="7"/>
+  <rect class="t" x="40" y="77" width="78" height="7"/>
+  <rect class="t" x="32" y="135" width="76" height="7"/>
+  <rect class="o" x="38" y="94" width="34" height="32" rx="2"/>
+  <text class="in" x="55" y="110">QRB</text>
+  <rect class="o" x="80" y="98" width="34" height="24" rx="2"/>
+  <text class="in" x="97" y="110">STM</text>
+  <rect class="o" x="12" y="100" width="12" height="16" rx="2"/>
+  <text class="lbl" x="75" y="205">ARDUINO UNO Q</text>
+
+  <!-- 2. 28BYJ-48 (centre 225) -->
+  <circle class="o" cx="225" cy="110" r="34"/>
+  <path class="o" d="M184,96 L190,96 L190,124 L184,124 Z"/>
+  <path class="o" d="M260,96 L266,96 L266,124 L260,124 Z"/>
+  <circle class="o" cx="225" cy="92" r="9"/>
+  <circle class="f" cx="225" cy="92" r="3"/>
+  <text class="in" x="225" y="122">28BYJ-48</text>
+  <path class="t" d="M240,140 Q250,160 270,162"/>
+  <path class="t" d="M235,142 Q244,166 268,170"/>
+  <text class="lbl" x="225" y="205">28BYJ-48 ×3</text>
+
+  <!-- 3. Stepper driver (centre 375) -->
+  <rect class="o" x="322" y="78" width="106" height="64" rx="5"/>
+  <rect class="o" x="350" y="96" width="44" height="26" rx="2"/>
+  <text class="in" x="372" y="109">DRIVER</text>
+  <path class="t" d="M332,88 L332,132 M338,88 L338,132"/>
+  <circle class="t" cx="412" cy="92" r="3"/><circle class="t" cx="412" cy="104" r="3"/>
+  <circle class="t" cx="412" cy="116" r="3"/><circle class="t" cx="412" cy="128" r="3"/>
+  <text class="lbl" x="375" y="205">STEPPER DRIVER ×3</text>
+
+  <!-- 4. USB webcam (centre 525) -->
+  <rect class="o" x="485" y="76" width="80" height="54" rx="10"/>
+  <circle class="o" cx="525" cy="103" r="18"/>
+  <circle class="o" cx="525" cy="103" r="8"/>
+  <path class="o" d="M510,130 L540,130 L548,146 L502,146 Z"/>
+  <text class="lbl" x="525" y="205">USB WEBCAM ×2</text>
+
+  <!-- 5. USB microphone (centre 675) -->
+  <rect class="o" x="660" y="66" width="30" height="50" rx="15"/>
+  <path class="t" d="M664,84 L686,84 M664,94 L686,94"/>
+  <path class="t" d="M652,100 Q652,132 675,132 Q698,132 698,100"/>
+  <path class="t" d="M675,132 L675,150 M660,150 L690,150"/>
+  <text class="lbl" x="675" y="205">USB MICROPHONE</text>
+
+  <!-- 6. Wired earphone (centre 75) -->
+  <circle class="o" cx="52" cy="300" r="14"/>
+  <circle class="o" cx="98" cy="300" r="14"/>
+  <path class="t" d="M52,314 Q60,340 75,346 M98,314 Q90,340 75,346 M75,346 L75,372"/>
+  <rect class="o" x="70" y="372" width="10" height="16" rx="2"/>
+  <text class="lbl" x="75" y="430">WIRED EARPHONE</text>
+
+  <!-- 7. 4 x AA pack (centre 225) -->
+  <rect class="o" x="170" y="298" width="110" height="64" rx="5"/>
+  <rect class="t" x="178" y="306" width="94" height="10" rx="5"/>
+  <rect class="t" x="178" y="320" width="94" height="10" rx="5"/>
+  <rect class="t" x="178" y="334" width="94" height="10" rx="5"/>
+  <rect class="t" x="178" y="348" width="94" height="10" rx="5"/>
+  <path class="t" d="M280,316 Q300,320 302,340 M280,322 Q294,330 296,350"/>
+  <text class="lbl" x="225" y="430">6V 4×AA PACK</text>
+
+  <!-- 8. Printed gantry (centre 375) -->
+  <path class="o" d="M325,290 L425,290 L425,306 L341,306 L341,380 L325,380 Z"/>
+  <path class="t" d="M345,298 L421,298" stroke-dasharray="3 3"/>
+  <path class="t" d="M333,312 L333,376" stroke-dasharray="3 3"/>
+  <circle class="o" cx="418" cy="284" r="9"/>
+  <circle class="o" cx="333" cy="388" r="9"/>
+  <text class="lbl" x="375" y="430">3D-PRINTED GANTRY</text>
+
+  <!-- 9. Medicine wheel, end view (centre 525, 334) -->
+  <path class="o" d="M521,334 L521,286 L529,286 L529,334 Z"/>
+  <path class="o" d="M521,334 L521,382 L529,382 L529,334 Z"/>
+  <path class="o" d="M525,330 L477,330 L477,338 L525,338 Z"/>
+  <path class="o" d="M525,330 L573,330 L573,338 L525,338 Z"/>
+  <path class="t" d="M509,282 L541,282 M509,386 L541,386 M473,318 L473,350 M577,318 L577,350"/>
+  <path class="t" d="M509,282 L509,290 M541,282 L541,290 M509,386 L509,378 M541,386 L541,378"/>
+  <path class="t" d="M473,318 L481,318 M473,350 L481,350 M577,318 L569,318 M577,350 L569,350"/>
+  <circle class="o" cx="525" cy="334" r="11"/>
+  <path class="f" d="M521,330 L529,330 L529,336 L521,336 Z"/>
+  <text class="lbl" x="525" y="430">MEDICINE WHEEL</text>
+
+  <!-- 10. Blister pack (centre 675) -->
+  <rect class="o" x="637" y="280" width="76" height="110" rx="8"/>
+  <circle class="o" cx="656" cy="300" r="9"/><circle class="o" cx="694" cy="300" r="9"/>
+  <circle class="o" cx="656" cy="324" r="9"/><circle class="o" cx="694" cy="324" r="9"/>
+  <circle class="o" cx="656" cy="348" r="9"/><circle class="o" cx="694" cy="348" r="9"/>
+  <circle class="o" cx="656" cy="372" r="9"/><circle class="o" cx="694" cy="372" r="9"/>
+  <text class="lbl" x="675" y="430">BLISTER PACK</text>
+</svg>

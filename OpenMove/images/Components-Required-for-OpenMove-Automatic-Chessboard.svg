@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!-- Components grid: OpenMove automatic chessboard prototype. Black line drawings on white, 5 x 2 grid, bold label under each. -->
+  <defs>
+    <style>
+      .bg  { fill: #ffffff; }
+      .o   { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .t   { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f   { fill: #000000; }
+      .lbl { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 0.4px; }
+      .in  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+             fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- 1. Arduino Uno (cx 75) -->
+  <rect class="o" x="14" y="72" width="118" height="80" rx="6"/>
+  <rect class="o" x="6" y="84" width="20" height="22" rx="2"/>
+  <rect class="o" x="8" y="120" width="16" height="22" rx="2"/>
+  <rect class="t" x="44" y="77" width="80" height="7"/>
+  <rect class="t" x="52" y="140" width="72" height="7"/>
+  <rect class="o" x="56" y="104" width="62" height="14" rx="2"/>
+  <text class="in" x="87" y="111.5">328P</text>
+  <circle class="t" cx="122" cy="94" r="3"/><circle class="t" cx="40" cy="146" r="3"/>
+  <text class="lbl" x="75" y="205">ARDUINO UNO</text>
+
+  <!-- 2. CNC Shield V3 (cx 225) -->
+  <rect class="o" x="164" y="66" width="122" height="92" rx="5"/>
+  <rect class="o" x="176" y="80" width="28" height="36" rx="2"/>
+  <rect class="o" x="210" y="80" width="28" height="36" rx="2"/>
+  <rect class="t" x="244" y="80" width="28" height="36" rx="2" stroke-dasharray="3 3"/>
+  <text class="in" x="190" y="98">X</text><text class="in" x="224" y="98">Y</text><text class="in" x="258" y="98">Z</text>
+  <rect class="t" x="174" y="128" width="64" height="8"/>
+  <rect class="o" x="252" y="126" width="24" height="18" rx="2"/>
+  <circle class="t" cx="258" cy="135" r="2.5"/><circle class="t" cx="270" cy="135" r="2.5"/>
+  <text class="lbl" x="225" y="205">CNC SHIELD V3</text>
+
+  <!-- 3. DRV8825 x2 (cx 375) -->
+  <rect class="o" x="336" y="80" width="46" height="62" rx="3"/>
+  <rect class="o" x="368" y="72" width="46" height="62" rx="3"/>
+  <path class="t" d="M376,84 L406,84 M376,90 L406,90 M376,96 L406,96 M376,102 L406,102 M376,108 L406,108"/>
+  <circle class="t" cx="391" cy="122" r="5"/>
+  <path class="t" d="M371,140 L371,146 M379,140 L379,146 M387,140 L387,146 M395,140 L395,146 M403,140 L403,146 M411,140 L411,146"/>
+  <text class="lbl" x="375" y="205">DRV8825 ×2</text>
+
+  <!-- 4. NEMA 17 x2 (cx 525) -->
+  <rect class="o" x="482" y="72" width="76" height="76" rx="8"/>
+  <circle class="t" cx="520" cy="110" r="22"/>
+  <circle class="o" cx="520" cy="110" r="6"/>
+  <circle class="t" cx="492" cy="82" r="3"/><circle class="t" cx="548" cy="82" r="3"/>
+  <circle class="t" cx="492" cy="138" r="3"/><circle class="t" cx="548" cy="138" r="3"/>
+  <path class="t" d="M558,128 C576,134 582,148 576,160"/>
+  <path class="t" d="M558,134 C572,142 574,152 568,162"/>
+  <text class="lbl" x="525" y="205">NEMA 17 ×2</text>
+
+  <!-- 5. GT2 belt + 20T pulley (cx 675) -->
+  <circle class="o" cx="640" cy="110" r="20"/>
+  <circle class="t" cx="640" cy="110" r="5"/>
+  <path class="t" d="M640,90 L716,90 M640,130 L716,130"/>
+  <path class="t" d="M716,90 A20,20 0 0 1 716,130"/>
+  <path class="t" d="M650,94 L650,90 M660,94 L660,90 M670,94 L670,90 M680,94 L680,90 M690,94 L690,90 M700,94 L700,90 M710,94 L710,90"/>
+  <text class="lbl" x="675" y="205">GT2 BELT, 20T</text>
+
+  <!-- 6. 4 mm rods x2 (cx 75) -->
+  <rect class="o" x="12" y="300" width="126" height="9" rx="4"/>
+  <rect class="o" x="12" y="326" width="126" height="9" rx="4"/>
+  <text class="in" x="75" y="352">300 mm</text>
+  <text class="lbl" x="75" y="430">4 mm ROD ×2</text>
+
+  <!-- 7. MG90S servo (cx 225) -->
+  <rect class="o" x="190" y="300" width="64" height="40" rx="3"/>
+  <rect class="o" x="180" y="310" width="84" height="8" rx="2"/>
+  <circle class="o" cx="210" cy="292" r="8"/>
+  <rect class="o" x="204" y="282" width="40" height="8" rx="3"/>
+  <text class="in" x="222" y="330">MG90S</text>
+  <path class="t" d="M254,330 C270,336 276,350 272,364"/>
+  <text class="lbl" x="225" y="430">MG90S SERVO</text>
+
+  <!-- 8. Permanent magnet (cx 375) -->
+  <ellipse class="o" cx="375" cy="330" rx="40" ry="12"/>
+  <path class="t" d="M335,316 L335,330 M415,316 L415,330"/>
+  <ellipse class="o" cx="375" cy="316" rx="40" ry="12"/>
+  <text class="in" x="375" y="316">N</text>
+  <text class="lbl" x="375" y="430">MAGNET</text>
+
+  <!-- 9. 12V 3A adapter (cx 525) -->
+  <rect class="o" x="490" y="290" width="70" height="52" rx="6"/>
+  <text class="in" x="525" y="310">12V</text>
+  <text class="in" x="525" y="327">3A</text>
+  <path class="t" d="M525,342 C525,360 505,364 505,378"/>
+  <rect class="o" x="500" y="378" width="10" height="14" rx="2"/>
+  <text class="lbl" x="525" y="430">12V 3A ADAPTER</text>
+
+  <!-- 10. Printed linear servo rack (cx 675) -->
+  <rect class="o" x="616" y="336" width="118" height="12" rx="2"/>
+  <path class="t" d="M622,336 L622,330 M630,336 L630,330 M638,336 L638,330 M646,336 L646,330 M654,336 L654,330 M662,336 L662,330 M670,336 L670,330 M678,336 L678,330 M686,336 L686,330 M694,336 L694,330 M702,336 L702,330 M710,336 L710,330 M718,336 L718,330 M726,336 L726,330"/>
+  <circle class="o" cx="660" cy="312" r="16"/>
+  <circle class="t" cx="660" cy="312" r="4"/>
+  <rect class="t" x="682" y="290" width="40" height="34" rx="2"/>
+  <text class="lbl" x="675" y="422">PRINTED RACK</text>
+  <text class="lbl" x="675" y="440">AND PINION</text>
+</svg>

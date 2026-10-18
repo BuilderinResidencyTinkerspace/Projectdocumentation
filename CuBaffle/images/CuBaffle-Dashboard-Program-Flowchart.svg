@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="900" viewBox="0 0 750 900">
+  <!--
+    Program workflow: CuBaffle dashboard, code/baffle_phase3.py (digestdocs, CircuitDigest style)
+    Endless loop: every branch returns to "Wait for a Button Press".
+    Values from the code: STOWED_US 2300, DEPLOYED_US 1600, MOVE_TIME_S 2.5, SETTLE_S 0.3,
+    STARTUP_WAIT_S 3, 640 x 480 camera frames, Flask on port 5000, HTTP 409 when busy.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="900"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">sudo python3</text>
+
+  <!-- Init -->
+  <rect class="proc" x="215" y="92" width="320" height="58"/>
+  <text class="t tb" x="375" y="110">Start PWM and Camera</text>
+  <text class="t" x="375" y="131">pwmchip0 at 50 Hz, Pi camera at 640 x 480</text>
+
+  <rect class="proc" x="215" y="172" width="320" height="58"/>
+  <text class="t tb" x="375" y="190">Snap to STOWED</text>
+  <text class="t" x="375" y="211">2300 µs, wait 3 s, start Flask on port 5000</text>
+
+  <!-- Loop target -->
+  <rect class="proc" x="215" y="252" width="320" height="56"/>
+  <text class="t tb" x="375" y="270">Wait for a Button Press</text>
+  <text class="t" x="375" y="291">Deploy or Stow from the dashboard</text>
+
+  <!-- D1 -->
+  <polygon class="dec" points="375,332 467,386 375,440 283,386"/>
+  <text class="t tb" x="375" y="376">Move in</text>
+  <text class="t tb" x="375" y="397">Progress ?</text>
+  <rect class="out" x="505" y="354" width="215" height="64"/>
+  <text class="t tb" x="612" y="375">Ignore the Command</text>
+  <text class="t" x="612" y="397">HTTP 409, line in the log</text>
+
+  <!-- D2 -->
+  <polygon class="dec" points="375,464 467,518 375,572 283,518"/>
+  <text class="t tb" x="375" y="508">Already in</text>
+  <text class="t tb" x="375" y="529">That State ?</text>
+  <rect class="out" x="505" y="486" width="215" height="64"/>
+  <text class="t tb" x="612" y="507">Log Only</text>
+  <text class="t" x="612" y="529">"already deployed" or "stowed"</text>
+
+  <!-- Move -->
+  <rect class="proc" x="215" y="596" width="320" height="66"/>
+  <text class="t tb" x="375" y="614">Smoothstep Ramp</text>
+  <text class="t" x="375" y="634">2300 to 1600 µs, or back, over 2.5 s,</text>
+  <text class="t" x="375" y="651">then settle for 0.3 s</text>
+
+  <rect class="proc" x="215" y="684" width="320" height="56"/>
+  <text class="t tb" x="375" y="702">Capture a Frame</text>
+  <text class="t" x="375" y="723">saved as the stowed or deployed photo</text>
+
+  <!-- D3 -->
+  <polygon class="dec" points="375,764 467,818 375,872 283,818"/>
+  <text class="t tb" x="375" y="808">Both Photos</text>
+  <text class="t tb" x="375" y="829">Captured ?</text>
+  <rect class="out" x="505" y="786" width="215" height="64"/>
+  <text class="t tb" x="612" y="807">Compare Glare Region</text>
+  <text class="t" x="612" y="829">brightness change and heatmap</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,150 L375,168" marker-end="url(#head)"/>
+  <path class="wire" d="M375,230 L375,248" marker-end="url(#head)"/>
+  <path class="wire" d="M375,308 L375,328" marker-end="url(#head)"/>
+  <path class="wire" d="M375,440 L375,460" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="453">No</text>
+  <path class="wire" d="M375,572 L375,592" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="585">No</text>
+  <path class="wire" d="M375,662 L375,680" marker-end="url(#head)"/>
+  <path class="wire" d="M375,740 L375,760" marker-end="url(#head)"/>
+
+  <!-- Yes exits -->
+  <path class="wire" d="M467,386 L501,386" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="374">Yes</text>
+  <path class="wire" d="M467,518 L501,518" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="506">Yes</text>
+  <path class="wire" d="M467,818 L501,818" marker-end="url(#head)"/>
+  <text class="yn" x="472" y="806">Yes</text>
+
+  <!-- Return paths -->
+  <path class="wire" d="M720,386 L738,386"/>
+  <path class="wire" d="M720,518 L738,518"/>
+  <path class="wire" d="M720,818 L738,818 L738,280 L539,280" marker-end="url(#head)"/>
+  <path class="wire" d="M283,818 L150,818 L150,280 L211,280" marker-end="url(#head)"/>
+  <text class="yn" x="248" y="806">No</text>
+</svg>

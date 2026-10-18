@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="630" viewBox="0 0 750 630">
+  <!--
+    Block diagram: AURABot pond cleaning robot (digestdocs, CircuitDigest style)
+    Solid boxes are built; dashed boxes are planned and not fitted yet.
+    Control: phone -> ESP32 Wi-Fi hotspot -> motor drivers -> conveyor motor and two paddle motors.
+    The emergency stop is an input to the ESP32. The 12V battery feeds the drivers, and the ESP32 through a buck converter.
+    Mechanics: the driven top roller turns the mesh belt, which lifts litter and weed into the bin; everything rides on two PVC hulls.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+      .dbox { fill: #ffffff; stroke: #000000; stroke-width: 3; stroke-dasharray: 10 7; }
+      .wire { fill: none; stroke: #000000; stroke-width: 4; stroke-linejoin: miter; }
+      .lbl  { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 15px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .note { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+              font-size: 13.5px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="630"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Row 1: phone, controller, emergency stop -->
+  <rect class="dbox" x="20" y="20" width="180" height="66"/>
+  <text class="lbl" x="110" y="43">Phone</text>
+  <text class="lbl" x="110" y="64">(Web Joystick)</text>
+
+  <rect class="dbox" x="285" y="20" width="180" height="66"/>
+  <text class="lbl" x="375" y="43">Controller</text>
+  <text class="lbl" x="375" y="64">(ESP32 DevKit V1)</text>
+
+  <rect class="dbox" x="550" y="20" width="180" height="66"/>
+  <text class="lbl" x="640" y="43">Emergency Stop</text>
+  <text class="lbl" x="640" y="64">(Push Button)</text>
+
+  <!-- Row 2: power, motor drivers -->
+  <rect class="dbox" x="20" y="160" width="180" height="66"/>
+  <text class="lbl" x="110" y="183">12V Battery</text>
+  <text class="lbl" x="110" y="204">(Fuse, Switch, Buck)</text>
+
+  <rect class="dbox" x="285" y="160" width="180" height="66"/>
+  <text class="lbl" x="375" y="183">Motor Drivers</text>
+  <text class="lbl" x="375" y="204">(BTS7960 or L298N)</text>
+
+  <!-- Row 3: motors -->
+  <rect class="dbox" x="285" y="300" width="180" height="66"/>
+  <text class="lbl" x="375" y="323">Conveyor Motor</text>
+  <text class="lbl" x="375" y="344">(Orange 12V Geared)</text>
+
+  <rect class="dbox" x="550" y="300" width="180" height="66"/>
+  <text class="lbl" x="640" y="323">Paddle Motors</text>
+  <text class="lbl" x="640" y="344">(2 x Orange 12V)</text>
+
+  <!-- Row 4: mechanics -->
+  <rect class="dbox" x="20" y="440" width="180" height="66"/>
+  <text class="lbl" x="110" y="463">Collection Bin</text>
+  <text class="lbl" x="110" y="484">(Not Built)</text>
+
+  <rect class="box" x="285" y="440" width="180" height="66"/>
+  <text class="lbl" x="375" y="463">Conveyor</text>
+  <text class="lbl" x="375" y="484">(Rollers + Mesh Belt)</text>
+
+  <rect class="dbox" x="550" y="440" width="180" height="66"/>
+  <text class="lbl" x="640" y="463">Paddles</text>
+  <text class="lbl" x="640" y="484">(One Each Side)</text>
+
+  <!-- Row 5: floating platform -->
+  <rect class="box" x="20" y="550" width="710" height="56"/>
+  <text class="lbl" x="375" y="578">Floating Platform: Two 110 mm PVC Hulls Joined by PVC Cross Pipes</text>
+
+  <!-- Connectors -->
+  <path class="wire" d="M200,53 L281,53" marker-end="url(#head)"/>
+  <text class="note" x="242" y="38">Wi-Fi</text>
+
+  <path class="wire" d="M550,53 L469,53" marker-end="url(#head)"/>
+  <text class="note" x="508" y="38">Stop</text>
+
+  <path class="wire" d="M375,86 L375,156" marker-end="url(#head)"/>
+  <text class="note" x="420" y="122">Commands</text>
+
+  <path class="wire" d="M110,160 L110,122 L320,122 L320,90" marker-end="url(#head)"/>
+  <text class="note" x="200" y="108">5V via buck</text>
+
+  <path class="wire" d="M200,193 L281,193" marker-end="url(#head)"/>
+  <text class="note" x="242" y="178">12V</text>
+
+  <path class="wire" d="M375,226 L375,296" marker-end="url(#head)"/>
+
+  <path class="wire" d="M465,193 L640,193 L640,296" marker-end="url(#head)"/>
+
+  <path class="wire" d="M375,366 L375,436" marker-end="url(#head)"/>
+  <text class="note" x="430" y="401">Top Roller</text>
+
+  <path class="wire" d="M640,366 L640,436" marker-end="url(#head)"/>
+
+  <path class="wire" d="M285,473 L204,473" marker-end="url(#head)"/>
+  <text class="note" x="244" y="458">Litter</text>
+
+  <!-- Legend -->
+  <rect class="box" x="20" y="300" width="30" height="20" style="stroke-width:2.5"/>
+  <text class="note" x="104" y="310" style="text-anchor:start" dx="-44">Built</text>
+  <rect class="dbox" x="20" y="334" width="30" height="20" style="stroke-width:2.5"/>
+  <text class="note" x="60" y="344" style="text-anchor:start">Planned, not fitted</text>
+</svg>

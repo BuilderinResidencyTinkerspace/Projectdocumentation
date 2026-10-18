@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="1024" viewBox="0 0 750 1024">
+  <!--
+    Flight sequence: WatchWing fixed-wing patrol UAV (digestdocs, CircuitDigest style)
+    Power on -> boot disarmed -> pre-arm checks (loop until clean) -> arm -> hand launch ->
+    AUTO -> waypoint loop with DO_JUMP -> RTL -> pilot lands -> end.
+    The bracket marks the steps that were configured in Mission Planner but never flown.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .brk    { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 6 5; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="1024"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <!-- Boot -->
+  <rect class="proc" x="215" y="92" width="320" height="66"/>
+  <text class="t tb" x="375" y="110">Boot Disarmed</text>
+  <text class="t" x="375" y="130">ESC's BEC powers Pixhawk and servos,</text>
+  <text class="t" x="375" y="147">throttle output held at minimum</text>
+
+  <!-- D1: pre-arm -->
+  <polygon class="dec" points="375,190 467,244 375,298 283,244"/>
+  <text class="t tb" x="375" y="234">Pre-arm</text>
+  <text class="t tb" x="375" y="255">Checks Pass ?</text>
+  <rect class="out" x="505" y="212" width="225" height="64"/>
+  <text class="t tb" x="617" y="232">Fix and Re-check</text>
+  <text class="t" x="617" y="254">Messages tab: compass, GPS, RC</text>
+
+  <!-- Arm -->
+  <rect class="proc" x="215" y="322" width="320" height="66"/>
+  <text class="t tb" x="375" y="340">Arm</text>
+  <text class="t" x="375" y="360">rudder full right, throttle at minimum,</text>
+  <text class="t" x="375" y="377">or Mission Planner Actions &gt; Arm</text>
+
+  <!-- Launch -->
+  <rect class="proc" x="215" y="410" width="320" height="56"/>
+  <text class="t tb" x="375" y="428">Hand Launch and Climb</text>
+  <text class="t" x="375" y="449">Manual or FBWA, pilot in control</text>
+
+  <!-- AUTO -->
+  <rect class="proc" x="215" y="488" width="320" height="56"/>
+  <text class="t tb" x="375" y="506">Switch to AUTO</text>
+  <text class="t" x="375" y="527">mission uploaded over USB starts</text>
+
+  <!-- Waypoints (loop target) -->
+  <rect class="proc" x="215" y="566" width="320" height="56"/>
+  <text class="t tb" x="375" y="584">Fly Waypoints WP1 to WPn</text>
+  <text class="t" x="375" y="605">100 m relative, WP_RADIUS 90 m</text>
+
+  <!-- D2: rounds left -->
+  <polygon class="dec" points="375,646 467,700 375,754 283,700"/>
+  <text class="t tb" x="375" y="690">Rounds Left ?</text>
+  <text class="t tb" x="375" y="711">(DO_JUMP)</text>
+
+  <!-- RTL -->
+  <rect class="out" x="250" y="778" width="250" height="56"/>
+  <text class="t tb" x="375" y="796">RTL</text>
+  <text class="t" x="375" y="817">return to launch and circle</text>
+
+  <!-- Land -->
+  <rect class="proc" x="215" y="858" width="320" height="56"/>
+  <text class="t tb" x="375" y="876">Pilot Takes Over and Lands</text>
+  <text class="t" x="375" y="897">mode switch back to FBWA</text>
+
+  <!-- End -->
+  <ellipse class="start" cx="375" cy="976" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="967">Disarm /</text>
+  <text class="t tb" x="375" y="987">End</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,158 L375,186" marker-end="url(#head)"/>
+  <path class="wire" d="M375,298 L375,318" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="312">Yes</text>
+  <path class="wire" d="M375,388 L375,406" marker-end="url(#head)"/>
+  <path class="wire" d="M375,466 L375,484" marker-end="url(#head)"/>
+  <path class="wire" d="M375,544 L375,562" marker-end="url(#head)"/>
+  <path class="wire" d="M375,622 L375,642" marker-end="url(#head)"/>
+  <path class="wire" d="M375,754 L375,774" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="767">No</text>
+  <path class="wire" d="M375,834 L375,854" marker-end="url(#head)"/>
+  <path class="wire" d="M375,914 L375,942" marker-end="url(#head)"/>
+
+  <!-- Pre-arm fail loop -->
+  <path class="wire" d="M467,244 L501,244" marker-end="url(#head)"/>
+  <text class="yn" x="474" y="232">No</text>
+  <path class="wire" d="M617,212 L617,174 L380,174" marker-end="url(#head)"/>
+
+  <!-- Patrol loop -->
+  <path class="wire" d="M283,700 L150,700 L150,594 L211,594" marker-end="url(#head)"/>
+  <text class="yn" x="248" y="688">Yes</text>
+
+  <!-- Not-flown bracket -->
+  <path class="brk" d="M560,488 L580,488 L580,834 L560,834"/>
+  <text class="t tb" x="660" y="642">Configured in</text>
+  <text class="t tb" x="660" y="662">Mission Planner,</text>
+  <text class="t tb" x="660" y="682">not flown</text>
+
+  <!-- Pilot override note -->
+  <text class="t" x="110" y="438">Pilot can flip back</text>
+  <text class="t" x="110" y="456">to FBWA or Manual</text>
+  <text class="t" x="110" y="474">at any point</text>
+</svg>

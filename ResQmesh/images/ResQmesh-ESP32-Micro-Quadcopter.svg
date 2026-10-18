@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: ResQmesh micro quadcopter. Black on white.
+    Left: title. Right: top view of the leader quad (X frame, four props, XIAO + IMU stack),
+    a phone linked over Wi-Fi, and two dashed follower quads linked over ESP-NOW (planned, not yet flown).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .od   { fill: #ffffff; stroke: #000000; stroke-width: 2; stroke-dasharray: 6 5; stroke-linejoin: round; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .link { fill: none; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 9 7; }
+      .solid{ fill: none; stroke: #000000; stroke-width: 2.2; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 60px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 31px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .wp   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 10.5px; fill: #000000; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">RESQMESH</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="188">MICRO DRONE</text>
+  <text class="h2" x="36" y="226">FOR SWARMS</text>
+  <text class="sub" x="38" y="274">XIAO ESP32-S3  ·  MPU9250  ·  ESP-NOW</text>
+  <text class="sub" x="38" y="296">4 × 720 coreless motors  ·  1S LiPo</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- Leader quad (centre 545, 250) -->
+  <g>
+    <path d="M545,250 L470,175 M545,250 L620,175 M545,250 L470,325 M545,250 L620,325" style="fill:none;stroke:#000000;stroke-width:12;stroke-linecap:round"/>
+    <path d="M545,250 L470,175 M545,250 L620,175 M545,250 L470,325 M545,250 L620,325" style="fill:none;stroke:#ffffff;stroke-width:7;stroke-linecap:round"/>
+    <circle class="t" cx="470" cy="175" r="40" stroke-dasharray="4 4"/>
+    <circle class="t" cx="620" cy="175" r="40" stroke-dasharray="4 4"/>
+    <circle class="t" cx="470" cy="325" r="40" stroke-dasharray="4 4"/>
+    <circle class="t" cx="620" cy="325" r="40" stroke-dasharray="4 4"/>
+    <circle class="o" cx="470" cy="175" r="9"/><circle class="f" cx="470" cy="175" r="3"/>
+    <circle class="o" cx="620" cy="175" r="9"/><circle class="f" cx="620" cy="175" r="3"/>
+    <circle class="o" cx="470" cy="325" r="9"/><circle class="f" cx="470" cy="325" r="3"/>
+    <circle class="o" cx="620" cy="325" r="9"/><circle class="f" cx="620" cy="325" r="3"/>
+    <rect class="o" x="515" y="222" width="60" height="56" rx="5"/>
+    <rect class="t" x="527" y="230" width="36" height="22"/>
+    <text class="wp" x="545" y="268">XIAO</text>
+    <path class="t" d="M545,212 L545,202 M539,208 L545,202 L551,208"/>
+  </g>
+  <text class="wp" x="545" y="385">LEADER</text>
+
+  <!-- Phone (left of leader) -->
+  <rect class="o" x="372" y="226" width="34" height="58" rx="6"/>
+  <rect class="t" x="377" y="234" width="24" height="38"/>
+  <circle class="t" cx="389" cy="278" r="2"/>
+  <path class="solid" d="M406,255 L506,255"/>
+  <text class="wp" x="389" y="304">PHONE</text>
+  <text class="wp" x="456" y="246">Wi-Fi</text>
+
+  <!-- Follower quads (dashed = planned) -->
+  <g>
+    <path class="od" d="M680,420 L658,398 M680,420 L702,398 M680,420 L658,442 M680,420 L702,442"/>
+    <circle class="od" cx="658" cy="398" r="10"/><circle class="od" cx="702" cy="398" r="10"/>
+    <circle class="od" cx="658" cy="442" r="10"/><circle class="od" cx="702" cy="442" r="10"/>
+    <rect class="od" x="670" y="410" width="20" height="20" rx="3"/>
+  </g>
+  <g>
+    <path class="od" d="M680,80 L658,58 M680,80 L702,58 M680,80 L658,102 M680,80 L702,102"/>
+    <circle class="od" cx="658" cy="58" r="10"/><circle class="od" cx="702" cy="58" r="10"/>
+    <circle class="od" cx="658" cy="102" r="10"/><circle class="od" cx="702" cy="102" r="10"/>
+    <rect class="od" x="670" y="70" width="20" height="20" rx="3"/>
+  </g>
+  <path class="link" d="M648,144 L664,114"/>
+  <path class="link" d="M648,356 L664,386"/>
+  <text class="wp" x="702" y="246">ESP-NOW</text><text class="wp" x="702" y="262">LINKS</text>
+  <text class="wp" x="680" y="480">FOLLOWER (PLANNED)</text>
+  <text class="wp" x="680" y="30">FOLLOWER (PLANNED)</text>
+</svg>

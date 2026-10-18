@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: WatchWing fixed-wing patrol UAV. Black on white.
+    Left: title. Right: top view of a Simple Scout style high-wing trainer flying a
+    clockwise dashed patrol loop WP1 -> WP2 -> WP3 -> WP4 -> WP1, launched from home (H).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 9 7; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 62px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 33px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .wp   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">WATCHWING</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="190">FIXED-WING</text>
+  <text class="h2" x="36" y="230">PATROL UAV</text>
+  <text class="sub" x="38" y="278">Pixhawk 2.4.8  ·  ArduPlane</text>
+  <text class="sub" x="38" y="300">Flite Test Simple Scout</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- Patrol loop (clockwise on screen) -->
+  <rect class="loop" x="455" y="200" width="270" height="270" rx="36"/>
+  <!-- direction chevrons -->
+  <path class="t" d="M718,392 L725,402 L732,392" stroke-width="2.2"/>
+  <path class="t" d="M532,463 L522,470 L532,477" stroke-width="2.2"/>
+  <path class="t" d="M448,292 L455,282 L462,292" stroke-width="2.2"/>
+
+  <!-- Waypoints -->
+  <circle class="o" cx="725" cy="300" r="7"/><circle class="f" cx="725" cy="300" r="2.5"/>
+  <text class="wp" x="711" y="304" text-anchor="end">WP1</text>
+  <circle class="o" cx="610" cy="470" r="7"/><circle class="f" cx="610" cy="470" r="2.5"/>
+  <text class="wp" x="610" y="455" text-anchor="middle">WP2</text>
+  <circle class="o" cx="455" cy="360" r="7"/><circle class="f" cx="455" cy="360" r="2.5"/>
+  <text class="wp" x="469" y="364">WP3</text>
+  <circle class="o" cx="688" cy="200" r="7"/><circle class="f" cx="688" cy="200" r="2.5"/>
+  <text class="wp" x="688" y="186" text-anchor="middle">WP4</text>
+
+  <!-- Home / launch point -->
+  <path class="t" d="M421,449 L462,422" stroke-dasharray="4 4"/>
+  <circle class="o" cx="410" cy="456" r="12"/>
+  <text class="wp" x="410" y="460.5" text-anchor="middle" font-size="13">H</text>
+
+  <!-- Aircraft, top view, heading east (nose right), wing centre at x 562 -->
+  <!-- fin / rudder seen from above -->
+  <path class="t" d="M458,200 L498,200" stroke-width="4"/>
+  <path class="t" d="M470,195 L470,205"/>
+  <!-- horizontal stabiliser with elevator (trailing part on the left) -->
+  <rect class="o" x="466" y="160" width="28" height="80" rx="3"/>
+  <path class="t" d="M477,163 L477,237"/>
+  <!-- fuselage -->
+  <path class="o" d="M470,195.5 L600,192 L642,193 Q651,200 642,207 L600,208 L470,204.5 Z"/>
+  <!-- firewall and motor -->
+  <rect class="o" x="644" y="193" width="9" height="14" rx="2"/>
+  <!-- propeller: two blades seen edge-on from above, spinner -->
+  <ellipse class="o" cx="658" cy="184" rx="3.5" ry="13"/>
+  <ellipse class="o" cx="658" cy="216" rx="3.5" ry="13"/>
+  <circle class="o" cx="658" cy="200" r="4.5"/>
+  <!-- high wing over the fuselage; leading edge on the right, trailing edge on the left -->
+  <rect class="o" x="540" y="104" width="46" height="192" rx="4"/>
+  <!-- aileron hinge lines on both outer panels -->
+  <path class="t" d="M551,108 L551,168 M540,168 L551,168"/>
+  <path class="t" d="M551,232 L551,292 M540,232 L551,232"/>
+  <!-- spar / centre section marks -->
+  <path class="t" d="M574,108 L574,292" stroke-dasharray="3 5"/>
+  <!-- GPS puck behind the wing -->
+  <circle class="o" cx="516" cy="200" r="6"/>
+</svg>

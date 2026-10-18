@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="640" viewBox="0 0 750 640">
+  <!--
+    Wiring diagram: AquaNav fish-following rover. Black on white.
+    Stated in the repo (logs and photos): Pi Camera Module 3 on the Pi 5 CSI ribbon, Pi 5 to NodeMCU over USB,
+    NodeMCU to two L298N motor drivers, each L298N to two 12V Johnson DC motors, battery and switch added in Week 9.
+    Assumed (standard, not stated): battery and switch feed both L298N 12V inputs, common GND, NodeMCU powered over USB.
+    The NodeMCU to L298N pin map is not in the repository, so no GPIO numbers are drawn.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .bat  { fill: none; stroke: #000000; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .sig  { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 7 5; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="640"/>
+
+  <!-- ===== Top row: camera, Pi, NodeMCU ===== -->
+  <rect class="box" x="30" y="30" width="160" height="70" rx="4"/>
+  <text class="lbl" x="110" y="55">PI CAMERA</text>
+  <text class="sm" x="110" y="76" text-anchor="middle">MODULE 3</text>
+  <circle class="thin" cx="168" cy="65" r="9"/><circle class="thin" cx="168" cy="65" r="4"/>
+
+  <rect class="box" x="290" y="25" width="170" height="80" rx="4"/>
+  <text class="lbl" x="375" y="55">RASPBERRY PI 5</text>
+  <text class="sm" x="375" y="76" text-anchor="middle">OPENCV + DASHBOARD</text>
+
+
+  <rect class="box" x="560" y="30" width="160" height="70" rx="4"/>
+  <text class="lbl" x="640" y="55">NODEMCU</text>
+  <text class="sm" x="640" y="76" text-anchor="middle">ESP8266</text>
+
+  <path class="w" d="M190,65 L290,65"/>
+  <text class="sm" x="240" y="53" text-anchor="middle">CSI ribbon</text>
+  <path class="w" d="M460,65 L560,65"/>
+  <text class="sm" x="510" y="53" text-anchor="middle">USB serial</text>
+
+  <text class="note" x="375" y="122">Pi power source not shown in the repo</text>
+
+  <!-- ===== Control lines to the two drivers ===== -->
+  <path class="sig" d="M640,100 L640,190 L235,190 L235,250"/>
+  <path class="sig" d="M515,190 L515,250"/>
+  <text class="sm" x="375" y="178" text-anchor="middle">IN1 to IN4 on each driver (pin map not in the repo)</text>
+
+  <!-- ===== Drivers ===== -->
+  <rect class="box" x="150" y="250" width="170" height="120" rx="4"/>
+  <text class="lbl" x="235" y="300">L298N</text>
+  <text class="sm" x="235" y="320" text-anchor="middle">MOTOR DRIVER 1</text>
+  <text class="sm" x="160" y="280">OUT1/2</text>
+  <text class="sm" x="160" y="345">OUT3/4</text>
+  <text class="sm" x="235" y="262" text-anchor="middle">IN1-IN4</text>
+  <text class="sm" x="235" y="358" text-anchor="middle">12V  GND</text>
+
+  <rect class="box" x="430" y="250" width="170" height="120" rx="4"/>
+  <text class="lbl" x="515" y="300">L298N</text>
+  <text class="sm" x="515" y="320" text-anchor="middle">MOTOR DRIVER 2</text>
+  <text class="sm" x="590" y="280" text-anchor="end">OUT1/2</text>
+  <text class="sm" x="590" y="345" text-anchor="end">OUT3/4</text>
+  <text class="sm" x="515" y="262" text-anchor="middle">IN1-IN4</text>
+  <text class="sm" x="515" y="358" text-anchor="middle">12V  GND</text>
+
+  <!-- ===== Motors ===== -->
+  <path class="thin" d="M150,276 L94,276 M150,284 L94,284"/>
+  <path class="thin" d="M150,341 L94,341 M150,349 L94,349"/>
+  <circle class="box" cx="70" cy="280" r="24"/><text class="lbl" x="70" y="281">M1</text>
+  <circle class="box" cx="70" cy="345" r="24"/><text class="lbl" x="70" y="346">M2</text>
+
+  <path class="thin" d="M600,276 L656,276 M600,284 L656,284"/>
+  <path class="thin" d="M600,341 L656,341 M600,349 L656,349"/>
+  <circle class="box" cx="680" cy="280" r="24"/><text class="lbl" x="680" y="281">M3</text>
+  <circle class="box" cx="680" cy="345" r="24"/><text class="lbl" x="680" y="346">M4</text>
+
+  <text class="sm" x="70" y="390" text-anchor="middle">12V JOHNSON</text>
+  <text class="sm" x="70" y="404" text-anchor="middle">DC MOTORS</text>
+  <text class="sm" x="680" y="390" text-anchor="middle">12V JOHNSON</text>
+  <text class="sm" x="680" y="404" text-anchor="middle">DC MOTORS</text>
+
+  <!-- ===== Power ===== -->
+  <rect class="box" x="40" y="470" width="170" height="60" rx="4"/>
+  <text class="lbl" x="125" y="492">BATTERY</text>
+  <text class="sm" x="125" y="512" text-anchor="middle">MOTOR SUPPLY</text>
+  <rect class="thin" x="48" y="482" width="9" height="36"/>
+
+  <rect class="box" x="270" y="480" width="80" height="40" rx="4"/>
+  <text class="lbl" x="310" y="501">SWITCH</text>
+
+  <path class="bat" d="M210,500 L270,500"/>
+  <path class="bat" d="M350,500 L390,500 L390,430 L235,430 L235,370"/>
+  <path class="bat" d="M390,430 L515,430 L515,370"/>
+  <text class="sm" x="400" y="470">+ and GND to each</text>
+  <text class="sm" x="400" y="485">driver (assumed)</text>
+
+  <!-- notes -->
+  <text class="note" x="375" y="566">Assumed: NodeMCU powered over the Pi's USB, common GND between the NodeMCU and both drivers.</text>
+
+  <!-- Legend -->
+  <path class="w" d="M40,608 L80,608"/><text class="sm" x="88" y="608">USB / ribbon</text>
+  <path class="sig" d="M200,608 L240,608"/><text class="sm" x="248" y="608">Control signals</text>
+  <path class="bat" d="M370,608 L410,608"/><text class="sm" x="418" y="608">Battery leads</text>
+  <path class="thin" d="M520,604 L560,604 M520,612 L560,612"/><text class="sm" x="568" y="608">Motor leads</text>
+</svg>

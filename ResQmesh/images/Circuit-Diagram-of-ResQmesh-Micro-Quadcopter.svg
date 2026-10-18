@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="640" viewBox="0 0 750 640">
+  <!--
+    Circuit diagram: ResQmesh micro quadcopter. Black on white.
+    One motor channel drawn in full (M1); M2 to M4 are identical on their own GPIOs.
+    Pins are the GPIO numbers in firmware/config.h, with the XIAO ESP32-S3 pad names from Seeed's pinout.
+    Gate pull-down value from the KiCad schematic and the resistor colour bands on the built board (100 kOhm).
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .box  { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .dbox { fill: none; stroke: #000000; stroke-width: 1.6; stroke-dasharray: 6 5; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .lbl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .sm   { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+              fill: #000000; dominant-baseline: middle; }
+      .note { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-size: 12px; font-style: italic;
+              fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .dot  { fill: #000000; }
+    </style>
+    <symbol id="gnd" viewBox="-12 0 24 14" overflow="visible">
+      <path d="M0,0 L0,5 M-11,5 L11,5 M-7,9 L7,9 M-3,13 L3,13" fill="none" stroke="#000000" stroke-width="2"/>
+    </symbol>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="640"/>
+
+  <!-- ===== Battery and + rail ===== -->
+  <rect class="box" x="30" y="24" width="140" height="62" rx="4"/>
+  <text class="lbl" x="100" y="46">1S LIPO</text>
+  <text class="sm" x="100" y="68" text-anchor="middle">3.7V 380mAh</text>
+  <text class="sm" x="176" y="36">+</text>
+  <path class="w" d="M170,44 L700,44"/>
+  <text class="sm" x="560" y="32">+ RAIL (VBAT)</text>
+  <path class="w" d="M100,86 L100,104"/>
+  <use href="#gnd" x="88" y="104" width="24" height="14"/>
+  <text class="sm" x="30" y="134">STAR GROUND (LiPo −)</text>
+
+  <!-- 470 uF bulk -->
+  <circle class="dot" cx="262" cy="44" r="3.5"/>
+  <path class="w" d="M262,44 L262,70 M248,70 L276,70"/>
+  <path class="w" d="M248,80 C255,76 269,76 276,80"/>
+  <path class="w" d="M262,79 L262,96"/>
+  <use href="#gnd" x="250" y="96" width="24" height="14"/>
+  <text class="sm" x="282" y="72">470µF</text>
+  <text class="sm" x="242" y="64" text-anchor="end">+</text>
+
+  <!-- XIAO power from + rail (back pads) -->
+  <circle class="dot" cx="190" cy="44" r="3.5"/>
+  <path class="w" d="M190,44 L190,160"/>
+  <text class="sm" x="196" y="150">BAT+ pad</text>
+
+  <!-- ===== XIAO ESP32-S3 ===== -->
+  <rect class="box" x="30" y="160" width="170" height="270" rx="6"/>
+  <text class="lbl" x="88" y="180">XIAO</text>
+  <text class="lbl" x="88" y="198">ESP32-S3</text>
+  <text class="sm" x="192" y="226" text-anchor="end">GPIO4 / D3  M1</text>
+  <text class="sm" x="192" y="252" text-anchor="end">GPIO1 / D0  M2</text>
+  <text class="sm" x="192" y="278" text-anchor="end">GPIO2 / D1  M3</text>
+  <text class="sm" x="192" y="304" text-anchor="end">GPIO3 / D2  M4</text>
+  <circle class="dot" cx="200" cy="226" r="3.5"/><circle class="dot" cx="200" cy="252" r="3.5"/>
+  <circle class="dot" cx="200" cy="278" r="3.5"/><circle class="dot" cx="200" cy="304" r="3.5"/>
+  <text class="sm" x="60" y="416" text-anchor="middle">3V3</text>
+  <text class="sm" x="96" y="416" text-anchor="middle">GND</text>
+  <text class="sm" x="134" y="402" text-anchor="middle">D4</text>
+  <text class="sm" x="134" y="416" text-anchor="middle">SDA</text>
+  <text class="sm" x="172" y="402" text-anchor="middle">D5</text>
+  <text class="sm" x="172" y="416" text-anchor="middle">SCL</text>
+
+  <!-- other motor gates -->
+  <path class="w" d="M200,252 L250,252 M200,278 L250,278 M200,304 L250,304"/>
+  <text class="sm" x="210" y="324">to M2, M3, M4</text>
+  <text class="sm" x="210" y="338">(same circuit)</text>
+
+  <!-- ===== GY-9250 IMU ===== -->
+  <path class="w" d="M60,430 L60,490 M96,430 L96,490 M134,430 L134,490 M172,430 L172,490"/>
+  <rect class="box" x="30" y="490" width="170" height="64" rx="4"/>
+  <text class="lbl" x="115" y="514">GY-9250 IMU</text>
+  <text class="sm" x="115" y="536" text-anchor="middle">VCC  GND  SDA  SCL</text>
+  <text class="sm" x="210" y="452">4.7 kΩ pull-ups on</text>
+  <text class="sm" x="210" y="466">SDA and SCL to 3V3</text>
+  <path class="w" d="M96,554 L96,572"/>
+  <use href="#gnd" x="84" y="572" width="24" height="14"/>
+
+  <!-- ===== Motor channel (M1 shown) ===== -->
+  <rect class="dbox" x="300" y="90" width="420" height="420" rx="6"/>
+  <text class="sm" x="510" y="494" text-anchor="middle">MOTOR CHANNEL × 4  (M1 SHOWN)</text>
+
+  <!-- motor -->
+  <circle class="dot" cx="470" cy="44" r="3.5"/>
+  <path class="w" d="M470,44 L470,118"/>
+  <circle class="box" cx="470" cy="140" r="22"/>
+  <text class="lbl" x="470" y="141">M</text>
+  <text class="sm" x="498" y="126">720</text><text class="sm" x="498" y="140">CORELESS</text>
+  <path class="w" d="M470,162 L470,240"/>
+  <!-- 100 nF across the motor tabs -->
+  <path class="w" d="M470,108 L420,108 L420,132 M408,132 L432,132 M408,140 L432,140 M420,140 L420,172 L470,172"/>
+  <circle class="dot" cx="470" cy="108" r="3"/><circle class="dot" cx="470" cy="172" r="3"/>
+  <text class="sm" x="414" y="186" text-anchor="end">100nF</text>
+
+  <!-- flyback diode 1N5819: cathode to + rail, anode to drain -->
+  <circle class="dot" cx="600" cy="44" r="3.5"/>
+  <path class="w" d="M600,44 L600,118"/>
+  <path class="w" d="M588,118 L612,118"/>
+  <path d="M588,140 L612,140 L600,118 Z" fill="#000000"/>
+  <path class="w" d="M600,140 L600,240 L470,240"/>
+  <circle class="dot" cx="470" cy="240" r="3.5"/>
+  <text class="sm" x="618" y="128">1N5819</text>
+
+  <!-- MOSFET -->
+  <rect class="box" x="440" y="258" width="60" height="56" rx="4"/>
+  <text class="sm" x="470" y="280" text-anchor="middle">AO3400A</text>
+  <text class="sm" x="470" y="300" text-anchor="middle">SOT-23</text>
+  <path class="w" d="M470,240 L470,258"/>
+  <text class="sm" x="478" y="250">D</text>
+  <text class="sm" x="478" y="324">S</text>
+  <text class="sm" x="426" y="276">G</text>
+  <path class="w" d="M470,314 L470,340"/>
+  <use href="#gnd" x="458" y="340" width="24" height="14"/>
+
+  <!-- gate: 100 ohm series from GPIO4, 100 k pull-down -->
+  <path class="w" d="M200,226 L320,226 L320,286 L336,286"/>
+  <rect class="box" x="336" y="278" width="44" height="16" rx="2"/>
+  <text class="sm" x="358" y="306" text-anchor="middle">100Ω</text>
+  <path class="w" d="M380,286 L440,286"/>
+  <circle class="dot" cx="404" cy="286" r="3"/>
+  <path class="w" d="M404,286 L404,330"/>
+  <rect class="box" x="396" y="330" width="16" height="44" rx="2"/>
+  <text class="sm" x="418" y="352">100kΩ</text>
+  <path class="w" d="M404,374 L404,392"/>
+  <use href="#gnd" x="392" y="392" width="24" height="14"/>
+
+  <!-- notes -->
+  <text class="note" x="375" y="604">Every ground symbol returns to the star point at LiPo −. The battery divider is not fitted</text>
+  <text class="note" x="375" y="622">(BATTERY_MONITOR_ENABLED is 0 in the firmware). Pins from firmware/config.h.</text>
+</svg>

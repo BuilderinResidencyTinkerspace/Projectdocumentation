@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="1080" viewBox="0 0 750 1080">
+  <!--
+    Program workflow: OpenMove chess motion controller, code/openmove_chess/openmove_chess.ino (firmware 2.7)
+    Endless loop: every outcome returns to "Read a Serial Line".
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="1080"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="320" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="320" y="31">Start /</text>
+  <text class="t tb" x="320" y="51">Power On</text>
+
+  <!-- Safe startup -->
+  <rect class="proc" x="160" y="92" width="320" height="70"/>
+  <text class="t tb" x="320" y="110">Safe Startup</text>
+  <text class="t" x="320" y="130">drivers disabled, magnet at 1000 µs,</text>
+  <text class="t" x="320" y="149">"place carriage at a1 centre, then send HOME"</text>
+
+  <!-- Read (loop target) -->
+  <rect class="proc" x="160" y="190" width="320" height="56"/>
+  <text class="t tb" x="320" y="208">Read a Serial Line</text>
+  <text class="t" x="320" y="229">115200 baud, one command per line</text>
+
+  <!-- D1 emergency -->
+  <polygon class="dec" points="320,262 412,312 320,362 228,312"/>
+  <text class="t tb" x="320" y="303">"!" Received ?</text>
+  <rect class="out" x="480" y="280" width="235" height="64"/>
+  <text class="t tb" x="597" y="301">Emergency Stop</text>
+  <text class="t" x="597" y="323">drivers off, home and board lost</text>
+
+  <!-- D2 HOME / GOTO / jog -->
+  <polygon class="dec" points="320,388 412,440 320,492 228,440"/>
+  <text class="t tb" x="320" y="430">HOME, GOTO</text>
+  <text class="t tb" x="320" y="451">or Jog ?</text>
+  <rect class="out" x="480" y="408" width="235" height="64"/>
+  <text class="t tb" x="597" y="429">Set a1 or Move Carriage</text>
+  <text class="t" x="597" y="451">magnet kept clear of the board</text>
+
+  <!-- Check -->
+  <rect class="proc" x="160" y="516" width="320" height="70"/>
+  <text class="t tb" x="320" y="534">Check the Chess Move</text>
+  <text class="t" x="320" y="554">homed, board confirmed, legal move,</text>
+  <text class="t" x="320" y="573">no capture, castling or promotion</text>
+
+  <!-- D3 checks -->
+  <polygon class="dec" points="320,612 412,664 320,716 228,664"/>
+  <text class="t tb" x="320" y="654">Checks</text>
+  <text class="t tb" x="320" y="675">Pass ?</text>
+  <rect class="out" x="480" y="632" width="235" height="64"/>
+  <text class="t tb" x="597" y="653">Reply error:</text>
+  <text class="t" x="597" y="675">nothing moves</text>
+
+  <!-- Carry -->
+  <rect class="proc" x="160" y="740" width="320" height="70"/>
+  <text class="t tb" x="320" y="758">Carry the Piece</text>
+  <text class="t" x="320" y="778">magnet up (2100 µs), straight to the target,</text>
+  <text class="t" x="320" y="797">knights park blockers first, magnet down</text>
+
+  <!-- D4 completed -->
+  <polygon class="dec" points="320,836 412,888 320,940 228,888"/>
+  <text class="t tb" x="320" y="878">Move</text>
+  <text class="t tb" x="320" y="899">Completed ?</text>
+  <rect class="out" x="480" y="856" width="235" height="64"/>
+  <text class="t tb" x="597" y="877">Mark Board Untrusted</text>
+  <text class="t" x="597" y="899">info: board_confirmed=0</text>
+
+  <!-- Update -->
+  <rect class="proc" x="160" y="964" width="320" height="56"/>
+  <text class="t tb" x="320" y="982">Update Board, Reply ok:</text>
+  <text class="t" x="320" y="1003">the other side is now to move</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M320,70 L320,88" marker-end="url(#head)"/>
+  <path class="wire" d="M320,162 L320,186" marker-end="url(#head)"/>
+  <path class="wire" d="M320,246 L320,258" marker-end="url(#head)"/>
+  <path class="wire" d="M320,362 L320,384" marker-end="url(#head)"/>
+  <text class="yn" x="328" y="378">No</text>
+  <path class="wire" d="M320,492 L320,512" marker-end="url(#head)"/>
+  <text class="yn" x="328" y="506">No</text>
+  <path class="wire" d="M320,586 L320,608" marker-end="url(#head)"/>
+  <path class="wire" d="M320,716 L320,736" marker-end="url(#head)"/>
+  <text class="yn" x="328" y="730">Yes</text>
+  <path class="wire" d="M320,810 L320,832" marker-end="url(#head)"/>
+  <path class="wire" d="M320,940 L320,960" marker-end="url(#head)"/>
+  <text class="yn" x="328" y="954">Yes</text>
+
+  <!-- Decision exits to the right -->
+  <path class="wire" d="M412,312 L476,312" marker-end="url(#head)"/>
+  <text class="yn" x="424" y="300">Yes</text>
+  <path class="wire" d="M412,440 L476,440" marker-end="url(#head)"/>
+  <text class="yn" x="424" y="428">Yes</text>
+  <path class="wire" d="M412,664 L476,664" marker-end="url(#head)"/>
+  <text class="yn" x="426" y="652">No</text>
+  <path class="wire" d="M412,888 L476,888" marker-end="url(#head)"/>
+  <text class="yn" x="426" y="876">No</text>
+
+  <!-- Right bus back into the loop -->
+  <path class="wire" d="M715,312 L735,312 L735,1050"/>
+  <path class="wire" d="M715,440 L735,440"/>
+  <path class="wire" d="M715,664 L735,664"/>
+  <path class="wire" d="M715,888 L735,888"/>
+  <path class="wire" d="M320,1020 L320,1050"/>
+  <path class="wire" d="M735,1050 L40,1050 L40,218 L156,218" marker-end="url(#head)"/>
+</svg>

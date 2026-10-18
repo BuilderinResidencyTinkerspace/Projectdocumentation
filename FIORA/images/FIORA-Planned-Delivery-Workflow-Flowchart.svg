@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="870" viewBox="0 0 750 870">
+  <!--
+    Planned delivery workflow: FIORA indoor delivery robot (digestdocs, CircuitDigest style)
+    Redrawn from the "Intended delivery workflow" in the repository README. Only power-on, the LiDAR
+    start-up and manual map building have been done so far; everything below the bracket is planned.
+  -->
+  <defs>
+    <style>
+      .bg     { fill: #ffffff; }
+      .start  { fill: #7ed957; stroke: #000000; stroke-width: 0; }
+      .proc   { fill: #ffde59; stroke: #000000; stroke-width: 0; }
+      .dec    { fill: #ff914d; stroke: #000000; stroke-width: 0; }
+      .out    { fill: #1fa6a6; stroke: #000000; stroke-width: 0; }
+      .wire   { fill: none; stroke: #000000; stroke-width: 3.5; stroke-linejoin: miter; }
+      .brk    { fill: none; stroke: #000000; stroke-width: 2; stroke-dasharray: 6 5; }
+      .t      { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-size: 14.5px;
+                fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .tb     { font-weight: 700; font-size: 15.5px; }
+      .yn     { font-family: "Times New Roman", Times, "Liberation Serif", serif; font-weight: 700;
+                font-size: 15px; fill: #000000; }
+    </style>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="750" height="870"/>
+  <g id="watermark" opacity="0.10"></g>
+
+  <!-- Start -->
+  <ellipse class="start" cx="375" cy="40" rx="80" ry="30"/>
+  <text class="t tb" x="375" y="31">Start /</text>
+  <text class="t tb" x="375" y="51">Power On</text>
+
+  <rect class="proc" x="215" y="92" width="320" height="56"/>
+  <text class="t tb" x="375" y="110">Initialise Controller and LiDAR</text>
+  <text class="t" x="375" y="131">Raspberry Pi 5, RPLIDAR A1M8, ROS 2</text>
+
+  <rect class="proc" x="215" y="170" width="320" height="56"/>
+  <text class="t tb" x="375" y="188">Load or Create the Indoor Map</text>
+  <text class="t" x="375" y="209">SLAM map of the building, saved</text>
+
+  <!-- Loop target: wait for a request -->
+  <rect class="proc" x="215" y="262" width="320" height="56"/>
+  <text class="t tb" x="375" y="280">Wait for a Delivery Request</text>
+  <text class="t" x="375" y="301">from the Telegram bot</text>
+
+  <rect class="proc" x="215" y="340" width="320" height="56"/>
+  <text class="t tb" x="375" y="358">Select a Saved Destination</text>
+  <text class="t" x="375" y="379">fixed delivery points on the map</text>
+
+  <rect class="proc" x="215" y="418" width="320" height="56"/>
+  <text class="t tb" x="375" y="436">Plan a Route</text>
+  <text class="t" x="375" y="457">using the map and the robot's footprint</text>
+
+  <!-- Loop target: move -->
+  <rect class="proc" x="215" y="496" width="320" height="56"/>
+  <text class="t tb" x="375" y="514">Move While Checking Obstacles</text>
+  <text class="t" x="375" y="535">LiDAR scans while driving</text>
+
+  <polygon class="dec" points="375,578 467,632 375,686 283,632"/>
+  <text class="t tb" x="375" y="622">Destination</text>
+  <text class="t tb" x="375" y="643">Reached ?</text>
+
+  <rect class="out" x="250" y="712" width="250" height="56"/>
+  <text class="t tb" x="375" y="730">Notify the User</text>
+  <text class="t" x="375" y="751">mark the delivery complete</text>
+
+  <!-- Main flow -->
+  <path class="wire" d="M375,70 L375,88" marker-end="url(#head)"/>
+  <path class="wire" d="M375,148 L375,166" marker-end="url(#head)"/>
+  <path class="wire" d="M375,226 L375,258" marker-end="url(#head)"/>
+  <path class="wire" d="M375,318 L375,336" marker-end="url(#head)"/>
+  <path class="wire" d="M375,396 L375,414" marker-end="url(#head)"/>
+  <path class="wire" d="M375,474 L375,492" marker-end="url(#head)"/>
+  <path class="wire" d="M375,552 L375,574" marker-end="url(#head)"/>
+  <path class="wire" d="M375,686 L375,708" marker-end="url(#head)"/>
+  <text class="yn" x="384" y="701">Yes</text>
+
+  <!-- Not reached: keep moving -->
+  <path class="wire" d="M467,632 L590,632 L590,524 L539,524" marker-end="url(#head)"/>
+  <text class="yn" x="476" y="620">No</text>
+
+  <!-- Delivery complete: wait for the next request -->
+  <path class="wire" d="M250,740 L150,740 L150,290 L211,290" marker-end="url(#head)"/>
+  <text class="t" x="96" y="500">next</text>
+  <text class="t" x="96" y="518">request</text>
+
+  <!-- Bracket: what works today -->
+  <path class="brk" d="M610,92 L630,92 L630,226 L610,226"/>
+  <text class="t tb" x="690" y="146">Working today:</text>
+  <text class="t" x="690" y="166">LiDAR scans and</text>
+  <text class="t" x="690" y="184">manual mapping</text>
+
+  <path class="brk" d="M610,262 L630,262 L630,768 L610,768" />
+  <text class="t tb" x="690" y="420">Planned,</text>
+  <text class="t tb" x="690" y="440">not built yet</text>
+
+  <!-- footer -->
+  <text class="t" x="375" y="820">Redrawn from the intended delivery workflow in the FIORA README.</text>
+  <text class="t" x="375" y="840">The robot is driven by hand over Bluetooth for now.</text>
+</svg>

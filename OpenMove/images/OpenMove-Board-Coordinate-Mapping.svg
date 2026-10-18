@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="440" viewBox="0 0 750 440">
+  <!-- Coordinate contract for OpenMove (firmware 2.5 onwards) and the two origin guesses it replaced (Week 8 log). -->
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="3" y1="0" x2="3" y2="6" stroke="#000000" stroke-width="1.1"/>
+    </pattern>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <style>
+      .bg  { fill: #ffffff; }
+      .w   { fill: none; stroke: #000000; stroke-width: 2.6; }
+      .co  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .pt  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 11px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+      .hd  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 14px; fill: #000000; letter-spacing: 0.6px; }
+      .tx  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 13px; fill: #000000; }
+      .tb  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 13px; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="440"/>
+  <rect x="64" y="306" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="64" y="230" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="64" y="154" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="64" y="78" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="102" y="268" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="102" y="192" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="102" y="116" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="102" y="40" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="140" y="306" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="140" y="230" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="140" y="154" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="140" y="78" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="178" y="268" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="178" y="192" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="178" y="116" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="178" y="40" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="216" y="306" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="216" y="230" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="216" y="154" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="216" y="78" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="254" y="268" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="254" y="192" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="254" y="116" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="254" y="40" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="292" y="306" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="292" y="230" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="292" y="154" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="292" y="78" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="330" y="268" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="330" y="192" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="330" y="116" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="330" y="40" width="38" height="38" fill="url(#hatch)"/>
+  <rect x="64" y="40" width="304" height="304" fill="none" stroke="#000000" stroke-width="3"/>
+  <text class="co" x="83.0" y="358">a</text>
+  <text class="co" x="121.0" y="358">b</text>
+  <text class="co" x="159.0" y="358">c</text>
+  <text class="co" x="197.0" y="358">d</text>
+  <text class="co" x="235.0" y="358">e</text>
+  <text class="co" x="273.0" y="358">f</text>
+  <text class="co" x="311.0" y="358">g</text>
+  <text class="co" x="349.0" y="358">h</text>
+  <text class="co" x="52" y="325.0">1</text>
+  <text class="co" x="52" y="287.0">2</text>
+  <text class="co" x="52" y="249.0">3</text>
+  <text class="co" x="52" y="211.0">4</text>
+  <text class="co" x="52" y="173.0">5</text>
+  <text class="co" x="52" y="135.0">6</text>
+  <text class="co" x="52" y="97.0">7</text>
+  <text class="co" x="52" y="59.0">8</text>
+  <circle cx="83.0" cy="325.0" r="5" fill="#000000"/>
+  <rect x="86.0" y="294.0" width="62" height="18" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text class="pt" x="117.0" y="303.0">a1 (0, 0)</text>
+  <circle cx="121.0" cy="325.0" r="5" fill="#000000"/>
+  <rect x="135.0" y="314.0" width="52" height="18" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text class="pt" x="161.0" y="323.0">(44, 0)</text>
+  <circle cx="83.0" cy="287.0" r="5" fill="#000000"/>
+  <rect x="93.0" y="260.0" width="52" height="18" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text class="pt" x="119.0" y="269.0">(0, 44)</text>
+  <circle cx="349.0" cy="59.0" r="5" fill="#000000"/>
+  <rect x="258.0" y="72.0" width="86" height="18" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text class="pt" x="301.0" y="81.0">h8 (308, 308)</text>
+  <path class="w" d="M64,378 L368,378" marker-end="url(#head)"/>
+  <text class="tb" x="278" y="398">+X: a to h</text>
+  <path class="w" d="M30,344 L30,40" marker-end="url(#head)"/>
+  <text class="tb" x="24" y="30" text-anchor="start">+Y: 1 to 8</text>
+  <text class="hd" x="420" y="60">HOW THE ORIGIN WAS FOUND</text>
+  <text class="tb" x="420" y="90">Guess 1: home labelled h1</text>
+  <text class="tx" x="420" y="108">GOTO g1 reached g8, GOTO h2 reached h7.</text>
+  <text class="tx" x="420" y="126">Files right, ranks mirrored.</text>
+  <text class="tb" x="420" y="160">Guess 2: home labelled h8</text>
+  <text class="tx" x="420" y="178">GOTO e2 reached d7, GOTO h8 reached a1.</text>
+  <text class="tx" x="420" y="196">The mapping was rotated 180 degrees.</text>
+  <text class="tb" x="420" y="230">Answer: home is a1</text>
+  <text class="tx" x="420" y="248">a1 = (0, 0), +X towards b1, +Y towards a2.</text>
+  <text class="tx" x="420" y="266">Firmware 2.5 reversed logical X only.</text>
+  <text class="tb" x="420" y="300">Square pitch: 44 mm</text>
+  <text class="tx" x="420" y="318">Measured between neighbouring centres.</text>
+  <text class="tx" x="420" y="336">At 40 steps/mm: 1,760 steps per motor.</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: AquaNav fish-following rover. Black on white.
+    Left: title. Right: side view of the rover with the glass tank, the camera mast looking down,
+    and the fish inside a tracking box labelled with a centre value read from the team's dashboard clip.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .d    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-dasharray: 6 5; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 62px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 33px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .wt   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 11px; fill: #ffffff; }
+      .wp   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 11px; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">AQUANAV</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="190">FISH-FOLLOWING</text>
+  <text class="h2" x="36" y="230">ROVER</text>
+  <text class="sub" x="38" y="278">Raspberry Pi 5  ·  OpenCV  ·  NodeMCU</text>
+  <text class="sub" x="38" y="300">A red Betta steers the rover</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- Ground -->
+  <path class="t" d="M420,456 L740,456"/>
+
+  <!-- Mast and camera arm -->
+  <rect class="o" x="704" y="108" width="10" height="266"/>
+  <rect class="o" x="566" y="100" width="148" height="12"/>
+  <rect class="o" x="626" y="84" width="62" height="16" rx="2"/>
+  <text class="wp" x="657" y="96" text-anchor="middle">PI 5</text>
+  <rect class="o" x="552" y="104" width="40" height="24" rx="3"/>
+  <circle class="o" cx="572" cy="132" r="6"/>
+  <!-- view cone -->
+  <path class="d" d="M572,138 L474,244 M572,138 L690,244"/>
+
+  <!-- Tank -->
+  <rect class="o" x="465" y="240" width="232" height="134"/>
+  <rect class="t" x="472" y="246" width="218" height="122"/>
+  <path class="d" d="M472,268 L690,268"/>
+
+  <!-- Fish (Betta) -->
+  <path class="o" d="M548,322 C558,306 586,306 600,320 C588,334 560,338 548,322 Z"/>
+  <path class="o" d="M548,322 C534,300 518,304 510,310 C518,318 518,326 510,334 C518,342 534,344 548,322 Z"/>
+  <path class="t" d="M562,310 C568,298 582,298 588,309"/>
+  <path class="t" d="M564,334 C572,348 584,346 588,334"/>
+  <circle class="f" cx="591" cy="317" r="2.4"/>
+
+  <!-- Tracking box -->
+  <rect class="d" x="502" y="294" width="108" height="56" stroke-width="2"/>
+  <rect class="f" x="502" y="276" width="124" height="18"/>
+  <text class="wt" x="508" y="289">CENTRE (322, 267)</text>
+
+  <!-- Chassis -->
+  <rect class="o" x="448" y="374" width="266" height="20"/>
+  <rect class="t" x="520" y="394" width="40" height="16"/>
+  <rect class="t" x="600" y="394" width="40" height="16"/>
+
+  <!-- Wheels -->
+  <circle class="o" cx="482" cy="418" r="37"/>
+  <circle class="t" cx="482" cy="418" r="26"/>
+  <circle class="f" cx="482" cy="418" r="6"/>
+  <circle class="o" cx="680" cy="418" r="37"/>
+  <circle class="t" cx="680" cy="418" r="26"/>
+  <circle class="f" cx="680" cy="418" r="6"/>
+</svg>

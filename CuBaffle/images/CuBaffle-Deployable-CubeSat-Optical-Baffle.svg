@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: CuBaffle deployable optical baffle. Black on white.
+    Left: title. Right: front view of the laser-cut 1U chassis (finger joints) with the 3-stage
+    telescoping baffle deployed between the base plate and the top plate, two servo arms crossing
+    as in the team's Week 5 deployed sketch, the Pi camera's view line up the middle, and sunlight
+    stopped by the baffle wall.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; }
+      .arm  { fill: none; stroke: #000000; stroke-width: 4; stroke-linecap: round; }
+      .ray  { fill: none; stroke: #000000; stroke-width: 1.8; stroke-dasharray: 7 6; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 62px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 33px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .dim  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">CUBAFFLE</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="190">DEPLOYABLE</text>
+  <text class="h2" x="36" y="230">OPTICAL BAFFLE</text>
+  <text class="sub" x="38" y="278">Raspberry Pi 5  ·  2 x MG90S servos</text>
+  <text class="sub" x="38" y="300">1U CubeSat chassis  ·  35 mm to 80 mm</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- Sun and stray light -->
+  <circle class="o" cx="712" cy="88" r="16"/>
+  <path class="t" d="M712,62 L712,54 M712,114 L712,122 M686,88 L678,88 M738,88 L746,88 M694,70 L688,64 M730,70 L736,64 M694,106 L688,112 M730,106 L736,112"/>
+  <path class="ray" d="M698,100 L612,190"/>
+  <path class="ray" d="M702,104 L612,214"/>
+
+  <!-- 1U chassis -->
+    <rect class="o" style="fill:none" x="470" y="150" width="230" height="230"/>
+  <rect class="t" x="477" y="157" width="216" height="216"/>
+  <rect class="f" x="490.9" y="147.0" width="20.9" height="6"/>
+  <rect class="f" x="532.7" y="147.0" width="20.9" height="6"/>
+  <rect class="f" x="574.5" y="147.0" width="20.9" height="6"/>
+  <rect class="f" x="616.4" y="147.0" width="20.9" height="6"/>
+  <rect class="f" x="658.2" y="147.0" width="20.9" height="6"/>
+  <rect class="f" x="490.9" y="377.0" width="20.9" height="6"/>
+  <rect class="f" x="532.7" y="377.0" width="20.9" height="6"/>
+  <rect class="f" x="574.5" y="377.0" width="20.9" height="6"/>
+  <rect class="f" x="616.4" y="377.0" width="20.9" height="6"/>
+  <rect class="f" x="658.2" y="377.0" width="20.9" height="6"/>
+  <rect class="f" x="467.0" y="170.9" width="6" height="20.9"/>
+  <rect class="f" x="467.0" y="212.7" width="6" height="20.9"/>
+  <rect class="f" x="467.0" y="254.5" width="6" height="20.9"/>
+  <rect class="f" x="467.0" y="296.4" width="6" height="20.9"/>
+  <rect class="f" x="467.0" y="338.2" width="6" height="20.9"/>
+  <rect class="f" x="697.0" y="170.9" width="6" height="20.9"/>
+  <rect class="f" x="697.0" y="212.7" width="6" height="20.9"/>
+  <rect class="f" x="697.0" y="254.5" width="6" height="20.9"/>
+  <rect class="f" x="697.0" y="296.4" width="6" height="20.9"/>
+  <rect class="f" x="697.0" y="338.2" width="6" height="20.9"/>
+
+  <!-- Servo arms (behind the baffle) -->
+  <path class="arm" d="M499,348 L642,176"/>
+  <path class="arm" d="M671,348 L528,176"/>
+
+  <!-- Base plate and servos -->
+  <rect class="o" x="478" y="358" width="214" height="14"/>
+  <rect class="o" x="486" y="340" width="26" height="18" rx="2"/>
+  <rect class="o" x="658" y="340" width="26" height="18" rx="2"/>
+  <circle class="f" cx="499" cy="348" r="3.5"/><circle class="f" cx="671" cy="348" r="3.5"/>
+
+  <!-- Telescoping stages: outer (lower), middle, inner (upper) -->
+  <rect class="o" x="551" y="296" width="68" height="62"/>
+  <rect class="o" x="557" y="240" width="56" height="66"/>
+  <rect class="o" x="563" y="174" width="44" height="76"/>
+  <path class="t" d="M551,302 L619,302 M557,246 L613,246"/>
+
+  <!-- Top plate -->
+  <rect class="o" x="512" y="164" width="146" height="10"/>
+
+  <!-- Pi camera and its view line -->
+  <rect class="o" x="575" y="338" width="20" height="16" rx="2"/>
+  <circle class="t" cx="585" cy="346" r="4"/>
+  <path class="ray" d="M585,336 L585,132"/>
+  <path class="t" d="M579,140 L585,130 L591,140"/>
+
+  <!-- Dimension: deployed height -->
+  <path class="t" d="M452,174 L452,358 M446,174 L458,174 M446,358 L458,358"/>
+  <text class="dim" x="440" y="266" text-anchor="middle" transform="rotate(-90 440 266)">80 mm DEPLOYED</text>
+</svg>

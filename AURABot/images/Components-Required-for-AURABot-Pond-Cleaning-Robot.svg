@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!-- Components grid: AURABot pond cleaning robot. Black line drawings on white, 5 x 2 grid, bold label under each.
+       Top row: parts that are built and fitted. Bottom row: planned parts, not fitted yet. -->
+  <defs>
+    <style>
+      .bg  { fill: #ffffff; }
+      .o   { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+      .t   { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f   { fill: #000000; }
+      .lbl { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 13.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 0.4px; }
+      .pl  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 400; font-size: 11.5px;
+             fill: #000000; text-anchor: middle; letter-spacing: 1.2px; }
+      .in  { font-family: Arial, "Liberation Sans", "Helvetica Neue", sans-serif; font-weight: 700; font-size: 11px;
+             fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- 1. 110 mm PVC pipe with end caps (centre x 75) -->
+  <rect class="o" x="22" y="88" width="106" height="40" rx="6"/>
+  <rect class="o" x="14" y="84" width="16" height="48" rx="5"/>
+  <rect class="o" x="120" y="84" width="16" height="48" rx="5"/>
+  <path class="t" d="M40,98 L110,98"/>
+  <text class="lbl" x="75" y="182">110 mm PVC PIPE</text>
+  <text class="lbl" x="75" y="199">+ END CAPS ×2</text>
+
+  <!-- 2. Aluminium channel (centre x 225) -->
+  <path class="o" d="M170,132 L262,72 L282,82 L282,104 L274,109 L274,90 L262,84 L178,138 L178,156 L170,151 Z"/>
+  <path class="o" d="M170,132 L170,151 L190,161 L282,104"/>
+  <path class="t" d="M190,142 L190,161"/>
+  <text class="lbl" x="225" y="182">ALUMINIUM</text>
+  <text class="lbl" x="225" y="199">CHANNEL ×2</text>
+
+  <!-- 3. Ball bearing (centre x 375) -->
+  <circle class="o" cx="375" cy="110" r="42"/>
+  <circle class="o" cx="375" cy="110" r="18"/>
+  <circle class="t" cx="375" cy="110" r="33"/>
+  <circle class="t" cx="375" cy="110" r="25"/>
+  <circle class="f" cx="375" cy="81" r="2.5"/><circle class="f" cx="404" cy="110" r="2.5"/>
+  <circle class="f" cx="375" cy="139" r="2.5"/><circle class="f" cx="346" cy="110" r="2.5"/>
+  <circle class="f" cx="395" cy="90" r="2.5"/><circle class="f" cx="395" cy="130" r="2.5"/>
+  <circle class="f" cx="355" cy="130" r="2.5"/><circle class="f" cx="355" cy="90" r="2.5"/>
+  <text class="lbl" x="375" y="182">BALL BEARING ×4</text>
+
+  <!-- 4. Plastic mesh net (centre x 525) -->
+  <path class="o" d="M480,70 L570,70 L570,150 L480,150 Z"/>
+  <path class="t" d="M495,70 L495,150 M510,70 L510,150 M525,70 L525,150 M540,70 L540,150 M555,70 L555,150
+                     M480,85 L570,85 M480,100 L570,100 M480,115 L570,115 M480,130 L570,130 M480,145 L570,145"/>
+  <text class="lbl" x="525" y="182">PLASTIC MESH NET</text>
+
+  <!-- 5. Timing belt (centre x 675) -->
+  <rect class="o" x="616" y="92" width="118" height="22" rx="4"/>
+  <path class="t" d="M622,114 L622,120 L628,120 L628,114 M636,114 L636,120 L642,120 L642,114 M650,114 L650,120 L656,120 L656,114
+                     M664,114 L664,120 L670,120 L670,114 M678,114 L678,120 L684,120 L684,114 M692,114 L692,120 L698,120 L698,114
+                     M706,114 L706,120 L712,120 L712,114 M720,114 L720,120 L726,120 L726,114"/>
+  <text class="lbl" x="675" y="182">TIMING BELT</text>
+
+  <!-- 6. Orange 12 V geared motor (centre x 75), planned -->
+  <rect class="o" x="18" y="300" width="58" height="46" rx="8"/>
+  <rect class="o" x="76" y="296" width="40" height="54" rx="3"/>
+  <rect class="o" x="116" y="318" width="18" height="10" rx="2"/>
+  <path class="t" d="M30,300 L30,346 M42,300 L42,346"/>
+  <path class="t" d="M18,312 L8,306 M18,334 L8,340"/>
+  <text class="in" x="47" y="323">12V</text>
+  <text class="lbl" x="75" y="410">ORANGE 12V</text>
+  <text class="lbl" x="75" y="427">GEARED MOTOR</text>
+  <text class="pl" x="75" y="446">PLANNED</text>
+
+  <!-- 7. ESP32 DevKit V1 (centre x 225), planned -->
+  <rect class="o" x="185" y="288" width="80" height="70" rx="5"/>
+  <rect class="o" x="205" y="300" width="40" height="30" rx="2"/>
+  <path class="t" d="M208,292 L242,292"/>
+  <rect class="o" x="217" y="352" width="16" height="10" rx="2"/>
+  <path class="t" d="M188,296 L188,350 M262,296 L262,350" stroke-dasharray="2 4"/>
+  <text class="in" x="225" y="316">ESP32</text>
+  <text class="lbl" x="225" y="410">ESP32 DEVKIT V1</text>
+  <text class="pl" x="225" y="446">PLANNED</text>
+
+  <!-- 8. Motor driver (centre x 375), planned -->
+  <rect class="o" x="330" y="296" width="90" height="62" rx="4"/>
+  <path class="o" d="M350,296 L350,280 L400,280 L400,296"/>
+  <path class="t" d="M358,280 L358,296 M366,280 L366,296 M374,280 L374,296 M382,280 L382,296 M390,280 L390,296"/>
+  <rect class="o" x="336" y="336" width="14" height="16" rx="2"/>
+  <rect class="o" x="400" y="336" width="14" height="16" rx="2"/>
+  <text class="in" x="375" y="322">DRIVER</text>
+  <text class="lbl" x="375" y="410">BTS7960 OR</text>
+  <text class="lbl" x="375" y="427">L298N DRIVER</text>
+  <text class="pl" x="375" y="446">PLANNED</text>
+
+  <!-- 9. 12 V battery (centre x 525), planned -->
+  <rect class="o" x="478" y="296" width="94" height="58" rx="5"/>
+  <rect class="o" x="492" y="286" width="16" height="10" rx="2"/>
+  <rect class="o" x="542" y="286" width="16" height="10" rx="2"/>
+  <text class="in" x="525" y="326">12V</text>
+  <text class="lbl" x="525" y="410">12V BATTERY</text>
+  <text class="pl" x="525" y="446">PLANNED</text>
+
+  <!-- 10. Emergency stop button (centre x 675), planned -->
+  <rect class="o" x="640" y="318" width="70" height="40" rx="4"/>
+  <rect class="o" x="660" y="304" width="30" height="14" rx="2"/>
+  <path class="o" d="M648,304 Q675,268 702,304 Z"/>
+  <text class="lbl" x="675" y="410">EMERGENCY</text>
+  <text class="lbl" x="675" y="427">STOP BUTTON</text>
+  <text class="pl" x="675" y="446">PLANNED</text>
+</svg>

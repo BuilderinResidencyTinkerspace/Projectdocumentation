@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>AURABot Article</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column sized to the article's 750 px images, review notes in a strip on top. */
+:root {
+  --bg: #ffffff; --paper: #ffffff; --ink: #000000; --muted: #4a4f57; --line: #d8dee7;
+  --accent: #1c5fc9; --qa-bg: #e8f1fd; --qa-edge: #1a73e8; --toc-bg: #eaf1fa;
+  --code-bg: #f1f3f7; --code-ink: #26303d; --th-bg: #d7ebfa; --todo-bg: #ffeaa0; --todo-ink: #4f3d00;
+  --miss-bg: #f7f4ea; --miss-edge: #c9b46a;
+  --font-body: "Lato", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px; }
+.page { max-width: 790px; margin: 0 auto; display: grid; gap: 20px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; color: var(--muted); }
+.review .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.review mark.todo { font-size: 13px; }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px clamp(18px, 4vw, 20px); min-width: 0; }
+h1 { font-weight: 900; font-size: clamp(1.7rem, 4.6vw, 2.3rem); line-height: 1.2; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.byline { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+details.meta { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 0 0 20px; font-size: 14.5px; }
+details.meta summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+details.meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 2px; }
+details.meta dt { color: var(--muted); }
+details.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+details.meta ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+details.meta li { background: var(--code-bg); border-radius: 4px; padding: 0 7px; }
+h2 { font-weight: 900; font-size: 1.42rem; line-height: 1.3; margin: 2.1em 0 0.6em; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font-weight: 700; font-size: 1.15rem; margin: 1.6em 0 0.5em; scroll-margin-top: 16px; }
+p { margin: 0 0 1.05em; }
+@media (min-width: 640px) { article p { text-align: justify; hyphens: auto; } }
+p.step { margin: 1.4em 0 0.4em; text-align: left; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); border-radius: 4px; padding: 0.08em 0.35em; overflow-wrap: anywhere; }
+mark.todo { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0.05em 0.4em; font-weight: 700; font-size: 0.9em; white-space: normal; }
+.quick-answer { background: var(--qa-bg); border-left: 4px solid var(--qa-edge); border-radius: 4px; padding: 14px 18px; margin: 1.2em 0 1.5em; }
+.quick-answer p { margin: 0; text-align: left !important; }
+.quick-answer .qa-title { font-weight: 900; margin-bottom: 6px; }
+.toc { background: var(--toc-bg); border-radius: 4px; padding: 18px 20px; margin: 0 0 1.4em; }
+.toc .toc-title { font-weight: 900; font-size: 1.1rem; margin: 0 0 10px; text-align: left !important; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc li.sub { padding-left: 22px; }
+.toc li.sub a::before { content: "└ "; color: var(--muted); }
+.toc a { font-weight: 700; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+figure.shot { margin: 1.1em 0 1.3em; display: flex; justify-content: center; }
+figure.shot img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+figure.shot.missing div { width: 100%; max-width: 750px; aspect-ratio: 3 / 2; background: var(--miss-bg); border: 2px dashed var(--miss-edge); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 20px; text-align: center; }
+figure.shot.missing p { margin: 0; text-align: center !important; }
+figure.shot.missing .tag { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--todo-ink); }
+figure.shot.missing .fname { font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; }
+figure.shot.missing .alt { color: var(--muted); font-size: 14px; }
+figure.shot.missing .hint { font-size: 13px; color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: 0.8em 0 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--th-bg); font-weight: 700; }
+td code, th code { font-size: 0.84em; }
+.code-wrap { margin: 0.6em 0 1.1em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; tab-size: 4; }
+pre.code code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; }
+details.codefile { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; background: var(--paper); }
+details.codefile summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-weight: 700; }
+details.codefile summary .path { font-family: var(--font-mono); font-size: 14px; overflow-wrap: anywhere; min-width: 0; }
+details.codefile summary .count { color: var(--muted); font-weight: 400; font-size: 14px; white-space: nowrap; }
+details.codefile pre.code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; }
+.video-card { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; text-decoration: none; color: var(--ink); background: var(--code-bg); margin: 0.6em 0 1.2em; }
+.video-card .play { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); position: relative; }
+.video-card .play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 14px solid var(--paper); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.video-card .sub { display: block; color: var(--muted); font-size: 14px; }
+.video-card:hover strong { text-decoration: underline; }
+figure.shot.video { flex-direction: column; align-items: center; gap: 6px; }
+figure.shot.video video { max-width: 100%; height: auto; max-height: 560px; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+figure.shot.video figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+ul { padding-left: 1.2em; margin: 0 0 1.1em; }
+ul.related { list-style: none; padding: 0; display: grid; gap: 12px; }
+ul.related li { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+ul.related em { display: block; color: var(--muted); margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="review" aria-label="Review notes">
+    <span class="pill">Draft for review</span>
+    <span><mark class="todo">4 TODO</mark> values still open</span>
+  </div>
+  <article>
+    <h1>Building AURABot, a DIY Pond Cleaning Robot with PVC Hulls and a Mesh Conveyor</h1>
+    <p class="byline">Draft article · AURABot, built at Tinkerspace for Builder in Residence</p>
+    <details class="meta"><summary>Publishing details</summary>
+      <dl>
+        <dt>Slug</dt><dd><code>aurabot-diy-pond-cleaning-robot-pvc-conveyor</code></dd>
+        <dt>Meta description</dt><dd>Build a DIY pond cleaning robot from PVC pipe, with a 30 degree mesh conveyor between two floating hulls. Covers the pond check, frame build steps and wiring plan. <span style="color:var(--muted)">(163 characters)</span></dd>
+        <dt>Keywords</dt><dd><ul><li>Pond Cleaning Robot</li><li>Water Surface Cleaning Robot</li><li>PVC Hull</li><li>Mesh Conveyor Belt</li><li>ESP32 DevKit V1</li><li>BTS7960</li><li>L298N</li><li>12V Geared Motor</li><li>Open Source Hardware</li><li>Environmental Robotics</li><li>Robotics Project</li><li>Tinkerspace</li></ul></dd>
+      </dl>
+    </details>
+    <figure class="shot"><img src="images/AURABot-Pond-Cleaning-Robot.jpg" alt="AURABot DIY Pond Cleaning Robot" decoding="async"></figure>
+<p>There is a pond close to the Tinkerspace facility in Kochi that nobody uses any more. The water is stagnant, a green mat covers part of the surface, and litter has collected in it. Children used to swim here until the water got dirty, and about five years ago the municipality started a clean-up that reportedly cost 40 to 50 lakh rupees and was left unfinished. So, can a small robot built from plumbing pipe help bring a pond like this back?</p>
+<p>In this project, I built AURABot, a pond cleaning robot made from PVC pipe and parts from local shops. Two 110mm PVC hulls carry a mesh conveyor at 30 degrees, which is meant to lift floating litter and weed out of the water and drop it into a bin. This guide shows how to check a pond before building, which parts to get, and how to build the hulls and the conveyor, along with the planned wiring and firmware. So far, the hulls and the conveyor are built, while the motors, the electronics and the bin are not, and the pond cleaning robot has not touched water yet. You can also check out similar <a href="https://circuitdigest.com/robotics-projects" target="_blank" rel="noopener">robotics projects</a> and <a href="https://circuitdigest.com/esp32-projects" target="_blank" rel="noopener">ESP32 projects</a> done previously here at Circuit Digest.</p>
+<aside class="quick-answer" aria-label="Quick Answer"><p class="qa-title">Quick Answer: What is AURABot?</p><p><strong>AURABot</strong> (Aquatic Unit for Revival and Algae-Management) is an open-source <strong>pond cleaning robot</strong> made from PVC plumbing pipe. Two <strong>110mm PVC hulls</strong> carry a <strong>mesh conveyor at 30 degrees</strong> that is meant to lift floating litter and weed into a bin. The hulls and the conveyor are built, and the motors, the <strong>ESP32</strong> control and the bin are still planned.</p></aside>
+<nav class="toc" aria-label="Table of Contents"><p class="toc-title">Table of Contents</p><ol><li class="top"><a href="#what-is-aurabot">What Is AURABot?</a></li><li class="sub"><a href="#why-aurabot-only-works-at-the-surface">Why Only the Surface</a></li><li class="top"><a href="#before-you-build-check-your-pond">Check Your Pond First</a></li><li class="top"><a href="#how-does-the-aurabot-pond-cleaning-robot-work">How AURABot Works</a></li><li class="top"><a href="#components-required-for-aurabot">Components Required</a></li><li class="top"><a href="#planned-wiring-diagram-of-aurabot">Planned Wiring Diagram</a></li><li class="sub"><a href="#planned-connections">Planned Connections</a></li><li class="top"><a href="#building-the-hulls-and-the-conveyor">Building the Hulls and Conveyor</a></li><li class="top"><a href="#planned-esp32-control-firmware">Planned ESP32 Firmware</a></li><li class="top"><a href="#testing-aurabot-safely">Testing Safely</a></li><li class="top"><a href="#live-video-demonstration">Live Demo</a></li><li class="top"><a href="#output-aurabot-at-demo-day">Output</a></li><li class="top"><a href="#troubleshooting-aurabot">Troubleshooting</a></li><li class="top"><a href="#lessons-from-my-build">Lessons From My Build</a></li><li class="top"><a href="#aurabot-github-repository">GitHub</a></li></ol></nav>
+<h2 id="what-is-aurabot">What Is AURABot?</h2>
+<p>AURABot is a robot meant to help bring a stagnant pond back to life by collecting what floats on it. The hull is plain PVC pipe that any plumbing shop sells, so that anyone can copy the build, and the main job of the robot, collecting waste, depends on the conveyor and the bin, so those come first. For a professional version of the idea, look at Clearbot, whose Clearbot Neo is about three metres long and cleans set sections of water much like a household robot cleaner. If you want a simpler boat to start with, Circuit Digest has an <a href="https://circuitdigest.com/microcontroller-projects/simple-arduino-rc-boat-that-can-be-controlled-wirelessly-using-rf-module" target="_blank" rel="noopener">Arduino RC boat controlled with 433 MHz RF modules</a>. If interested, do check it out.</p>
+<h3 id="why-aurabot-only-works-at-the-surface">Why AURABot Only Works at the Surface</h3>
+<p>Residents told me that a group of college students once experimented on this pond, and about two days later many fish died and an oily film was seen on the water. I do not know what they did or what killed the fish. One explanation I considered is that disturbing the bottom released hydrogen sulphide built up in the mud of a pond that never drains. I have not tested for it, and the oily film points to other possible causes, so this is only a guess. The rule I took from it is simple: stay at the surface and do not touch the bottom. A research scholar from the Marine Biology department at CUSAT suggested starting with the floating weeds and the microalgae and leaving the rooted plants for later. I still need to ask her whether even that is safe for the fish.</p>
+<h2 id="before-you-build-check-your-pond">Before You Build: Check Your Pond</h2>
+<p>The design depends on the pond, so survey yours before cutting any pipe. Below is the pond near Tinkerspace, with the green mat on the surface and litter floating in it.</p>
+<figure class="shot"><img src="images/Stagnant-Pond-Near-Tinkerspace-Kochi.jpg" alt="Stagnant pond near Tinkerspace in Kochi with a green mat of weed on the surface and floating litter, the site AURABot was designed for" decoding="async"></figure>
+<p>For a first depth check, I dipped the midrib of a coconut frond into the water, and it went down 3 to 4 feet. For a better reading, tie a stone to a fishing line and lower it. Ask the people living around the pond about its history, find out whether fish live in it, and check where the water drains. Locals expect the municipality to be involved, so sort out permission before any test in the water. The table below gives what I found at this pond.</p>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>What I Found</th></tr></thead><tbody><tr><td>Size</td><td>About 25 m by 25 m, roughly 625 m², measured on a map</td></tr><tr><td>Depth</td><td>About 5 feet where I could reach; the middle may be deeper</td></tr><tr><td>Drainage outlet</td><td>At about 8 feet, so the water never reaches it and only seeps out through the stone wall</td></tr><tr><td>Fish</td><td>Alive; residents say they grow to 30 to 35 cm</td></tr><tr><td>Earlier clean-up</td><td>About five years ago, 40 to 50 lakh rupees, stopped by a flash flood that left equipment in the pond</td></tr></tbody></table></div>
+<p>Cleaning alone will not keep a pond like this clean. Water from around this pond is now routed straight into a nearby drain, so nothing flows through it any more. Restoring that inflow and outflow is a separate job from the robot, but it matters just as much. Try to get the algae identified as well, as the water here is too far below the bank to reach the weeds for a pull test.</p>
+<h2 id="how-does-the-aurabot-pond-cleaning-robot-work">How Does the AURABot Pond Cleaning Robot Work?</h2>
+<p>Two 110mm PVC pipes with caps on both ends float the robot, and PVC cross pipes join them. Between the hulls, a mesh belt runs over two PVC rollers, held between two aluminium side rails at 30 degrees, with the lower end just under the water surface. As the belt turns, floating litter and weed ride up it and fall into a bin at the top. Two paddles, one on each side, are meant to move the robot, and an ESP32 is meant to run the three motors from a phone. Below is the block diagram of the AURABot pond cleaning robot.</p>
+<figure class="shot"><img src="images/Block-Diagram-of-AURABot-Pond-Cleaning-Robot.jpg" alt="Block diagram of AURABot pond cleaning robot showing phone, ESP32, emergency stop, 12V battery, motor drivers, conveyor and paddle motors, conveyor, bin and PVC hulls" decoding="async"></figure>
+<p>The solid boxes are the parts that are built, which is the floating platform and the conveyor. Everything in dashed boxes is planned and not fitted yet, from the phone and the ESP32 down to the three motors. Below is a side view of the conveyor.</p>
+<figure class="shot"><img src="images/AURABot-Conveyor-Side-View.jpg" alt="Side view of AURABot conveyor with bottom roller under the water surface, driven top roller, mesh belt with timing-belt grip, aluminium side rail at 30 degrees, PVC hull, bin and paddle" decoding="async"></figure>
+<p>Only the top roller is driven, and the bottom roller just turns freely. A strip of timing belt is stuck under the mesh and around one roller, so that the roller can drive the mesh without slipping. For another build that moves objects on a belt, here is the <a href="https://circuitdigest.com/microcontroller-projects/automatic-bottle-filling-system-using-arduino" target="_blank" rel="noopener">automatic bottle filling system using Arduino</a> on Circuit Digest.</p>
+<h2 id="components-required-for-aurabot">Components Required for AURABot</h2>
+<p>Below is the list of components for AURABot, with what has actually been fitted so far.</p>
+<figure class="shot"><img src="images/Components-Required-for-AURABot-Pond-Cleaning-Robot.jpg" alt="Components required for AURABot pond cleaning robot including 110 mm PVC pipe, aluminium channel, ball bearings, mesh net, timing belt and the planned motor, ESP32, driver, battery and emergency stop" decoding="async"></figure>
+<div class="table-wrap"><table><thead><tr><th>S.No</th><th>Component</th><th>Description</th><th>Quantity</th><th>Status</th></tr></thead><tbody><tr><td>1.</td><td>110mm PVC Pipe with End Caps <mark class="todo">TODO: length</mark></td><td>Hulls</td><td>2</td><td>Built</td></tr><tr><td>2.</td><td>PVC Pipe</td><td>Cross pipes between the hulls</td><td>As required</td><td>Built</td></tr><tr><td>3.</td><td>Aluminium Channel (flex banner stand base)</td><td>Conveyor side rails</td><td>2</td><td>Built</td></tr><tr><td>4.</td><td>PVC Pipe Rollers with End Caps</td><td>About 40 cm wide</td><td>2</td><td>Built</td></tr><tr><td>5.</td><td>Ball Bearings <mark class="todo">TODO: size</mark></td><td>Roller supports</td><td>4</td><td>Fitted</td></tr><tr><td>6.</td><td>Plastic Mesh Net</td><td>Belt</td><td>1</td><td>Fitted</td></tr><tr><td>7.</td><td>Timing Belt, cut to length</td><td>Grip between roller and mesh</td><td>1</td><td>Fitted</td></tr><tr><td>8.</td><td>Orange 12V 100 RPM Geared Motor</td><td>Conveyor roller and two paddles</td><td>3 to 4</td><td>Not fitted</td></tr><tr><td>9.</td><td>Paddles with Long Blades</td><td>Propulsion</td><td>2</td><td>Not built</td></tr><tr><td>10.</td><td>Plastic or Mesh Bin</td><td>Collecting waste</td><td>1</td><td>Not built</td></tr><tr><td>11.</td><td>ESP32 DevKit V1</td><td>Controller</td><td>1</td><td>Not fitted</td></tr><tr><td>12.</td><td>BTS7960 or L298N Motor Driver</td><td>Driving the motors</td><td>2 to 3</td><td>Not fitted</td></tr><tr><td>13.</td><td>12V Battery (LiPo or Sealed Lead-Acid)</td><td>Power</td><td>1</td><td>Not decided</td></tr><tr><td>14.</td><td>Buck Converter, Fuse, Power Switch, Emergency Stop Button</td><td>Power and safety</td><td>1 each</td><td>Not fitted</td></tr></tbody></table></div>
+<p>The banner-stand base is light and already has the right channel shape for the side rails. The Orange geared motors were chosen because Tinkerspace already had them, and sellers list them at roughly 10 to 12 kg-cm of rated torque. They cannot go under water, which is why AURABot uses paddles with long blades instead of propellers; an underwater propeller driven from a motor on board would need universal joints, which I could not find locally. Waterproof 12V motors and propellers were not available at Tomson or Matha Electronics either. I also bought a 12V 85 RPM worm-gear motor from Matha Electronics for ₹1,770, but the current plan uses the Orange motors. To learn how a driver like the L298N runs a DC motor, refer to our <a href="https://circuitdigest.com/microcontroller-projects/interfacing-l298n-motor-driver-with-arduino" target="_blank" rel="noopener">L298N motor driver with Arduino</a> tutorial.</p>
+<h2 id="planned-wiring-diagram-of-aurabot">Planned Wiring Diagram of AURABot</h2>
+<p>Nothing electrical has been wired on AURABot yet, so below is the planned wiring, drawn from the parts list and the firmware notes in the repository.</p>
+<figure class="shot"><img src="images/Planned-Wiring-Diagram-of-AURABot-Pond-Cleaning-Robot.jpg" alt="Planned Wiring Diagram of AURABot Pond Cleaning Robot" title="Planned Wiring Diagram of AURABot Pond Cleaning Robot" decoding="async"></figure>
+<p>The 12V battery goes through a fuse and a power switch to the motor drivers, and a buck converter steps the same supply down for the ESP32 DevKit V1. The ESP32 reads an emergency stop button on one of its inputs, as the firmware draft expects, and sends control signals to the drivers. One driver runs the conveyor motor and the other runs the two paddle motors. The fuse-then-switch order, the buck converter feeding the ESP32's VIN pin and the use of two driver boards are my assumptions, as the repository lists two to three drivers and does not give a wiring order. Our article on <a href="https://circuitdigest.com/article/calculating-the-energy-run-time-and-charge-of-a-drone-lipo-battery" target="_blank" rel="noopener">calculating the run time of a drone LiPo battery</a> shows how to size a pack. That is all about the planned wiring. For an example of BTS7960 drivers on a heavier robot, see the <a href="https://circuitdigest.com/microcontroller-projects/raspberry-pi-based-autonomous-uv-robot" target="_blank" rel="noopener">Raspberry Pi based autonomous UV robot</a> on Circuit Digest.</p>
+<h3 id="planned-connections">Planned Connections</h3>
+<div class="table-wrap"><table><thead><tr><th>From</th><th>To</th><th>Status</th></tr></thead><tbody><tr><td>12V battery</td><td>Fuse, then power switch</td><td>Battery type not decided, order assumed</td></tr><tr><td>Power switch</td><td>Motor driver power inputs</td><td>Planned</td></tr><tr><td>Power switch</td><td>Buck converter, then ESP32 VIN</td><td>Assumed</td></tr><tr><td>Emergency stop button</td><td>ESP32 input</td><td>Pin not decided</td></tr><tr><td>ESP32 GPIOs</td><td>Driver 1 and driver 2 control pins</td><td>Pins not decided</td></tr><tr><td>Driver 1</td><td>Conveyor motor (top roller)</td><td>Planned</td></tr><tr><td>Driver 2</td><td>Left and right paddle motors</td><td>Planned</td></tr></tbody></table></div>
+<h2 id="building-the-hulls-and-the-conveyor">Building the Hulls and the Conveyor</h2>
+<p>Below are the PVC hull pipes, the aluminium rails and the mesh, laid out before assembly.</p>
+<figure class="shot"><img src="images/AURABot-PVC-Hulls-and-Aluminium-Rails.jpg" alt="AURABot parts laid out before assembly, with two PVC hull pipes and end caps, aluminium banner-stand rails, a cross bar and the blue mesh net" decoding="async"></figure>
+<p class="step"><strong>Step 1⇒ Make the Hulls</strong></p>
+<p>Cap both ends of the two 110mm PVC pipes so that they are sealed and float.</p>
+<p class="step"><strong>Step 2⇒ Join the Hulls</strong></p>
+<p>Join the two hulls with PVC cross pipes. These cross pipes also carry the conveyor later, so leave room for it between the hulls.</p>
+<p class="step"><strong>Step 3⇒ Cut the Side Rails and Seat the Bearings</strong></p>
+<p>Cut each of the two aluminium banner-stand rails to the size of the bearings, so that each of the four bearings sits partly inside the rail. Fix the bearings with a glue gun. Do not weld near the bearings, as the heat melts their rubber seals, which keep debris out of the balls. Below is the end of a roller with its bearing.</p>
+<figure class="shot"><img src="images/AURABot-Roller-End-Cap-and-Ball-Bearing.jpg" alt="AURABot PVC roller end cap with a short pipe passing through it into a ball bearing" decoding="async"></figure>
+<p class="step"><strong>Step 4⇒ Make the Rollers</strong></p>
+<p>Each roller is a PVC pipe about 40 cm wide with an end cap on each side. Drill the end caps so that smaller, shorter pipes pass through them and into the bearings. Below is a complete roller with a bearing on each end.</p>
+<figure class="shot"><img src="images/AURABot-PVC-Roller-with-Bearings.jpg" alt="AURABot PVC conveyor roller about 40 cm wide with a ball bearing fitted on each end" decoding="async"></figure>
+<p class="step"><strong>Step 5⇒ Fit the Mesh Belt</strong></p>
+<p>Wrap the plastic mesh net over both rollers. Stick pieces of timing belt under the mesh and around the roller that will be driven, so that it can grip the mesh. Attach them evenly and with a flexible adhesive, as an uneven or stiff joint makes the belt move with difficulty.</p>
+<p class="step"><strong>Step 6⇒ Mount the Conveyor</strong></p>
+<p>Set the side rails at 30 degrees with the lower roller just under the water line, and tie the whole conveyor to the PVC cross pipes. The bin goes at the top end, where the waste falls off the belt.</p>
+<p>My first frame was 1-inch hollow steel pipe, cut with a hand-held cut-off saw and drilled for U-clamps to hold the hulls. Avoid it. The aluminium rails cannot be welded to steel, the stacked steel side frame came out too heavy for hulls of a sensible size, and cutting the 30 degree piece by hand took far longer than I expected. If you do cut metal, get help from someone trained on the power saw.</p>
+<h2 id="planned-esp32-control-firmware">Planned ESP32 Control Firmware</h2>
+<p>The firmware is still a draft, and it is not in the repository yet. In the draft, the ESP32 creates its own Wi-Fi hotspot, so no router is needed at the pond, and you drive the robot from a joystick on a web page after joining the hotspot with a phone. It stops all the motors if no command arrives for 1.5 seconds, and it has an input for a physical emergency stop button. The draft was written for an earlier layout of the robot, with a surface brush, a comb roller and a depth actuator, so it has to be changed for one conveyor motor and two paddle motors before it is useful. Part of the sizing work and this draft were done with an AI assistant, and none of it has been run on the robot. Circuit Digest's <a href="https://circuitdigest.com/microcontroller-projects/esp32-cam-surveillance-car" target="_blank" rel="noopener">ESP32-CAM surveillance car</a> uses the same idea of the ESP32 hosting its own access point with a control page on the phone.</p>
+<h2 id="testing-aurabot-safely">Testing AURABot Safely</h2>
+<p>Test in stages, and stop if anything looks wrong for the fish. Turn the conveyor by hand on the bench first and make sure the belt moves freely over both rollers. Then test the robot in a tub, then at the pond edge, before any real run. For the first run in the pond, use a small trial patch with a dissolved oxygen test kit and watch the fish the whole time. For measuring water quality during such a trial, the <a href="https://circuitdigest.com/microcontroller-projects/measuring-turbidity-of-water-to-determine-water-quality-using-arduino-turbidity-sensor" target="_blank" rel="noopener">turbidity meter using Arduino</a> on Circuit Digest is a simple place to start.</p>
+<h2 id="live-video-demonstration">Live Video Demonstration</h2>
+<p>Below is the video demonstration of AURABot.</p>
+<a class="video-card" href="#todo-link"><span class="play" aria-hidden="true"></span><span><strong>Watch the AURABot pond cleaning robot</strong><span class="sub">YouTube · video not published yet (VIDEO_ID)</span></span></a>
+<p><mark class="todo">TODO: video of AURABot at the demo, with the conveyor turned by hand to show the belt moving over the rollers</mark></p>
+<h2 id="output-aurabot-at-demo-day">Output: AURABot at Demo Day</h2>
+<p>Below is the assembled prototype, as it was shown at the demo on 20 September 2026 and photographed on 2 October.</p>
+<figure class="shot"><img src="images/AURABot-Assembled-Hulls-and-Conveyor.jpg" alt="Assembled AURABot pond cleaning robot prototype with two capped 110 mm PVC hulls, PVC cross pipes and the blue mesh conveyor between aluminium side rails" decoding="async"></figure>
+<p>The two capped hulls sit on either side, joined by the PVC cross pipes, and the conveyor is tied to them with cable ties, with the blue mesh running over both rollers. The prototype was not ready to touch water. The table below gives the state of each part.</p>
+<div class="table-wrap"><table><thead><tr><th>Part</th><th>Status</th></tr></thead><tbody><tr><td>Two PVC hulls with end caps, joined by PVC cross pipes</td><td>Built</td></tr><tr><td>Conveyor frame, two aluminium side rails at 30 degrees</td><td>Built</td></tr><tr><td>Two PVC rollers on four ball bearings</td><td>Built</td></tr><tr><td>Mesh belt with timing-belt grip</td><td>Fitted, but it moves stiffly</td></tr><tr><td>Paddle propulsion and collection bin</td><td>Not built</td></tr><tr><td>Electronics and firmware</td><td>Draft only, never run on the robot</td></tr><tr><td>Test in water</td><td>Not done</td></tr></tbody></table></div>
+<h2 id="troubleshooting-aurabot">Troubleshooting AURABot</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead><tbody><tr><td>The mesh belt moves stiffly</td><td>The adhesive made the mesh stiff where the timing belt is stuck, and the belt was attached to the roller unevenly (my guess, not confirmed)</td><td>Re-attach the timing belt evenly with a thinner, more flexible adhesive</td></tr><tr><td>Round objects like bottles roll back down the belt</td><td>A smooth belt at 30 degrees cannot hold them</td><td>Add raised rubber strips across the belt</td></tr><tr><td>Bearings cannot be welded to the frame</td><td>Welding heat melts the rubber seals</td><td>Seat each bearing in a cut-out in the rail and glue it</td></tr><tr><td>The aluminium rails will not join the steel frame</td><td>Aluminium cannot be welded to steel</td><td>Use one material; AURABot went back to aluminium rails and PVC cross pipes</td></tr><tr><td>The frame is too heavy for the hulls</td><td>Stacked 1-inch steel pipes</td><td>Use the lighter aluminium and PVC, or bigger hulls</td></tr></tbody></table></div>
+<h2 id="lessons-from-my-build">Lessons From My Build</h2>
+<p>Understand the pond before designing the robot. It took me six or seven weeks to see how deep the problem was, which left only the last two or three weeks for the hardware.</p>
+<p>Build the part that does the job first. I started out trying to make a hull that looked like Clearbot, until Kurian asked why an open-source project was being built like a finished commercial product. The waste is collected by the conveyor and the bin, so they come first, on a hull of plain pipe.</p>
+<p>Plan more time for the frame than you think it needs. Mine took far longer than I expected, and I managed my time badly, which is why nothing else was fitted for the demo.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The two hulls and the conveyor are built, and they show that a surface collector can be made from plumbing pipe, a banner stand and a mesh net. AURABot has not reached the water yet. The repository lists what is still to do: fix the belt friction, add rubber strips to the belt, build and fit the paddles, motors and bin, fit the electronics with updated firmware, and test in a tub before the pond edge. After that comes a small trial patch with a dissolved oxygen test kit while watching the fish, and getting the algae identified by an expert.</p>
+<h2 id="aurabot-github-repository">AURABot GitHub Repository</h2>
+<p>The AURABot repository has the full README with the pond survey, the build logs and the build photos. The code and CAD folders do not have files yet. AURABot was built by Nihaal Yoosuf at Tinkerspace, Kochi, as part of the Builder in Residence programme sponsored by Circuit Digest, and it is released under the GNU General Public License v3.0.</p>
+<p><a href="https://github.com/BuilderinResidencyTinkerspace/AURABot" target="_blank" rel="noopener">Code &amp; Schematics (GitHub)</a> · <a href="https://github.com/BuilderinResidencyTinkerspace/AURABot/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download Zip</a></p>
+<h2 id="frequently-asked-questions-about-the-aurabot-pond-cleaning-robot">Frequently Asked Questions About the AURABot Pond Cleaning Robot</h2>
+<p class="step"><strong>⇥ 1. Why does AURABot only clean the surface of the pond?</strong></p>
+<p>Many fish died about two days after an earlier experiment on the same pond, and disturbing the mud of a pond that never drains may have played a part. Until that is understood, the robot stays at the surface and leaves the bottom alone.</p>
+<p class="step"><strong>⇥ 2. Why are the hulls made from PVC pipe and not a proper boat hull?</strong></p>
+<p>The goal is a pond cleaning robot that anyone can copy with parts from a local shop, which was Kurian's advice. A capped PVC pipe needs no moulding or fibreglass work, and the same pipe is sold in any plumbing shop.</p>
+<p class="step"><strong>⇥ 3. Has AURABot been tested in water?</strong></p>
+<p>No. The prototype has no propulsion, electronics or bin yet. The next steps listed in the repository are a test in a tub, then at the pond edge, before any real run.</p>
+<h2 id="water-and-robotics-projects-on-circuit-digest">Water and Robotics Projects on Circuit Digest</h2>
+<p>Explore boats, waste-collecting robots and water-quality projects built with Arduino, ESP32 and NodeMCU.</p>
+<ul class="related"><li><strong><a href="https://circuitdigest.com/microcontroller-projects/simple-arduino-rc-boat-that-can-be-controlled-wirelessly-using-rf-module" target="_blank" rel="noopener">Build a Simple Arduino RC Boat that can be Controlled Wirelessly using 433 MHz RF Modules</a></strong>: <em>In this project, we will build a remote-controlled Arduino Air-Boat, using a homemade 433 MHz transmitter and receiver.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/ai-powered-autonomous-waste-collecting-and-sorting-robot" target="_blank" rel="noopener">AI-Powered Autonomous Waste-Collecting and Sorting Robot</a></strong>: <em>This project aims to develop an intelligent robot that can automatically collect and sort waste, with an ESP32-S3 camera as its vision unit.</em></li><li><strong><a href="https://circuitdigest.com/microcontroller-projects/arduino-nodemcu-based-smart-water-quality-monitoring-system-using-iot" target="_blank" rel="noopener">Smart Water Quality Monitoring System Using IoT</a></strong>: <em>The various parameters that can be monitored are soil moisture, pH of water and temperature, using an Arduino and a NodeMCU.</em></li></ul>
+<h2 id="complete-project-code">Complete Project Code</h2>
+<p>AURABot has no code in its repository yet. The draft ESP32 firmware described above is still to be updated for one conveyor motor and two paddle motors and added to the code folder. <mark class="todo">TODO: add the ESP32 firmware to the repository</mark></p>
+  </article>
+</div>
+</body>
+</html>

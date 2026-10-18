@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="440" viewBox="0 0 750 440">
+  <!--
+    Side view of the AURABot conveyor, black on white, not to scale.
+    Bottom roller just under the water surface turns freely; the top roller is the driven one.
+    Mesh belt with a strip of timing belt for grip, held between aluminium side rails at 30 degrees.
+    Dashed parts (motor, bin, paddle) are planned and not built.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .d    { fill: none; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 7 5; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.2; stroke-linecap: round; }
+      .f    { fill: #000000; }
+      .lbl  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12.5px; fill: #000000; }
+      .note { font-family: Arial, "Liberation Sans", sans-serif; font-size: 12px; font-style: italic; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="440"/>
+
+  <!-- Hull -->
+  <rect class="o" x="300" y="290" width="400" height="52" rx="22"/>
+  <path class="t" d="M322,292 L322,340 M678,292 L678,340"/>
+  <text class="lbl" x="420" y="321">110 mm PVC HULL</text>
+
+  <!-- Paddle, not built -->
+  <circle class="d" cx="640" cy="316" r="44"/>
+  <path class="d" d="M640,272 L640,360 M596,316 L684,316 M609,285 L671,347 M609,347 L671,285"/>
+  <text class="lbl" x="598" y="384">PADDLE (NOT BUILT)</text>
+
+  <!-- Bin, not built -->
+  <path class="d" d="M500,150 L600,150 L592,226 L508,226 Z"/>
+  <text class="lbl" x="506" y="244">BIN (NOT BUILT)</text>
+
+  <!-- Conveyor at 30 degrees, drawn level about the bottom roller and rotated -->
+  <g transform="rotate(-30 120 318)">
+    <rect class="o" x="94" y="294" width="458" height="48" rx="12"/>
+    <circle class="o" cx="120" cy="318" r="18"/>
+    <circle class="o" cx="526" cy="318" r="18"/>
+    <circle class="f" cx="120" cy="318" r="3.5"/>
+    <circle class="f" cx="526" cy="318" r="3.5"/>
+    <path class="w" d="M120,300 L526,300 M120,336 L526,336"/>
+    <path class="t" d="M140,300 L140,336 M160,300 L160,336 M180,300 L180,336 M200,300 L200,336 M220,300 L220,336 M240,300 L240,336
+                       M260,300 L260,336 M280,300 L280,336 M300,300 L300,336 M320,300 L320,336 M340,300 L340,336 M360,300 L360,336
+                       M380,300 L380,336 M400,300 L400,336 M420,300 L420,336 M440,300 L440,336 M460,300 L460,336 M480,300 L480,336 M500,300 L500,336"/>
+    <!-- bottle riding up -->
+    <rect class="o" x="300" y="280" width="52" height="20" rx="8"/>
+    <rect class="o" x="352" y="285" width="12" height="10" rx="2"/>
+    <!-- weed on the belt -->
+    <path class="t" d="M200,298 q5,-12 12,-2 q5,-12 12,0 q6,-10 11,2"/>
+  </g>
+
+  <!-- Motor, not fitted, on the top roller axle (roller centre at about 472,115) -->
+  <rect class="d" x="440" y="40" width="70" height="34"/>
+  <path class="d" d="M472,74 L472,108"/>
+  <text class="lbl" x="520" y="52">ORANGE 12V MOTOR</text>
+  <text class="lbl" x="520" y="68">(NOT FITTED)</text>
+
+  <!-- Water surface -->
+  <path class="w" d="M20,300 q12,-6 24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0"/>
+  <text class="lbl" x="20" y="285">WATER SURFACE</text>
+  <!-- floating weed ahead of the robot -->
+  <path class="t" d="M44,298 q5,-11 11,-2 q5,-11 11,0 q6,-9 10,2"/>
+
+  <!-- 30 degree mark -->
+  <path class="t" d="M120,318 L236,318"/>
+  <path class="t" d="M210,318 A90,90 0 0 0 198,273"/>
+  <text class="lbl" x="218" y="314">30°</text>
+
+  <!-- Labels with leader lines -->
+  <path class="t" d="M120,336 L120,372"/>
+  <text class="lbl" x="20" y="390">BOTTOM ROLLER: TURNS FREELY,</text>
+  <text class="lbl" x="20" y="406">SITS JUST UNDER THE SURFACE</text>
+
+  <path class="t" d="M456,100 L380,60"/>
+  <text class="lbl" x="250" y="46">TOP ROLLER: DRIVEN</text>
+
+  <path class="t" d="M262,232 L190,170"/>
+  <text class="lbl" x="40" y="146">MESH BELT WITH A</text>
+  <text class="lbl" x="40" y="162">TIMING-BELT GRIP STRIP</text>
+
+  <path class="t" d="M372,224 L382,254"/>
+  <text class="lbl" x="335" y="270">ALUMINIUM SIDE RAIL</text>
+
+  <text class="note" x="20" y="430">Side view, not to scale. Dashed parts are planned and not built yet.</text>
+</svg>

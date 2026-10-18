@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: MARS modular autonomous rover system. Black on white.
+    Left: title. Right: side view of the two-deck rover (lower deck on four wheels,
+    three ultrasonic sensors at the front, upper deck with the webcam), the soil-probe lift
+    lowered at the back, and a dashed module dropping onto the upper deck.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .d    { fill: #ffffff; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 8 6; stroke-linejoin: round; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 74px; fill: #000000; letter-spacing: 3px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 29px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .sm   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 11px; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="122">MARS</text>
+  <rect class="f" x="38" y="142" width="70" height="6"/>
+  <text class="h2" x="36" y="192">MODULAR</text>
+  <text class="h2" x="36" y="228">AUTONOMOUS</text>
+  <text class="h2" x="36" y="264">ROVER SYSTEM</text>
+  <text class="sub" x="38" y="308">Arduino Uno  ·  Raspberry Pi 5  ·  Arduino Nano</text>
+  <text class="sub" x="38" y="330">One base, interchangeable modules</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <!-- ground line -->
+  <path class="t" d="M398,420 L734,420"/>
+
+  <!-- wheels -->
+  <circle class="o" cx="462" cy="388" r="32"/><circle class="o" cx="462" cy="388" r="13"/><circle class="f" cx="462" cy="388" r="3"/>
+  <circle class="o" cx="652" cy="388" r="32"/><circle class="o" cx="652" cy="388" r="13"/><circle class="f" cx="652" cy="388" r="3"/>
+
+  <!-- gear motors under the lower deck -->
+  <rect class="o" x="478" y="368" width="34" height="16" rx="2"/>
+  <rect class="o" x="602" y="368" width="34" height="16" rx="2"/>
+
+  <!-- lower deck -->
+  <rect class="o" x="420" y="352" width="276" height="12" rx="3"/>
+  <!-- electronics on the lower deck: battery, perfboard -->
+  <rect class="o" x="560" y="318" width="64" height="34" rx="3"/>
+  <text class="sm" x="592" y="335">14.8V</text>
+  <rect class="o" x="470" y="336" width="78" height="16" rx="2"/>
+  <path class="t" d="M476,344 L540,344" stroke-dasharray="2 4"/>
+
+  <!-- standoffs -->
+  <path class="t" d="M432,352 L432,290 M458,352 L458,290 M664,352 L664,290 M688,352 L688,290" stroke-width="2.2"/>
+
+  <!-- ultrasonic sensors at the front (right side of the drawing) -->
+  <rect class="o" x="696" y="318" width="14" height="40" rx="2"/>
+  <circle class="o" cx="716" cy="328" r="6"/><circle class="o" cx="716" cy="348" r="6"/>
+
+  <!-- upper deck -->
+  <rect class="o" x="420" y="278" width="276" height="12" rx="3"/>
+  <!-- hole row on upper deck -->
+  <path class="t" d="M436,284 L680,284" stroke-dasharray="2 9"/>
+
+  <!-- webcam on the upper deck -->
+  <path class="t" d="M622,278 L622,256" stroke-width="2.2"/>
+  <rect class="o" x="604" y="226" width="40" height="30" rx="4"/>
+  <circle class="o" cx="644" cy="241" r="10"/><circle class="o" cx="644" cy="241" r="4"/>
+
+  <!-- soil-probe lift at the back (left side), lowered -->
+  <path class="o" d="M412,300 L392,300 L380,330 L400,330 Z"/>
+  <path class="t" d="M402,300 L382,372 M412,300 L394,372" stroke-width="2.2"/>
+  <rect class="o" x="376" y="368" width="24" height="16" rx="2"/>
+  <path class="t" d="M381,384 L381,416 M395,384 L395,416" stroke-width="2.6"/>
+
+  <!-- module dropping onto the upper deck -->
+  <rect class="d" x="476" y="150" width="110" height="64" rx="6"/>
+  <text class="sm" x="531" y="176">APPLICATION</text>
+  <text class="sm" x="531" y="194">MODULE</text>
+  <path class="t" d="M531,218 L531,262" stroke-width="2.2" stroke-dasharray="6 5"/>
+  <path class="f" d="M523,258 L531,272 L539,258 Z"/>
+</svg>

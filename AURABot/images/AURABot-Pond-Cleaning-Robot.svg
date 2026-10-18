@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!--
+    Featured image: AURABot pond cleaning robot. Black on white.
+    Left: title. Right: side view of a 110 mm PVC hull on the water line, with the mesh conveyor
+    at 30 degrees lifting a bottle and floating weed out of the water. The bin (not built) is dashed.
+  -->
+  <defs>
+    <style>
+      .bg   { fill: #ffffff; }
+      .o    { fill: #ffffff; stroke: #000000; stroke-width: 2.5; stroke-linejoin: round; }
+      .d    { fill: #ffffff; stroke: #000000; stroke-width: 2.2; stroke-dasharray: 7 5; }
+      .t    { fill: none; stroke: #000000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .w    { fill: none; stroke: #000000; stroke-width: 2.2; stroke-linecap: round; }
+      .f    { fill: #000000; }
+      .h1   { font-family: "Arial Black", Arial, "Liberation Sans", sans-serif; font-weight: 900; font-size: 62px; fill: #000000; letter-spacing: 2px; }
+      .h2   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 33px; fill: #000000; letter-spacing: 1.5px; }
+      .sub  { font-family: Arial, "Liberation Sans", sans-serif; font-size: 15px; fill: #000000; }
+      .tag  { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; letter-spacing: 1.2px; }
+      .sm   { font-family: Arial, "Liberation Sans", sans-serif; font-weight: 700; font-size: 12px; fill: #000000; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="750" height="500"/>
+
+  <!-- Title -->
+  <text class="h1" x="34" y="118">AURABOT</text>
+  <rect class="f" x="38" y="138" width="70" height="6"/>
+  <text class="h2" x="36" y="190">POND CLEANING</text>
+  <text class="h2" x="36" y="230">ROBOT</text>
+  <text class="sub" x="38" y="278">Aquatic Unit for Revival and Algae-Management</text>
+  <text class="sub" x="38" y="300">PVC hulls  ·  30° mesh conveyor</text>
+  <text class="tag" x="38" y="462">BUILDER IN RESIDENCE  ·  TINKERSPACE</text>
+
+  <g transform="translate(0,-36)">
+  <!-- Hull (side view of a 110 mm PVC pipe with end caps) -->
+  <rect class="o" x="440" y="300" width="270" height="54" rx="22"/>
+  <path class="t" d="M462,302 L462,352 M688,302 L688,352"/>
+  <!-- PVC cross pipes, seen end-on -->
+  <circle class="o" cx="500" cy="292" r="8"/>
+  <circle class="o" cx="600" cy="292" r="8"/>
+
+  <!-- Bin, not built -->
+  <path class="d" d="M632,244 L704,244 L698,292 L638,292 Z"/>
+  <text class="sm" x="652" y="236">BIN</text>
+
+  <!-- Conveyor at 30 degrees: rail, rollers and mesh belt, drawn level then rotated about the bottom roller -->
+  <g transform="rotate(-30 420 340)">
+    <rect class="o" x="398" y="318" width="272" height="44" rx="10"/>
+    <circle class="o" cx="420" cy="340" r="14"/>
+    <circle class="o" cx="648" cy="340" r="14"/>
+    <circle class="f" cx="420" cy="340" r="3"/>
+    <circle class="f" cx="648" cy="340" r="3"/>
+    <path class="w" d="M420,326 L648,326 M420,354 L648,354"/>
+    <path class="t" d="M436,326 L436,354 M452,326 L452,354 M468,326 L468,354 M484,326 L484,354 M500,326 L500,354 M516,326 L516,354 M532,326 L532,354 M548,326 L548,354 M564,326 L564,354 M580,326 L580,354 M596,326 L596,354 M612,326 L612,354 M628,326 L628,354"/>
+    <!-- bottle riding up the belt -->
+    <rect class="o" x="520" y="306" width="44" height="18" rx="7"/>
+    <rect class="o" x="564" y="311" width="10" height="8" rx="2"/>
+  </g>
+
+  <!-- Water line, drawn after the conveyor so the bottom roller sits just under it -->
+  <rect class="bg" x="380" y="331" width="360" height="40"/>
+  <path class="w" d="M380,330 q12,-6 24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0"/>
+  <path class="t" d="M520,372 q10,-5 20,0 t20,0 t20,0 M640,356 q10,-5 20,0 t20,0"/>
+  <!-- hull below water, outline only -->
+  <path class="t" d="M440,331 L440,332 Q440,354 462,354 L688,354 Q710,354 710,332 L710,331" stroke-dasharray="4 4"/>
+  <!-- bottom roller just under the surface -->
+  <circle class="t" cx="420" cy="340" r="14" stroke-dasharray="4 3"/>
+
+  <!-- floating weed in front of the robot -->
+  <path class="t" d="M386,328 q4,-10 10,-2 q4,-10 10,0 q5,-8 9,2"/>
+
+  </g>
+</svg>
